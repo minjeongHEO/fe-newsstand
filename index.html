@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>뉴스스탠드</title>
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css" />
-    <script src="./getNewsData.js"></script>
+    <!-- <script src="./getNewsData.js"></script> -->
+    <script src="./index.js" defer></script>
     <style>
       body * {
         border: solid 1px;
@@ -85,20 +86,7 @@
         </header>
 
         <nav class="nav-item">
-          <div class="row-container nav-container">
-            <div>
-              <div class="row-container">
-                <div>연합뉴스</div>
-                <div>'면허정지'에도 꿈쩍않는 전공의…대학들은 "2천명 이상 증...</div>
-              </div>
-            </div>
-            <div>
-              <div class="row-container">
-                <div>연합뉴스</div>
-                <div>'면허정지'에도 꿈쩍않는 전공의…대학들은 "2천명 이상 증...</div>
-              </div>
-            </div>
-          </div>
+          <div class="row-container nav-container" id="nav-container"></div>
         </nav>
 
         <main class="main-item">
@@ -119,99 +107,9 @@
             </section>
 
             <div class="main-row-container">
-              <div class="col-container">
-                <div>
-                  <div class="row-container">
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                  </div>
-                </div>
+              <div>화살표</div>
 
-                <div>
-                  <div class="row-container">
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <div class="row-container">
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <div class="row-container">
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                    <div class="media-subscription-box">
-                      <a href="#" class="MediaSubscriptionView-module__news_thumb___IA4y2" aria-disabled="false"><img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" /></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="col-container" id="main-news-container"></div>
 
               <div>화살표</div>
             </div>
