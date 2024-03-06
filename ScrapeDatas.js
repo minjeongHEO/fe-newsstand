@@ -49,7 +49,6 @@ export default class ScrapeDatas {
     return allResultDatas;
   }
 
-  /************************************************************************************* */
   /** 롤링 뉴스 데이터 크롤링 */
   async scrapeDynamicNews() {
     const browser = await puppeteer.launch();
@@ -60,11 +59,6 @@ export default class ScrapeDatas {
     let contentsHeaderSet = new Set();
 
     for await (const _ of setInterval(3000)) {
-      // if (contentsHeaderSet.size >= 5) {
-      if (allResultDatas.length >= 5) {
-        break; // 반복 종료
-      }
-
       const data = await page.evaluate(() => {
         //*1)
         const contentNews = document.querySelector('.ContentHeaderSubView-module__news_media___YJm6A');
@@ -83,19 +77,21 @@ export default class ScrapeDatas {
         };
       });
 
-      contentsHeaderSet.add(data);
-
       // 중복 데이터 검증
       if (!contentsHeaderSet.has(data.contentsHeader)) {
         allResultDatas.push(data); // 데이터 배열에 추가
         contentsHeaderSet.add(data.contentsHeader); // Set에 contentsHeader 값 추가
       }
+
+      if (allResultDatas.length >= 5) {
+        break; // 반복 종료
+      }
+
       console.log(1);
     }
 
     browser.close();
-    // return Array.from(contentsHeaderSet);
-    return contentsHeaderSet;
+    return allResultDatas;
   }
 }
 
