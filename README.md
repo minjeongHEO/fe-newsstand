@@ -2,6 +2,9 @@
 
 `#html` `#css` `#event` `#html`
 
+`npm install -g live-server` 설치  
+`live-server` 명령어로 실행
+
 ## 구현 내용
 
 ### ✨ 레이아웃
@@ -19,9 +22,9 @@
        다음 페이지를 클릭해서 모든 언론사 정보를 크롤링한다.
 - [x] 롤링 뉴스 데이터 크롤링
       3초 단위로 뉴스 데이터를 크롤링하여, 총 5개 받아온다.
-- [x] 크롤링 데이터 json 파일 생성하기  
-       `node getJsonFile.js`  
-       해당 파일을 실행하여 크롤링한 데이터를 json파일로 생성한다.
+- [x] 크롤링 데이터 json 파일 생성하기
+      `node js/getJsonFile.js`
+      해당 파일을 실행하여 크롤링한 데이터를 json파일로 생성한다.
 
 ## 🤔 실수 및 고민 사항
 
@@ -54,15 +57,25 @@
   따라서, .appendChild() 메서드는 HTMLCollection에 직접 적용될 수 없었다.
 
   ```js
-  document.getElementsByClassName('nav-container').appendChild(container);
+  document.getElementsByClassName("nav-container").appendChild(container)
   ```
 
   🔽
 
   ```js
-  document.getElementsByClassName('nav-container')[0].appendChild(container);
+  document.getElementsByClassName("nav-container")[0].appendChild(container)
 
-  document.getElementById('nav-container').appendChild(container);
+  document.getElementById("nav-container").appendChild(container)
+  ```
+
+- CSS 선택자 중 nth-child(N) = 부모안에 모든 요소 중 N번째 요소
+
+  요소를 하나하나 지정하지 않고도 배수로도 선택 할 수 있었다.
+
+  ```css
+  ul.press-logo-container > li:nth-child(6n) {
+    border-right: solid 1px #d2dae0; /* 6의 배수 아이템에 오른쪽 테두리 적용 */
+  }
   ```
 
 ## 📚
