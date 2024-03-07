@@ -1,13 +1,14 @@
-@import './reset.css';
+@import "./reset.css";
 
 @font-face {
-  font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
-  src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
+  font-family: "Pretendard"; /* 사용하고 싶은 font-family명을 지정 */
+  src: url("../assets/font/PretendardVariable.ttf") format("opentype"); /* 폰트파일 불러오기 */
 }
 
 body * {
-  outline: solid 1px;
-  font-family: 'Pretendard';
+  /* outline: solid 1px; */
+  font-family: "Pretendard";
+  color: #14212b;
 }
 
 .root-div {
@@ -46,12 +47,7 @@ body * {
   flex-basis: 40px;
   align-items: center;
   padding: 0px 16px;
-  /* justify-content: center; */
-}
-.main-nav-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  margin-bottom: 18px;
   /* justify-content: center; */
 }
 
@@ -63,7 +59,7 @@ body * {
   /* flex-basis: 70px; */
 }
 .header-logo {
-  font-size: 30px;
+  font-size: 34px;
   font-weight: bold;
 }
 .header-logo i,
@@ -74,6 +70,11 @@ body * {
   font-size: 31px;
   color: #4361cf;
   margin-right: 10px;
+}
+.header-date {
+  font-size: 18px;
+  font-weight: 500;
+  color: #5f6e76;
 }
 .header-container {
   display: flex;
@@ -106,7 +107,7 @@ body * {
   padding: 0 20px;
   height: 50%;
   width: 45%;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 .nav-contents-headline {
@@ -116,7 +117,7 @@ body * {
   overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
   text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
   font-weight: bold;
-  font-size: 14px;
+  font-size: 17px;
   color: #5f6e76;
 }
 .nav-contents-press-name {
@@ -136,12 +137,30 @@ body * {
   font-size: 24px;
 }
 
-.contents-select {
+.main-nav-container1 {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+.main-nav-container1 > .contents-select {
   font-weight: bold;
+  color: #14212b;
+}
+
+.main-nav-container2 {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 70px;
+}
+.main-nav-container2 > i:first-child {
+  font-size: 26px;
 }
 
 .main-nav-contents {
   margin-right: 20px;
+  font-size: 20px;
+  color: #4b5966;
 }
 
 .press-logo-container {
@@ -154,13 +173,25 @@ body * {
 }
 
 ul.press-logo-container > li {
-  background-color: #f0f0f0;
   /* 가운데 정렬 */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* 부모 컨테이너 높이에 맞춤 */
-  outline: solid 1px red;
+  border-bottom: solid 1px #d2dae0;
+  border-left: solid 1px #d2dae0;
+}
+
+ul.press-logo-container > li:nth-child(6n) {
+  border-right: solid 1px #d2dae0; /* 6의 배수 아이템에 오른쪽 테두리 적용 */
+}
+
+ul.press-logo-container > li:nth-child(1),
+ul.press-logo-container > li:nth-child(2),
+ul.press-logo-container > li:nth-child(3),
+ul.press-logo-container > li:nth-child(4),
+ul.press-logo-container > li:nth-child(5),
+ul.press-logo-container > li:nth-child(6) {
+  border-top: solid 1px #d2dae0;
 }
 
 .media-subscription-box {
@@ -191,14 +222,14 @@ ul.press-logo-container > li {
 
 .angle-left {
   position: absolute;
-  font-size: 4em;
+  font-size: 3em;
   top: 40%;
   right: 100%;
   opacity: 50%;
 }
 .angle-right {
   position: absolute;
-  font-size: 4em;
+  font-size: 3em;
   top: 40%;
   left: 100%;
   opacity: 50%;
