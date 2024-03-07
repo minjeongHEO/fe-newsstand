@@ -7,6 +7,19 @@ export default class ScrapeDatas {
     this.url = 'https://www.naver.com/';
   }
 
+  async collectData(page) {
+    return await page.evaluate(() => {
+      const pressDatas = [];
+      document.querySelectorAll('.MediaSubscriptionView-module__subscription_group___peb21 > .MediaSubscriptionView-module__subscription_box___z8NuT > a > img').forEach((img) => {
+        pressDatas.push({
+          src: img.src,
+          alt: img.alt,
+        });
+      });
+      return pressDatas;
+    });
+  }
+
   /** 언론사 데이터 크롤링 */
   async scrapeDynamicImages() {
     const browser = await puppeteer.launch();
@@ -21,25 +34,12 @@ export default class ScrapeDatas {
       return { totalPages };
     });
 
-    let collectData = async () => {
-      return await page.evaluate(() => {
-        const pressDatas = [];
-        document.querySelectorAll('.MediaSubscriptionView-module__subscription_group___peb21 > .MediaSubscriptionView-module__subscription_box___z8NuT > a > img').forEach((img) => {
-          pressDatas.push({
-            src: img.src,
-            alt: img.alt,
-          });
-        });
-        return pressDatas;
-      });
-    };
-
     let allResultDatas = [];
     //다음 버튼을 찾아서, 페이지를 넘김
     const nextButtonSelector = '.ContentPagingView-module__btn_next___ZBhby';
 
     while (currentPage <= totalPages) {
-      allResultDatas = allResultDatas.concat(await collectData());
+      allResultDatas = allResultDatas.concat(await this.collectData(page));
 
       currentPage++; // 다음 페이지로 넘어가기 위해 현재 페이지 번호 증가
       await page.click(nextButtonSelector);
