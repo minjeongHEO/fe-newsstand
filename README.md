@@ -45,7 +45,28 @@
   }
   ```
 
+- document.getElementsByClassName 메서드를 사용할 때 .appendChild()가 적용이 안됐다.
+
+  .appendChild()는 단일 노드(요소)에만 적용될 수 있다.
+
+  document.getElementsByClassName 메서드는 단일 요소가 아니라 HTMLCollection을 반환한다. HTMLCollection은 유사 배열 객체로, 조건에 맞는 모든 요소를 배열 형태로 반환.
+
+  따라서, .appendChild() 메서드는 HTMLCollection에 직접 적용될 수 없었다.
+
+  ```js
+  document.getElementsByClassName('nav-container').appendChild(container);
+  ```
+
+  🔽
+
+  ```js
+  document.getElementsByClassName('nav-container')[0].appendChild(container);
+
+  document.getElementById('nav-container').appendChild(container);
+  ```
+
 ## 📚
 
 - [ ] BEM, SMACSS 적용해보기
 - [ ] 반응형 화면 구현해보기
+- [ ] 작은 하위 함수로 나누면서 짜기
