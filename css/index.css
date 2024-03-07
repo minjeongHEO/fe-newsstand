@@ -76,16 +76,38 @@ body * {
   /* flex-basis: 104px; */
   flex-basis: 100%;
   /* display: flex; */
+  padding: 0px 20px;
 }
 .nav-container {
-  /* display: flex; */
+  display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+  height: 104px;
 }
+
+.nav-contents-container {
+  display: flex;
+  outline: solid 2px #d2dae0;
+  background-color: #f6f7f9;
+  align-items: center;
+  padding: 0 20px;
+  height: 50%;
+  width: 45%;
+}
+
+.nav-contents-headline {
+  margin-left: 20px;
+  max-width: 370px; /* 요소의 최대 너비 설정 */
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
+  text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
+}
+
 .main-item {
   /* flex-basis: 620px; */
 }
+
 .media-subscription-box {
   display: flex;
   align-items: center; /* 세로 방향 가운데 정렬 */
@@ -119,12 +141,12 @@ ul.container > li {
 .angle-left {
   position: absolute;
   font-size: 5em;
-  top: 151px;
-  right: 1100px;
+  top: 40%;
+  right: 100%;
 }
 .angle-right {
   position: absolute;
   font-size: 5em;
-  top: 151px;
-  left: 1090px;
+  top: 40%;
+  left: 100%;
 }

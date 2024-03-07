@@ -3,7 +3,8 @@ function navCreate() {
     let container = document.createElement('div');
     let newsBrand = document.createElement('div');
     let newsHeadLine = document.createElement('div');
-    container.className = 'row-container';
+    container.className = 'nav-contents-container';
+    newsHeadLine.className = 'nav-contents-headline'; //margin-left: 29px;
     newsBrand.innerHTML = '연합 뉴스';
     newsHeadLine.innerHTML = `'면허정지'에도 꿈쩍않는 전공의…대학들은 "2천명 이상 증...`;
 
