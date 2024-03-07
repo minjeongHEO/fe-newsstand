@@ -39,10 +39,6 @@ body * {
   /* flex-wrap: wrap; */
 }
 
-.nav-container {
-  justify-content: space-between;
-  /* justify-content: center; */
-}
 .section-container {
   justify-content: space-between;
   /* justify-content: center; */
@@ -67,7 +63,6 @@ body * {
   color: #4361cf;
   margin-right: 2px;
 }
-
 .header-container {
   display: flex;
   flex-flow: row wrap;
@@ -78,7 +73,15 @@ body * {
 }
 
 .nav-item {
-  flex-basis: 104px;
+  /* flex-basis: 104px; */
+  flex-basis: 100%;
+  /* display: flex; */
+}
+.nav-container {
+  /* display: flex; */
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 .main-item {
   /* flex-basis: 620px; */
