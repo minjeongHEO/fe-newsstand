@@ -23,14 +23,14 @@ export default class ScrapeDatas {
 
     let collectData = async () => {
       return await page.evaluate(() => {
-        const data = [];
+        const pressDatas = [];
         document.querySelectorAll('.MediaSubscriptionView-module__subscription_group___peb21 > .MediaSubscriptionView-module__subscription_box___z8NuT > a > img').forEach((img) => {
-          data.push({
+          pressDatas.push({
             src: img.src,
             alt: img.alt,
           });
         });
-        return data;
+        return pressDatas;
       });
     };
 
