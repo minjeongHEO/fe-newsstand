@@ -1,6 +1,13 @@
 @import './reset.css';
+
+@font-face {
+  font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
+  src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
+}
+
 body * {
   outline: solid 1px;
+  font-family: 'Pretendard';
 }
 
 .root-div {
@@ -32,9 +39,6 @@ body * {
   /* flex-wrap: wrap; */
 }
 
-.header-container {
-  justify-content: space-between;
-}
 .nav-container {
   justify-content: space-between;
   /* justify-content: center; */
@@ -47,9 +51,32 @@ body * {
 .flex-item {
   flex-basis: 0;
 }
+
 .header-item {
   flex-basis: 104px;
 }
+.header-logo {
+  font-size: 30px;
+}
+.header-logo i,
+.header-logo {
+  vertical-align: middle;
+}
+.header-logo i {
+  font-size: 31px;
+  color: #4361cf;
+  margin-right: 2px;
+}
+
+.header-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  height: 104px;
+  padding: 0px 20px;
+}
+
 .nav-item {
   flex-basis: 104px;
 }
@@ -62,4 +89,39 @@ body * {
   justify-content: center; /* 가로 방향 가운데 정렬 */
   width: 130px;
   height: 55px; /* 컨테이너의 높이 설정, 필요에 따라 조정 */
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 930px; /* 너비 설정 */
+  height: 388px; /* 높이 설정 */
+  flex-basis: 100%;
+  justify-content: center;
+}
+ul.container > li {
+  background-color: #f0f0f0;
+  /* 가운데 정렬 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* 부모 컨테이너 높이에 맞춤 */
+}
+.press-container {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+}
+
+.angle-left {
+  position: absolute;
+  font-size: 5em;
+  top: 151px;
+  right: 1100px;
+}
+.angle-right {
+  position: absolute;
+  font-size: 5em;
+  top: 151px;
+  left: 1090px;
 }

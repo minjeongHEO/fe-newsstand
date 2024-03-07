@@ -3,84 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>뉴스스탠드</title>
+    <title>뉴스 스탠드</title>
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css" />
-    <!-- <script src="./getNewsData.js"></script> -->
-    <script src="./index.js" defer></script>
-    <style>
-      body * {
-        border: solid 1px;
-      }
-
-      .root-div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      .col-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 100%; /* 너비를 부모 요소에 맞춤 */
-        max-width: 1100px; /* 최대 너비 설정 */
-      }
-
-      .row-container {
-        display: flex;
-        flex-flow: row wrap;
-        /* 아래의 두 줄을 줄여 쓴 것 */
-        /* flex-direction: row; */
-        /* flex-wrap: wrap; */
-      }
-      .main-row-container {
-        display: flex;
-        /* 아래의 두 줄을 줄여 쓴 것 */
-        /* flex-direction: row; */
-        /* flex-wrap: wrap; */
-      }
-
-      .header-container {
-        justify-content: space-between;
-      }
-      .nav-container {
-        justify-content: space-between;
-        /* justify-content: center; */
-      }
-      .section-container {
-        justify-content: space-between;
-        /* justify-content: center; */
-      }
-
-      .flex-item {
-        flex-basis: 0;
-      }
-      .header-item {
-        flex-basis: 104px;
-      }
-      .nav-item {
-        flex-basis: 104px;
-      }
-      .main-item {
-        /* flex-basis: 620px; */
-      }
-      .media-subscription-box {
-        display: flex;
-        align-items: center; /* 세로 방향 가운데 정렬 */
-        justify-content: center; /* 가로 방향 가운데 정렬 */
-        width: 130px;
-        height: 55px; /* 컨테이너의 높이 설정, 필요에 따라 조정 */
-      }
-    </style>
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script type="module" src="./js/getJsonFile.js"></script>
+    <script src="./js/index.js" defer></script>
   </head>
-  <script></script>
+  <style></style>
+
   <body>
     <div id="root" class="root-div">
       <div class="col-container" id="app-div">
         <header class="header-item">
-          <div class="row-container header-container">
-            <div>뉴스 스탠드</div>
+          <div class="header-container">
+            <div class="header-logo"><i class="fi fi-sr-newspaper"></i>뉴스 스탠드</div>
             <div>오늘 날짜</div>
           </div>
         </header>
@@ -106,13 +43,49 @@
               </div>
             </section>
 
-            <div class="main-row-container">
+            <!-- <div class="main-row-container">
               <div>화살표</div>
 
               <div class="col-container" id="main-news-container"></div>
 
               <div>화살표</div>
-            </div>
+            </div> -->
+            <section class="press-container">
+              <div class="angle-left">
+                <i class="fi fi-rr-angle-left"></i>
+              </div>
+              <ul class="container">
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <!-- 이게 24개 * 4페이지 -->
+                <!-- 930 * 388 6 4 * 4 -->
+              </ul>
+              <div class="angle-right">
+                <i class="fi fi-rr-angle-right"></i>
+              </div>
+            </section>
           </div>
         </main>
       </div>
