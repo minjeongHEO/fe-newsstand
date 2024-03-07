@@ -45,5 +45,27 @@ function mainNewsCreate() {
   }
 }
 
+async function readJsonFile(fileName) {
+  const filePath = `./${fileName}.json`;
+  const response = await fetch(filePath);
+  const jsonData = await response.json();
+
+  return jsonData; //object (json)
+}
+
+async function headlineNewsCreate() {
+  const jsonData = await readJsonFile('headlinesData');
+  // const obj = JSON.parse(jsonData); //여기서 에러... 왜?
+  for (pressObj of jsonData) {
+    //for in 으로는 인덱스 값 추출?
+    console.log('pressObj.newsName: ', pressObj.newsName);
+  }
+}
+
+async function pressLogoCreate() {
+  const jsonData = await readJsonFile('pressData');
+}
+
 navCreate();
 mainNewsCreate();
+headlineNewsCreate();
