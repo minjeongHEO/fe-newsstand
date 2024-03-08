@@ -57,15 +57,15 @@
   따라서, .appendChild() 메서드는 HTMLCollection에 직접 적용될 수 없었다.
 
   ```js
-  document.getElementsByClassName("nav-container").appendChild(container)
+  document.getElementsByClassName('nav-container').appendChild(container);
   ```
 
   🔽
 
   ```js
-  document.getElementsByClassName("nav-container")[0].appendChild(container)
+  document.getElementsByClassName('nav-container')[0].appendChild(container);
 
-  document.getElementById("nav-container").appendChild(container)
+  document.getElementById('nav-container').appendChild(container);
   ```
 
 - CSS 선택자 중 nth-child(N) = 부모안에 모든 요소 중 N번째 요소
@@ -76,6 +76,18 @@
   ul.press-logo-container > li:nth-child(6n) {
     border-right: solid 1px #d2dae0; /* 6의 배수 아이템에 오른쪽 테두리 적용 */
   }
+  ```
+
+- innerHTML은 함수처럼 사용이 아니라, 할당해야 한다.
+
+  ```js
+  target.innerHTML(navHtml);
+  ```
+
+  🔽
+
+  ```js
+  target.innerHTML = navHtml;
   ```
 
 ## 📚
