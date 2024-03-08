@@ -2,11 +2,12 @@ const PAGE = {
   gridPage: 1,
   contentsPerPage: 24,
   contentsNumberOfPage: 4,
+  numberOfHeadLineSection: 2,
 };
 
-function navCreate() {
+function headLineCreate() {
   let navHtml = '';
-  for (let index = 0; index < 2; index++) {
+  for (let index = 0; index < PAGE.numberOfHeadLineSection; index++) {
     navHtml += `<div class="nav-contents-container">
       <div class="nav-contents-press-name">연합 뉴스</div>
       <div class="nav-contents-headline">'면허정지'에도 꿈쩍않는 전공의…대학들은 "2천명 이상 증...</div>
@@ -75,7 +76,7 @@ async function readJsonFile(fileName) {
 
 async function headlineNewsCreate() {
   const jsonData = await readJsonFile('headlinesData');
-  // const obj = JSON.parse(jsonData); //여기서 에러... 왜?
+  // const obj = JSON.parse(jsonData); //JSON.parse(): JSON 문자열을 JavaScript 객체로 변환(jsonData는 이미 객체임)
 }
 
 function pageClick(event) {
@@ -88,16 +89,12 @@ function pageClick(event) {
   }
 
   if (target.id === 'angle-right') {
-    if (PAGE.gridPage === PAGE.contentsNumberOfPage) {
-      return;
-    }
+    if (PAGE.gridPage === PAGE.contentsNumberOfPage) return;
     PAGE.gridPage++;
   }
 
   if (target.id === 'angle-left') {
-    if (PAGE.gridPage === 0) {
-      return;
-    }
+    if (PAGE.gridPage === 0) return;
     PAGE.gridPage--;
   }
 
@@ -111,6 +108,7 @@ function clickEvents() {
   angleRight.addEventListener('click', (event) => pageClick(event));
   angleLeft.addEventListener('click', (event) => pageClick(event));
 }
+
 /** 날짜 */
 function dateCreate() {
   const date = new Date();
@@ -126,7 +124,7 @@ function dateCreate() {
 }
 
 dateCreate();
-navCreate();
+headLineCreate();
 pressLogoCreate();
 headlineNewsCreate();
 clickEvents();
