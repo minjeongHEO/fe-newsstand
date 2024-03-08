@@ -1,4 +1,8 @@
-const PAGE = { gridPage: 1 };
+const PAGE = {
+  gridPage: 1,
+  contentsPerPage: 24,
+  contentsNumberOfPage: 4,
+};
 
 function navCreate() {
   let navHtml = '';
@@ -17,8 +21,11 @@ async function divideByPage() {
   const jsonData = await readJsonFile('pressData');
   let jsonArrPerPage = [];
 
-  for (let i = 0; i < jsonData.length; i += 24) {
-    let dataPerPage = jsonData.slice(i, i + 24);
+  for (let i = 0; i < jsonData.length; i += PAGE.contentsPerPage) {
+    let dataPerPage = jsonData.slice(i, i + PAGE.contentsPerPage);
+    if (jsonArrPerPage.length >= 4) {
+      return jsonArrPerPage;
+    }
     jsonArrPerPage.push(dataPerPage);
   }
 
@@ -30,7 +37,7 @@ function arrowHandlingByPage() {
   const Righttarget = document.getElementById('angle-right');
   if (PAGE.gridPage === 1) {
     leftTarget.style.visibility = 'hidden';
-  } else if (PAGE.gridPage === 4) {
+  } else if (PAGE.gridPage === PAGE.contentsNumberOfPage) {
     leftTarget.style.visibility = 'visible';
     Righttarget.style.visibility = 'hidden';
   } else {
@@ -43,10 +50,9 @@ function arrowHandlingByPage() {
 async function pressLogoCreate() {
   arrowHandlingByPage();
   let mainNewsHtml = '';
-  let gridPage = PAGE.gridPage === undefined ? 1 : PAGE.gridPage;
   let jsonArrPerPage = await divideByPage();
 
-  for (pressObj of jsonArrPerPage[gridPage - 1]) {
+  for (pressObj of jsonArrPerPage[PAGE.gridPage - 1]) {
     mainNewsHtml += `<li>
       <a href="#" class="media-subscription-news-view">
       <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="news_logo" />
@@ -82,17 +88,17 @@ function pageClick(event) {
   }
 
   if (target.id === 'angle-right') {
-    if (PAGE.gridPage === 4) {
+    if (PAGE.gridPage === PAGE.contentsNumberOfPage) {
       return;
     }
-    PAGE.gridPage = page + 1;
+    PAGE.gridPage++;
   }
 
   if (target.id === 'angle-left') {
     if (PAGE.gridPage === 0) {
       return;
     }
-    PAGE.gridPage = page - 1;
+    PAGE.gridPage--;
   }
 
   pressLogoCreate();
