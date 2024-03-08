@@ -83,7 +83,7 @@ export default class ScrapeDatas {
         contentsHeaderSet.add(data.contentsHeader); // Set에 contentsHeader 값 추가
       }
 
-      if (allResultDatas.length >= 5) {
+      if (allResultDatas.length >= 10) {
         break; // 반복 종료
       }
 

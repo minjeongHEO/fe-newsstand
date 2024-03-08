@@ -5,9 +5,7 @@ export default class ManageFile {
   constructor(userFilterName) {
     this.divider = userFilterName; //press(언론사), headlines(뉴스 헤드라인)
     this.fileName = `${this.divider}Data.json`;
-    // this.fileData = []; //파싱한 파일 데이터
     this.scrapeData = []; //파싱한 파일 데이터
-    this.filterdfileData = []; //파싱한 파일 데이터
   }
 
   /** 새 파일로 생성하기 */
