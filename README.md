@@ -90,6 +90,24 @@
   target.innerHTML = navHtml;
   ```
 
+- 이벤트 버블링과 상위 태그 노드
+
+  ```html
+  <div id="angle-right">
+    <i class="fi fi-rr-angle-right"></i>
+  </div>
+  ```
+
+  화살표 구조는 이렇고,
+
+  `document.getElementById('angle-right')`에 click 이벤트를 지정해놨다.
+
+  화살표를 클릭했을 때 해당 태그의 id값을 콜백 값으로 얻어오기 위해서 event.target을 사용했는데,
+
+  i 태그가 클릭 되어도, 이벤트 버블링으로 인해서 click이벤트가 실행되지만, 상위 div 태그의 id 속성 값을 가져오지 못했다.
+
+  그래서 `event.target.parentNode` 를 사용하여 id값을 가져올 수 있었다.
+
 ## 📚
 
 - [ ] BEM, SMACSS 적용해보기

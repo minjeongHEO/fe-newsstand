@@ -1,3 +1,4 @@
+const PAGE = { gridPage: 1 };
 function navCreate() {
   let navHtml = '';
   for (let index = 0; index < 2; index++) {
@@ -10,23 +11,39 @@ function navCreate() {
   target.innerHTML = navHtml;
 }
 
+/** */
 async function divideByPage() {
   const jsonData = await readJsonFile('pressData');
-
-  // json형태의 배열을 어떻게 자를지?
-  // page 에 따라서 인덱스값 다르게 받는다
   let jsonArrPerPage = [];
 
   for (let i = 0; i < jsonData.length; i += 24) {
     let dataPerPage = jsonData.slice(i, i + 24);
     jsonArrPerPage.push(dataPerPage);
   }
+
   return jsonArrPerPage;
 }
 
-async function mainNewsCreate(page) {
+function arrowHandlingByPage() {
+  debugger;
+  const leftTarget = document.getElementById('angle-left');
+  const Righttarget = document.getElementById('angle-right');
+  if (PAGE.gridPage === 1) {
+    leftTarget.style.visibility = 'hidden';
+  } else if (PAGE.gridPage === 4) {
+    leftTarget.style.visibility = 'visible';
+    Righttarget.style.visibility = 'hidden';
+  } else {
+    leftTarget.style.visibility = 'visible';
+    Righttarget.style.visibility = 'visible';
+  }
+}
+
+/** */
+async function mainNewsCreate() {
+  arrowHandlingByPage();
   let mainNewsHtml = '';
-  let gridPage = page === undefined ? 1 : page;
+  let gridPage = PAGE.gridPage === undefined ? 1 : PAGE.gridPage;
   let jsonArrPerPage = await divideByPage();
 
   for (pressObj of jsonArrPerPage[gridPage - 1]) {
@@ -41,6 +58,7 @@ async function mainNewsCreate(page) {
   target.innerHTML = mainNewsHtml;
 }
 
+/** json데이터 fetch */
 async function readJsonFile(fileName) {
   const filePath = `./${fileName}.json`;
   const response = await fetch(filePath);
@@ -52,16 +70,54 @@ async function readJsonFile(fileName) {
 async function headlineNewsCreate() {
   const jsonData = await readJsonFile('headlinesData');
   // const obj = JSON.parse(jsonData); //여기서 에러... 왜?
-  for (pressObj of jsonData) {
-    //for in 으로는 인덱스 값 추출?
-    console.log('pressObj.newsName: ', pressObj.newsName);
-  }
 }
 
 async function pressLogoCreate() {
   const jsonData = await readJsonFile('pressData');
 }
 
+function pageClick(event) {
+  let page = PAGE.gridPage;
+  let target = event.target;
+
+  // id가 없을 경우
+  if (target.id !== null || target.id === '') {
+    target = target.parentNode;
+  }
+
+  if (target.id === 'angle-right') {
+    if (PAGE.gridPage === 4) {
+      return;
+    }
+    PAGE.gridPage = page + 1;
+  }
+
+  if (target.id === 'angle-left') {
+    if (PAGE.gridPage === 0) {
+      return;
+    }
+    PAGE.gridPage = page - 1;
+  }
+
+  mainNewsCreate();
+}
+
+function clickEvents() {
+  const angleRight = document.getElementById('angle-right');
+  const angleLeft = document.getElementById('angle-left');
+
+  angleRight.addEventListener('click', (event) => pageClick(event));
+  angleLeft.addEventListener('click', (event) => pageClick(event));
+
+  // angleRight.addEventListener('click', function (event) {
+  //   pageClick(event);
+  // });
+  // angleLeft.addEventListener('click', function (event) {
+  //   pageClick(event);
+  // });
+}
+
 navCreate();
 mainNewsCreate();
 headlineNewsCreate();
+clickEvents();

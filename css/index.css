@@ -1,13 +1,13 @@
-@import "./reset.css";
+@import './reset.css';
 
 @font-face {
-  font-family: "Pretendard"; /* 사용하고 싶은 font-family명을 지정 */
-  src: url("../assets/font/PretendardVariable.ttf") format("opentype"); /* 폰트파일 불러오기 */
+  font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
+  src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
 }
 
 body * {
   /* outline: solid 1px; */
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   color: #14212b;
 }
 
@@ -220,17 +220,19 @@ ul.press-logo-container > li:nth-child(6) {
   justify-content: flex-start;
 }
 
-.angle-left {
+#angle-left {
   position: absolute;
   font-size: 3em;
   top: 40%;
   right: 100%;
   opacity: 50%;
+  cursor: pointer;
 }
-.angle-right {
+#angle-right {
   position: absolute;
   font-size: 3em;
   top: 40%;
   left: 100%;
   opacity: 50%;
+  cursor: pointer;
 }
