@@ -17,13 +17,19 @@ function headLineCreate() {
   target.innerHTML = navHtml;
 }
 
-/** */
-async function divideByPage() {
-  const jsonData = await readJsonFile('pressData');
+async function dataShuffle(jsonArray) {
+  returnjsonArray.sort(() => Math.random() - 0.5);
+}
+
+/** 랜덤한 언론사 데이터를 페이지 별로 나누기 */
+async function shuffleAndDivideByPage() {
+  const jsonArray = await readJsonFile('pressData');
+  const jsonShuffleData = await dataShuffle(jsonArray);
+
   let jsonArrPerPage = [];
 
-  for (let i = 0; i < jsonData.length; i += PAGE.contentsPerPage) {
-    let dataPerPage = jsonData.slice(i, i + PAGE.contentsPerPage);
+  for (let i = 0; i < jsonShuffleData.length; i += PAGE.contentsPerPage) {
+    let dataPerPage = jsonShuffleData.slice(i, i + PAGE.contentsPerPage);
     if (jsonArrPerPage.length >= 4) {
       return jsonArrPerPage;
     }
@@ -51,7 +57,7 @@ function arrowHandlingByPage() {
 async function pressLogoCreate() {
   arrowHandlingByPage();
   let mainNewsHtml = '';
-  let jsonArrPerPage = await divideByPage();
+  let jsonArrPerPage = await shuffleAndDivideByPage();
 
   for (pressObj of jsonArrPerPage[PAGE.gridPage - 1]) {
     mainNewsHtml += `<li>
