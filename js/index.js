@@ -1,4 +1,5 @@
 const PAGE = { gridPage: 1 };
+
 function navCreate() {
   let navHtml = '';
   for (let index = 0; index < 2; index++) {
@@ -25,7 +26,6 @@ async function divideByPage() {
 }
 
 function arrowHandlingByPage() {
-  debugger;
   const leftTarget = document.getElementById('angle-left');
   const Righttarget = document.getElementById('angle-right');
   if (PAGE.gridPage === 1) {
@@ -40,7 +40,7 @@ function arrowHandlingByPage() {
 }
 
 /** */
-async function mainNewsCreate() {
+async function pressLogoCreate() {
   arrowHandlingByPage();
   let mainNewsHtml = '';
   let gridPage = PAGE.gridPage === undefined ? 1 : PAGE.gridPage;
@@ -72,10 +72,6 @@ async function headlineNewsCreate() {
   // const obj = JSON.parse(jsonData); //여기서 에러... 왜?
 }
 
-async function pressLogoCreate() {
-  const jsonData = await readJsonFile('pressData');
-}
-
 function pageClick(event) {
   let page = PAGE.gridPage;
   let target = event.target;
@@ -99,7 +95,7 @@ function pageClick(event) {
     PAGE.gridPage = page - 1;
   }
 
-  mainNewsCreate();
+  pressLogoCreate();
 }
 
 function clickEvents() {
@@ -108,16 +104,23 @@ function clickEvents() {
 
   angleRight.addEventListener('click', (event) => pageClick(event));
   angleLeft.addEventListener('click', (event) => pageClick(event));
+}
+/** 날짜 */
+function dateCreate() {
+  const date = new Date();
+  const today = new Intl.DateTimeFormat('ko-KR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Asia/Seoul',
+  }).format(date);
 
-  // angleRight.addEventListener('click', function (event) {
-  //   pageClick(event);
-  // });
-  // angleLeft.addEventListener('click', function (event) {
-  //   pageClick(event);
-  // });
+  document.getElementById('header-date').innerHTML = today;
 }
 
+dateCreate();
 navCreate();
-mainNewsCreate();
+pressLogoCreate();
 headlineNewsCreate();
 clickEvents();

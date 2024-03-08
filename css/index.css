@@ -71,7 +71,7 @@ body * {
   color: #4361cf;
   margin-right: 10px;
 }
-.header-date {
+#header-date {
   font-size: 18px;
   font-weight: 500;
   color: #5f6e76;

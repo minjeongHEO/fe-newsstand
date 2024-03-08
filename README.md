@@ -95,6 +95,7 @@
   ```html
   <div id="angle-right">
     <i class="fi fi-rr-angle-right"></i>
+    화살표를 클릭했을 때 해당 태그의 id값을 콜백 값으로 얻어오기 위해서 event.target을 사용했는데,
   </div>
   ```
 
@@ -102,11 +103,47 @@
 
   `document.getElementById('angle-right')`에 click 이벤트를 지정해놨다.
 
-  화살표를 클릭했을 때 해당 태그의 id값을 콜백 값으로 얻어오기 위해서 event.target을 사용했는데,
-
   i 태그가 클릭 되어도, 이벤트 버블링으로 인해서 click이벤트가 실행되지만, 상위 div 태그의 id 속성 값을 가져오지 못했다.
 
   그래서 `event.target.parentNode` 를 사용하여 id값을 가져올 수 있었다.
+
+- [`Intl.DateTimeFormat`](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)  
+  : 언어에 맞는 날짜 및 시간 서식을 적용하기 위한 객체이다.
+
+  ```js
+  function dateCreate() {
+    const date = new Date();
+    const today = new Intl.DateTimeFormat('ko-KR', {
+      dateStyle: 'medium',
+      weekday: 'long', // 'narrow', 'short', 'long' 중 하나
+      timeZone: 'Asia/Seoul',
+    }).format(date);
+  }
+  ```
+
+  🔽
+
+  ```js
+  function dateCreate() {
+    const date = new Date();
+    const today = new Intl.DateTimeFormat('ko-KR', {
+      weekday: 'long', // 'narrow', 'short', 'long' 중 하나
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'Asia/Seoul',
+    }).format(date);
+  }
+  ```
+
+  요일을 가져올 때 오류난 점
+
+  dateStyle 옵션과 weekday 옵션을 함께 사용하는 것은 일부 브라우저나 환경에서 제한될 수 있다.
+
+  `dateStyle` 옵션을 사용하면 년, 월, 일을 포함한 날짜의 전체 스타일을 지정하는 반면,
+
+  `weekday`, `year`, `month`, `day` 등의 옵션을 직접 지정하면 더 세부적인 컨트롤이 가능합니다.  
+  하지만, dateStyle과 이러한 세부적인 옵션들을 동시에 사용하려고 하면 충돌이 발생한다.
 
 ## 📚
 
