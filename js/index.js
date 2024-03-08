@@ -10,15 +10,33 @@ function navCreate() {
   target.innerHTML = navHtml;
 }
 
-function mainNewsCreate() {
-  let mainNewsHtml = '';
-  for (let itemIdx = 0; itemIdx < 24; itemIdx++) {
-    mainNewsHtml += `<li>
-    <a href="#" class="media-subscription-news-view">
-    <img src="https://s.pstatic.net/static/newsstand/2020/logo/light/0604/057.png" height="20" alt="MBN" class="news_logo" />
-    </a>
-    </li>`;
+async function divideByPage() {
+  const jsonData = await readJsonFile('pressData');
+
+  // json형태의 배열을 어떻게 자를지?
+  // page 에 따라서 인덱스값 다르게 받는다
+  let jsonArrPerPage = [];
+
+  for (let i = 0; i < jsonData.length; i += 24) {
+    let dataPerPage = jsonData.slice(i, i + 24);
+    jsonArrPerPage.push(dataPerPage);
   }
+  return jsonArrPerPage;
+}
+
+async function mainNewsCreate(page) {
+  let mainNewsHtml = '';
+  let gridPage = page === undefined ? 1 : page;
+  let jsonArrPerPage = await divideByPage();
+
+  for (pressObj of jsonArrPerPage[gridPage - 1]) {
+    mainNewsHtml += `<li>
+      <a href="#" class="media-subscription-news-view">
+      <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="news_logo" />
+      </a>
+      </li>`;
+  }
+
   const target = document.getElementById('press-logo-container');
   target.innerHTML = mainNewsHtml;
 }
