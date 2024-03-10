@@ -19,29 +19,34 @@
   align-items: center;
   padding: 0 20px;
   height: 50%;
-  width: 45%;
+  min-width: 270px;
+  max-width: 470px;
+
   font-size: 17px;
 }
 
-.nav-contents-headline > a {
+.nav-contents-container a {
   text-decoration: none;
   display: block;
 }
 
 .nav-contents-headline {
+  /* width: 370px;  */
+  width: 80%;
   margin-left: 20px;
-  max-width: 370px; /* 요소의 최대 너비 설정 */
-  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
-  overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
-  text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
   font-weight: bold;
   font-size: 17px;
   color: #5f6e76;
 }
 .nav-contents-press-name {
-  min-width: 60px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* min-width: 60px; */
+  width: 80%;
   font-weight: bold;
+}
+
+.nav-contents-headline a,
+.nav-contents-press-name a {
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
+  text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
 }

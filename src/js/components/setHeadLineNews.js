@@ -13,8 +13,8 @@ export async function setHeadLineNews() {
 
   for (let index = 0; index < NUMBER_OF_HEADLINE_SECTION; index++) {
     headLineHtml += `<div class="nav-contents-container">
-      <div class="nav-contents-press-name">연합 뉴스</div>
-      <div class="nav-contents-headline">'면허정지'에도 꿈쩍않는 전공의…대학들은 "2천명 이상 증...</div>
+      <div class="nav-contents-press-name"><a href="${jsonData[0].newsLink}" target="_blank">${jsonData[0].newsName}</a></div>
+      <div class="nav-contents-headline"><a href="${jsonData[0].contentsLink}" target="_blank">${jsonData[0].contentsHeader}</a></div>
     </div>`;
   }
 
