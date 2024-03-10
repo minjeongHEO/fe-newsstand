@@ -1,11 +1,14 @@
 import { setDate } from './components/setDate.js';
 import { setHeadLineNews } from './components/setHeadLineNews.js';
-import { setPressDataGrid } from './components/setPressDataGrid.js';
+import { initGridData, setPressDataGrid } from './components/setPressDataGrid.js';
 
-try {
-  setDate();
-  setHeadLineNews();
-  setPressDataGrid();
-} catch (error) {
-  console.error(error);
-}
+window.onload = async () => {
+  try {
+    setDate();
+    setHeadLineNews();
+    await initGridData();
+    await setPressDataGrid();
+  } catch (error) {
+    console.error(error);
+  }
+};

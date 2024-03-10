@@ -86,14 +86,9 @@ export async function setPressDataGrid() {
   target.innerHTML = mainNewsHtml;
 }
 
-async function initGridData(params) {
+/** 페이지 초기화 작업 */
+export async function initGridData(params) {
   const jsonArray = await readJsonFile('pressData');
   const jsonShuffleData = await dataShuffle(jsonArray);
   JSON_ARR_PER_PAGE = await divideDataByPage(jsonShuffleData);
 }
-
-// 페이지 로드 시 초기화 함수 호출
-window.onload = async () => {
-  await initGridData();
-  await setPressDataGrid(); // 첫 페이지 데이터 로딩
-};
