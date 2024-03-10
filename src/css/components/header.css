@@ -1,0 +1,56 @@
+.col-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%; /* 너비를 부모 요소에 맞춤 */
+  max-width: 1100px; /* 최대 너비 설정 */
+}
+
+.row-container {
+  display: flex;
+  flex-flow: row wrap;
+  /* 아래의 두 줄을 줄여 쓴 것 */
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
+}
+.main-row-container {
+  display: flex;
+}
+
+.main-section-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  flex-basis: 40px;
+  align-items: center;
+  padding: 0px 16px;
+  margin-bottom: 18px;
+  /* justify-content: center; */
+}
+
+.header-logo {
+  font-size: 34px;
+  font-weight: bold;
+}
+.header-logo i,
+.header-logo {
+  vertical-align: middle;
+}
+.header-logo i {
+  font-size: 31px;
+  color: #4361cf;
+  margin-right: 10px;
+}
+#header-date {
+  font-size: 18px;
+  font-weight: 500;
+  color: #5f6e76;
+}
+.header-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  /* height: 104px; */
+  padding: 0px 16px;
+}
