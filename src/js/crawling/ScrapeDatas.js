@@ -7,10 +7,12 @@ export default class ScrapeDatas {
     this.url = 'https://www.naver.com/';
   }
 
-  async collectData(page) {
+  async collectPressData(page) {
     return await page.evaluate(() => {
       const pressDatas = [];
-      document.querySelectorAll('.MediaSubscriptionView-module__subscription_group___peb21 > .MediaSubscriptionView-module__subscription_box___z8NuT > a > img').forEach((img) => {
+      const PRESS_IMG_TAG =
+        '.MediaSubscriptionView-module__subscription_group___peb21 > .MediaSubscriptionView-module__subscription_box___z8NuT > a > img';
+      document.querySelectorAll(PRESS_IMG_TAG).forEach((img) => {
         pressDatas.push({
           src: img.src,
           alt: img.alt,
@@ -39,7 +41,7 @@ export default class ScrapeDatas {
     const nextButtonSelector = '.ContentPagingView-module__btn_next___ZBhby';
 
     while (currentPage <= totalPages) {
-      allResultDatas = allResultDatas.concat(await this.collectData(page));
+      allResultDatas = allResultDatas.concat(await this.collectPressData(page));
 
       currentPage++; // 다음 페이지로 넘어가기 위해 현재 페이지 번호 증가
       await page.click(nextButtonSelector);
