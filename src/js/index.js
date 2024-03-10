@@ -3,6 +3,7 @@ const PAGE = {
   contentsPerPage: 24,
   contentsNumberOfPage: 4,
   numberOfHeadLineSection: 2,
+  jsonFilePath: '../src/json/',
 };
 
 async function dataShuffle(jsonArray) {
@@ -13,7 +14,6 @@ async function dataShuffle(jsonArray) {
 async function shuffleAndDivideByPage() {
   const jsonArray = await readJsonFile('pressData');
   const jsonShuffleData = await dataShuffle(jsonArray);
-
   let jsonArrPerPage = [];
 
   for (let i = 0; i < jsonShuffleData.length; i += PAGE.contentsPerPage) {
@@ -47,7 +47,7 @@ function arrowHandlingByPage() {
  * @param {string} fileName - 'pressData'(언론사), 'headlinesData'(뉴스 헤드라인)
  */
 async function readJsonFile(fileName) {
-  const filePath = `./${fileName}.json`;
+  const filePath = `${PAGE.jsonFilePath}${fileName}.json`;
   const response = await fetch(filePath);
   const jsonData = await response.json();
 
@@ -60,7 +60,7 @@ async function pressLogoCreate() {
   let mainNewsHtml = '';
   let jsonArrPerPage = await shuffleAndDivideByPage();
 
-  for (pressObj of jsonArrPerPage[PAGE.gridPage - 1]) {
+  for (const pressObj of jsonArrPerPage[PAGE.gridPage - 1]) {
     mainNewsHtml += `<li>
       <a href="#" class="media-subscription-news-view">
       <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="news_logo" />
