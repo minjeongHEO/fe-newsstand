@@ -19,7 +19,7 @@ export default class ManageFile {
         this.scrapeData = await ScrapedDatas.scrapeDynamicNews();
       }
 
-      fs.writeFile(`${this.fileName}`, JSON.stringify(this.scrapeData), (err) => {
+      fs.writeFile(`./src/json/${this.fileName}`, JSON.stringify(this.scrapeData), (err) => {
         if (err) throw err;
       });
     } catch (error) {

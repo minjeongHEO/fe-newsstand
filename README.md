@@ -9,9 +9,9 @@
 
 ### ✨ 레이아웃
 
-- [ ] flex적용한 부분 grid로 수정하기
-- [ ] 반복되는 태그작업을 jsx문법처럼 가독성 있게 수정하기
-- [ ] 상단 로고 및 시간
+- [x] flex적용한 부분 grid로 수정하기
+- [x] 반복되는 태그작업을 jsx문법처럼 가독성 있게 수정하기
+- [x] 상단 로고 및 시간
 - [ ] 반응형으로 구현하기
 
 ### 🔧 기능
@@ -23,7 +23,7 @@
 - [x] 롤링 뉴스 데이터 크롤링
       3초 단위로 뉴스 데이터를 크롤링하여, 총 5개 받아온다.
 - [x] 크롤링 데이터 json 파일 생성하기
-      `node js/getJsonFile.js`
+      `node src/js/getJsonFile.js`
       해당 파일을 실행하여 크롤링한 데이터를 json파일로 생성한다.
 
 ## 🤔 실수 및 고민 사항
@@ -57,15 +57,15 @@
   따라서, .appendChild() 메서드는 HTMLCollection에 직접 적용될 수 없었다.
 
   ```js
-  document.getElementsByClassName('nav-container').appendChild(container);
+  document.getElementsByClassName("nav-container").appendChild(container)
   ```
 
   🔽
 
   ```js
-  document.getElementsByClassName('nav-container')[0].appendChild(container);
+  document.getElementsByClassName("nav-container")[0].appendChild(container)
 
-  document.getElementById('nav-container').appendChild(container);
+  document.getElementById("nav-container").appendChild(container)
   ```
 
 - CSS 선택자 중 nth-child(N) = 부모안에 모든 요소 중 N번째 요소
@@ -81,13 +81,13 @@
 - innerHTML은 함수처럼 사용이 아니라, 할당해야 한다.
 
   ```js
-  target.innerHTML(navHtml);
+  target.innerHTML(navHtml)
   ```
 
   🔽
 
   ```js
-  target.innerHTML = navHtml;
+  target.innerHTML = navHtml
   ```
 
 - 이벤트 버블링과 상위 태그 노드
@@ -112,12 +112,12 @@
 
   ```js
   function dateCreate() {
-    const date = new Date();
-    const today = new Intl.DateTimeFormat('ko-KR', {
-      dateStyle: 'medium',
-      weekday: 'long', // 'narrow', 'short', 'long' 중 하나
-      timeZone: 'Asia/Seoul',
-    }).format(date);
+    const date = new Date()
+    const today = new Intl.DateTimeFormat("ko-KR", {
+      dateStyle: "medium",
+      weekday: "long", // 'narrow', 'short', 'long' 중 하나
+      timeZone: "Asia/Seoul"
+    }).format(date)
   }
   ```
 
@@ -125,14 +125,14 @@
 
   ```js
   function dateCreate() {
-    const date = new Date();
-    const today = new Intl.DateTimeFormat('ko-KR', {
-      weekday: 'long', // 'narrow', 'short', 'long' 중 하나
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      timeZone: 'Asia/Seoul',
-    }).format(date);
+    const date = new Date()
+    const today = new Intl.DateTimeFormat("ko-KR", {
+      weekday: "long", // 'narrow', 'short', 'long' 중 하나
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "Asia/Seoul"
+    }).format(date)
   }
   ```
 
