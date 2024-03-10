@@ -1,6 +1,7 @@
 import { readJsonFile } from './getJsonFile.js';
 
 let PAGE_IN_GRID = 1;
+let JSON_ARR_PER_PAGE = null;
 const NUMBER_OF_PAGE_IN_GRID = 4;
 const CONTENTS_PER_PAGE = 24;
 
@@ -73,12 +74,9 @@ async function dataShuffle(jsonArray) {
 export async function setPressDataGrid() {
   addClickEvents();
   arrowHandlingByPage();
-  const jsonArray = await readJsonFile('pressData');
-  const jsonShuffleData = await dataShuffle(jsonArray);
-  const jsonArrPerPage = await divideDataByPage(jsonShuffleData);
 
   let mainNewsHtml = '';
-  for (const pressObj of jsonArrPerPage[PAGE_IN_GRID - 1]) {
+  for (const pressObj of JSON_ARR_PER_PAGE[PAGE_IN_GRID - 1]) {
     mainNewsHtml += `<li>
       <a href="#" class="media-subscription-news-view">
       <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="news_logo" />
@@ -89,3 +87,15 @@ export async function setPressDataGrid() {
   const target = document.getElementById('press-logo-container');
   target.innerHTML = mainNewsHtml;
 }
+
+async function initGridData(params) {
+  const jsonArray = await readJsonFile('pressData');
+  const jsonShuffleData = await dataShuffle(jsonArray);
+  JSON_ARR_PER_PAGE = await divideDataByPage(jsonShuffleData);
+}
+
+// 페이지 로드 시 초기화 함수 호출
+window.onload = async () => {
+  await initGridData();
+  await setPressDataGrid(); // 첫 페이지 데이터 로딩
+};
