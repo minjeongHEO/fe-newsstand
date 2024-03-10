@@ -53,15 +53,13 @@ function arrowHandlingByPage() {
 
 /** 랜덤한 언론사 데이터를 페이지 별로 나누기 */
 async function divideDataByPage(jsonShuffleData) {
-  let jsonArrPerPage = [];
+  const totalPages = Math.ceil(jsonShuffleData.length / CONTENTS_PER_PAGE);
+  const pagesToGenerate = Math.min(totalPages, NUMBER_OF_PAGE_IN_GRID); //실제 페이지 수가 최대 페이지 수보다 작을 수 있으므로
 
-  for (let i = 0; i < jsonShuffleData.length; i += CONTENTS_PER_PAGE) {
-    let dataPerPage = jsonShuffleData.slice(i, i + CONTENTS_PER_PAGE);
-    if (jsonArrPerPage.length >= NUMBER_OF_PAGE_IN_GRID) {
-      return jsonArrPerPage;
-    }
-    jsonArrPerPage.push(dataPerPage);
-  }
+  const jsonArrPerPage = Array.from({ length: pagesToGenerate }, (_, index) => {
+    const start = index * CONTENTS_PER_PAGE;
+    return jsonShuffleData.slice(start, start + CONTENTS_PER_PAGE);
+  });
 
   return jsonArrPerPage;
 }
