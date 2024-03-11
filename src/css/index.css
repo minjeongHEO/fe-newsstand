@@ -14,6 +14,10 @@ body * {
   color: #14212b;
 }
 
+li {
+  list-style: none;
+}
+
 .root-div {
   display: flex;
   justify-content: center;
