@@ -5,7 +5,8 @@
 Pretendard-1.3.9 
 
 # json
-*.json
+headlinesData.json
+pressData.json
 
 # Logs
 logs
