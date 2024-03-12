@@ -40,15 +40,41 @@
 
 🗓 week 2📌
 
-- [ ] 배열의 고차함수를 적극 사용해본다.
-- [ ] 나만의 reduce 함수를 직접 만들어서 활용해본다.
-- [ ] 객체리터럴이나 클래스를 활용하기보다는 (작고 명확한)함수를 활용한 개발을 시도한다.
+- [x] 배열의 고차함수를 적극 사용해본다.
+- [x] 나만의 reduce 함수를 직접 만들어서 활용해본다.
+- [x] 객체리터럴이나 클래스를 활용하기보다는 (작고 명확한)함수를 활용한 개발을 시도한다.
+
+- [x] 전체 카테고리 데이터 json파일 생성
+
+  ```js
+  let img = document.querySelector('.MediaNewsView-module__news_logo___LwMpl > img');
+  let imgLink = document.querySelector('.MediaNewsView-module__news_logo___LwMpl');
+  let imgTime = document.querySelector('.MediaNewsView-module__time___fBQhP');
+  let mainImgLink = document.querySelector('.MediaNewsView-module__desc_left___jU94v > a');
+  let mainImg = document.querySelector('.ImgView-module__content_img___QA0gl > img');
+  let headLines = [];
+  let headLineTag = '.MediaNewsView-module__desc_item___OWjz3 > a';
+  document.querySelectorAll(headLineTag).forEach((value) => {
+    headLines.push({
+      link: value.href,
+      headline: value.textContent,
+    });
+  });
+  ```
+
+  ```js
+  {"imgSrc":img.src, "imgName":img.alt, "imgLink":imgLink.href, "imgTime":imgTime.textContent, "mainImgLink":mainImgLink.href , "mainImgSrc":mainImg.src, "mainImgHeadLine":mainImg.alt, "headLines":headLines}
+  ```
+
+  브라우저에서 위의 코드를 사용하여 페이지 각각의 데이터를 얻어와서 json형식으로 만들어줬다.
+  `/src/json/categoryNewsData.json`
 
 - [ ] 헤드라인 롤링(2page)
-- [ ] 전체 언론사 카테고리 리스트보기 (5page)
-- [ ] 전체 언론사 카테고리 프로그래스바 효과 (6page)
-- [ ] 전체 언론사 카테고리 자동 이동 (7page)
-- [ ] 전체 언론사 카테고리 버튼 기반 이동 (7page)
+
+- [ ] 전체 카테고리 리스트보기 (5page)
+- [ ] 전체 카테고리 데이터 프로그래스바 효과 (6page)
+- [ ] 전체 카테고리 데이터 자동 이동 (7page)
+- [ ] 전체 카테고리 데이터 버튼 기반 이동 (7page)
 
 ## 🤔 실수 및 고민 사항
 
@@ -168,6 +194,62 @@
 
   `weekday`, `year`, `month`, `day` 등의 옵션을 직접 지정하면 더 세부적인 컨트롤이 가능합니다.  
   하지만, dateStyle과 이러한 세부적인 옵션들을 동시에 사용하려고 하면 충돌이 발생한다.
+
+- 템플릿 리터럴을 사용하여 HTML 문자열을 생성한 후 DOM에 추가하고 싶을 때
+
+  생성한 문자열을 직접적으로 appendChild로 사용할 수는 없지만, `innerHTML` 속성이나 `insertAdjacentHTML` 메서드를 통해 간접적으로 DOM에 추가할 수 있다.
+
+  이 방법들은 문자열을 HTML 요소로 파싱하고 해당 위치에 삽입해 준다.
+
+  다만, innerHTML을 사용할 경우 기존에 해당 요소에 있던 내용을 대체하게 되므로,  
+  새로운 요소를 추가하고자 할 때는 `insertAdjacentHTML`로 기존 내용을 유지하면서 지정된 위치에 새 HTML을 추가할 수 있다.
+
+  (beforebegin, afterbegin, beforeend, afterend 중 속성 선택)
+
+  - <b>beforebegin:</b>
+
+    대상 엘리먼트의 바로 앞에, 즉 현재 엘리먼트가 속한 부모 엘리먼트의 자식으로 삽입되기 전에 위치.  
+     예를 들어, 현재 엘리먼트가 `<p>` 태그라면, 이 옵션을 사용하면 `<p>` 태그 바로 앞에 새로운 내용이 추가.
+
+  - <b>afterbegin:</b>
+
+    대상 엘리먼트의 내부에서 가장 첫 번째 자식으로 삽입.  
+     예를 들어, 현재 엘리먼트 내부에 여러 자식 엘리먼트가 있다면, 이 옵션을 사용하면 가장 첫 번째 자식 엘리먼트로 새로운 내용이 추가.
+
+  - <b>beforeend:</b>
+
+    대상 엘리먼트의 내부에서 가장 마지막 자식으로 삽입.  
+     예를 들어, 현재 엘리먼트의 가장 마지막에 새로운 내용을 추가하고 싶을 때 이 옵션을 사용.
+
+  - <b>afterend:</b>
+
+    대상 엘리먼트의 바로 뒤에, 즉 현재 엘리먼트가 속한 부모 엘리먼트의 자식으로서, 현재 엘리먼트 다음에 위치.  
+     예를 들어, 현재 엘리먼트가 `<p>` 태그라면, 이 옵션을 사용하면 `<p>` 태그 바로 뒤에 새로운 내용이 추가.
+
+  ```js
+  const pressNameHtml = `<li style="background-color:yellow">
+        <a href="" target="_blank"></a>
+      </li>`;
+
+  const pressNameUlTarget = document.querySelector(`.nav-contents-container section1 ul`);
+  // 기존 내용에 추가
+  pressNameUlTarget.innerHTML += pressNameHtml;
+  ```
+
+  🔽 `insertAdjacentHTML` 사용
+
+  ```js
+  const pressNameHtml = `<li style="background-color:yellow">
+        <a href="" target="_blank"></a>
+      </li>`;
+
+  const pressNameUlTarget = document.querySelector(`.nav-contents-container section1 ul`);
+  // 'beforeend' 위치에 새 HTML 추가 (기존 내용 유지)
+  pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
+  ```
+
+  - 여기서는 beforeend를 사용하여 ul 요소의 마지막 자식으로 새 li 요소를 추가하는 방식을 선택했다.
+  - 이 방법을 통해 기존 내용을 유지하면서 새로운 내용을 추가할 수 있다.
 
 ## 📚
 
