@@ -24,7 +24,7 @@
   max-width: 470px;
   font-size: 17px;
   /* 롤링 배너 영역 벗어나는 부분 숨기기 */
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .nav-contents-container a {
@@ -56,13 +56,17 @@
 }
 
 .banner_list {
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
   width: 100%;
+}
+
+.rolling_active {
   animation: roll 10s linear infinite;
 }
+
 .banner_list > li {
-  /* margin-bottom: 30px; */
-  margin-top: 70px;
+  margin-top: 30px;
   background-color: red;
 }
 
@@ -72,9 +76,9 @@
 } */
 
 /* 왼쪽 바 설정 */
-.nav-contents-container.left .banner_list {
+/* .nav-contents-container.left .banner_list {
   animation: roll 5s linear infinite;
-}
+} */
 
 /* 오른쪽 바 설정 (1초 지연) */
 .nav-contents-container.right .banner_list {

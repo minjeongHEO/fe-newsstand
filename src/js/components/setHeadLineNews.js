@@ -109,11 +109,24 @@ function removeHtml(sectionNum) {
   }, 5000);
 }
 
+function applyRollingAnimation(sectionNum) {
+  const leftTag = `.nav-contents-container.section${sectionNum + 1} .banner_list`;
+  const leftTarget = document.querySelector(leftTag);
+
+  const RightTag = `.nav-contents-container.section${sectionNum + 1} .banner_list`;
+  const rightTarget = document.querySelector(RightTag);
+
+  leftTarget.classList.add('rolling_active');
+  rightTarget.classList.add('rolling_active');
+}
+
 /** 헤드라인 뉴스 생성 */
 export async function setHeadLineNews() {
   const jsonData = await readJsonFile('headlinesData');
   const divideJsonData = await divideDataByGrid(jsonData);
   drawHtml(divideJsonData);
+
+  applyRollingAnimation(0);
 
   divideJsonData.forEach((_, idx) => {
     appendHtml(divideJsonData, idx);
