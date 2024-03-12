@@ -2,60 +2,29 @@ import { readJsonFile } from './getJsonFile.js';
 
 const NUMBER_OF_HEADLINE_SECTION = 2;
 
-function createLeftNews(jsonDataLeft) {
-  setInterval(() => {
-    // 'nav-contents-press-name' 클래스를 가진 요소의 하위에서 첫 번째 'ul' 태그
-    let nameUlTag = document.querySelector('.nav-contents-press-name ul');
-    let headlineUlTag = document.querySelector('.nav-contents-headline ul');
-
-    // 새로운 'li' 요소 생성
-    let newNameLi = document.createElement('li');
-    let newHeadlineLi = document.createElement('li');
-
-    // 'li' 요소에 스타일과 내용 설정
-    newNameLi.style.backgroundColor = 'green';
-    newHeadlineLi.style.backgroundColor = 'green';
-    newNameLi.innerHTML = `<a href="${jsonDataLeft[3].newsLink}" target="_blank">33333333${jsonDataLeft[3].newsName}</a>`;
-    newHeadlineLi.innerHTML = `<a href="${jsonDataLeft[3].contentsLink}" target="_blank">33333333${jsonDataLeft[3].contentsHeader}</a>`;
-
-    // 생성한 'li' 요소를 'ul' 요소에 추가
-    nameUlTag.appendChild(newNameLi);
-    headlineUlTag.appendChild(newHeadlineLi);
-  }, 2000);
+/** 헤드라인 데이터를 섹션 수 별로 나누기 */
+async function divideDataByGrid(jsonData) {
+  const jsonDataPerGrid = jsonData.reduce(
+    (acc, cur, idx) => {
+      const elementPerGrid = Math.floor(jsonData.length / NUMBER_OF_HEADLINE_SECTION);
+      // 현재 요소의 인덱스를 사용하여 속할 섹션을 계산
+      const sectionIdx = Math.floor(idx / elementPerGrid);
+      acc[sectionIdx].push(cur);
+      return acc;
+    },
+    Array.from({ length: NUMBER_OF_HEADLINE_SECTION }, () => [])
+  );
+  return jsonDataPerGrid;
 }
-
-function removeLeftNews() {
-  setInterval(() => {
-    // 'nav-contents-press-name' 클래스를 가진 요소의 하위에서 첫 번째 'ul' 태그
-    let nameUlTag = document.querySelector('.nav-contents-press-name ul');
-    let headlineUlTag = document.querySelector('.nav-contents-headline ul');
-
-    // 'ul' 태그의 첫 번째 'li' 태그
-    let firstNameLiTag = nameUlTag.querySelector('li');
-    let firstHeadLineLiTag = headlineUlTag.querySelector('li');
-
-    // 있다면 삭제
-    if (firstNameLiTag) nameUlTag.removeChild(firstNameLiTag);
-    if (firstHeadLineLiTag) headlineUlTag.removeChild(firstHeadLineLiTag);
-  }, 2000);
-}
-
-// function removeRightNews(params) {
-//   setInterval(() => {
-//     // 'nav-contents-press-name' 클래스를 가진 요소의 하위에서 첫 번째 'ul' 태그를 찾음
-//     let ulTag = document.querySelector('.nav-contents-press-name ul');
-
-//     // 'ul' 태그의 첫 번째 'li' 태그를 찾음
-//     let firstLiTag = ulTag.querySelector('li');
-
-//     // 'ul' 태그로부터 첫 번째 'li' 태그를 삭제
-//     if (firstLiTag) ulTag.removeChild(firstLiTag);
-//   }, 5000);
-// }
 
 /** 헤드라인 뉴스 생성 */
 export async function setHeadLineNews() {
   const jsonData = await readJsonFile('headlinesData');
+  const divideJsonData = await divideDataByGrid(jsonData);
+
+  // const leftGridData = divideJsonData[0];
+  // const rightgridData = divideJsonData[1];
+
   let headLineHtml = '';
 
   const jsonDataLeft = jsonData.slice(0, jsonData.length / NUMBER_OF_HEADLINE_SECTION);
