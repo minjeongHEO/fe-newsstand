@@ -17,33 +17,31 @@ async function divideDataByGrid(jsonData) {
   return jsonDataPerGrid;
 }
 
-/** 헤드라인 뉴스 생성 */
-export async function setHeadLineNews() {
-  const jsonData = await readJsonFile('headlinesData');
-  const divideJsonData = await divideDataByGrid(jsonData);
-  debugger;
-
+function drawHtml(divideJsonData) {
   let headLineHtml = '';
   // divideJsonData.length 만큼이 섹션 수
-  for (const jsonData of divideJsonData) {
-    headLineHtml += `<div class="nav-contents-container left">
+  for (const [idx, jsonData] of divideJsonData.entries()) {
+    headLineHtml += `<div class="nav-contents-container section${idx + 1}">
                       <div class="nav-contents-press-name">
                         <ul class="banner_list">`;
 
-    for (const newsData of jsonData) {
-      headLineHtml += `<li>
-                        <a href="${newsData.newsLink}" target="_blank">${newsData.newsName}</a>
-                      </li>`;
-    }
+    headLineHtml += Array.from({ length: 2 }).reduce((acc, cur, idx) => {
+      return (acc += `<li>
+                <a href="${jsonData[idx].newsLink}" target="_blank">${jsonData[idx].newsName}</a>
+              </li>`);
+    }, '');
+
     headLineHtml += `</ul>
                   </div>
                   <div class="nav-contents-headline">
                     <ul class="banner_list">`;
-    for (const newsData of jsonData) {
-      headLineHtml += `<li>
-                        <a href="${newsData.contentsLink}" target="_blank">${newsData.contentsHeader}</a>
-                        </li>`;
-    }
+
+    headLineHtml += Array.from({ length: 2 }).reduce((acc, cur, idx) => {
+      return (acc += `<li>
+                <a href="${jsonData[idx].contentsLink}" target="_blank">${jsonData[idx].contentsHeader}</a>
+              </li>`);
+    }, '');
+
     headLineHtml += `</ul>
                     </div>
                   </div>`;
@@ -51,6 +49,13 @@ export async function setHeadLineNews() {
 
   const target = document.getElementById('nav-container');
   target.innerHTML = headLineHtml;
+}
+
+/** 헤드라인 뉴스 생성 */
+export async function setHeadLineNews() {
+  const jsonData = await readJsonFile('headlinesData');
+  const divideJsonData = await divideDataByGrid(jsonData);
+  drawHtml(divideJsonData);
 
   // removeLeftNews();
   // createLeftNews(jsonDataLeft);
