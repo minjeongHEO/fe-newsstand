@@ -57,38 +57,56 @@ function drawHtml(divideJsonData) {
 
 /** 헤드라인 태그 html 추가 */
 function appendHtml(divideJsonData, sectionNum) {
-  // setInterval(() => {
-  if (DATA.ROLLING_DATA_IDX[sectionNum] == undefined) {
-    DATA.ROLLING_DATA_IDX[sectionNum] = DATA.ROLLING_DATA_COUNT;
-  } else {
-    DATA.ROLLING_DATA_IDX[sectionNum]++;
-  }
+  setInterval(() => {
+    if (DATA.ROLLING_DATA_IDX[sectionNum] == undefined) {
+      DATA.ROLLING_DATA_IDX[sectionNum] = DATA.ROLLING_DATA_COUNT;
+    } else {
+      DATA.ROLLING_DATA_IDX[sectionNum]++;
+    }
 
-  if (DATA.ROLLING_DATA_IDX[sectionNum] >= divideJsonData[sectionNum].length) {
-    DATA.ROLLING_DATA_IDX[sectionNum] = 0;
-  }
+    if (DATA.ROLLING_DATA_IDX[sectionNum] >= divideJsonData[sectionNum].length) {
+      DATA.ROLLING_DATA_IDX[sectionNum] = 0;
+    }
 
-  const pressNameHtml = `<li style="background-color:yellow">
+    const pressNameHtml = `<li style="background-color:yellow">
       <a href="${divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsLink}" target="_blank">${
-    divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsName
-  }</a>
+      divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsName
+    }</a>
       </li>`;
 
-  const headLineHtml = `<li style="background-color: yellow;">
+    const headLineHtml = `<li style="background-color: yellow;">
                   <a href="${divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsLink}" target="_blank">${
-    divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsHeader
-  }</a>
+      divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsHeader
+    }</a>
                 </li>`;
 
-  const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
-  const pressNameUlTarget = document.querySelector(pressNameUlTag);
+    const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
+    const pressNameUlTarget = document.querySelector(pressNameUlTag);
 
-  const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
-  const headLineUlTarget = document.querySelector(headLineUlTag);
-  // *1)
-  pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
-  headLineUlTarget.insertAdjacentHTML('beforeend', headLineHtml);
-  // }, 500);
+    const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
+    const headLineUlTarget = document.querySelector(headLineUlTag);
+    // *1)
+    pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
+    headLineUlTarget.insertAdjacentHTML('beforeend', headLineHtml);
+  }, 5000);
+}
+
+/** 헤드라인 태그 html 삭제 */
+function removeHtml(sectionNum) {
+  setInterval(() => {
+    const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
+    const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
+    const pressNameUlTarget = document.querySelector(pressNameUlTag);
+    const headLineUlTarget = document.querySelector(headLineUlTag);
+
+    // 'ul' 태그의 첫 번째 'li' 태그
+    let firstNameLiTag = pressNameUlTarget.querySelector('li');
+    let firstHeadLineLiTag = headLineUlTarget.querySelector('li');
+
+    // 있다면 삭제
+    if (firstNameLiTag) pressNameUlTarget.removeChild(firstNameLiTag);
+    if (firstHeadLineLiTag) headLineUlTarget.removeChild(firstHeadLineLiTag);
+  }, 5000);
 }
 
 /** 헤드라인 뉴스 생성 */
@@ -99,6 +117,7 @@ export async function setHeadLineNews() {
 
   divideJsonData.forEach((_, idx) => {
     appendHtml(divideJsonData, idx);
+    removeHtml(idx);
   });
 }
 
