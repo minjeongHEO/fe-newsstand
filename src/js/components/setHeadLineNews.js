@@ -3,6 +3,7 @@ const DATA = {
   NUMBER_OF_HEADLINE_SECTION: 2,
   ROLLING_DATA_COUNT: 2,
   ROLLING_DATA_IDX: [],
+  INTERVALS: {}, // 인터벌 ID를 저장하기 위한 객체
 };
 
 /** 헤드라인 데이터를 섹션 수 별로 나누기 */
@@ -57,87 +58,134 @@ function drawHtml(divideJsonData) {
 
 /** 헤드라인 태그 html 추가 */
 function appendHtml(divideJsonData, sectionNum) {
-  setInterval(() => {
-    if (DATA.ROLLING_DATA_IDX[sectionNum] == undefined) {
-      DATA.ROLLING_DATA_IDX[sectionNum] = DATA.ROLLING_DATA_COUNT;
-    } else {
-      DATA.ROLLING_DATA_IDX[sectionNum]++;
-    }
+  if (DATA.ROLLING_DATA_IDX[sectionNum] == undefined) {
+    DATA.ROLLING_DATA_IDX[sectionNum] = DATA.ROLLING_DATA_COUNT;
+  } else {
+    DATA.ROLLING_DATA_IDX[sectionNum]++;
+  }
 
-    if (DATA.ROLLING_DATA_IDX[sectionNum] >= divideJsonData[sectionNum].length) {
-      DATA.ROLLING_DATA_IDX[sectionNum] = 0;
-    }
+  if (DATA.ROLLING_DATA_IDX[sectionNum] >= divideJsonData[sectionNum].length) {
+    DATA.ROLLING_DATA_IDX[sectionNum] = 0;
+  }
 
-    const pressNameHtml = `<li style="background-color:yellow">
+  const pressNameHtml = `<li style="background-color:yellow">
       <a href="${divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsLink}" target="_blank">${
-      divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsName
-    }</a>
+    divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsName
+  }</a>
       </li>`;
 
-    const headLineHtml = `<li style="background-color: yellow;">
+  const headLineHtml = `<li style="background-color: yellow;">
                   <a href="${divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsLink}" target="_blank">${
-      divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsHeader
-    }</a>
+    divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsHeader
+  }</a>
                 </li>`;
 
-    const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
-    const pressNameUlTarget = document.querySelector(pressNameUlTag);
+  const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
+  const pressNameUlTarget = document.querySelector(pressNameUlTag);
 
-    const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
-    const headLineUlTarget = document.querySelector(headLineUlTag);
-    // *1)
-    pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
-    headLineUlTarget.insertAdjacentHTML('beforeend', headLineHtml);
-  }, 5000);
+  const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
+  const headLineUlTarget = document.querySelector(headLineUlTag);
+
+  pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
+  headLineUlTarget.insertAdjacentHTML('beforeend', headLineHtml);
 }
 
 /** 헤드라인 태그 html 삭제 */
 function removeHtml(sectionNum) {
-  setInterval(() => {
-    const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
-    const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
-    const pressNameUlTarget = document.querySelector(pressNameUlTag);
-    const headLineUlTarget = document.querySelector(headLineUlTag);
+  const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
+  const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
+  const pressNameUlTarget = document.querySelector(pressNameUlTag);
+  const headLineUlTarget = document.querySelector(headLineUlTag);
 
-    // 'ul' 태그의 첫 번째 'li' 태그
-    let firstNameLiTag = pressNameUlTarget.querySelector('li');
-    let firstHeadLineLiTag = headLineUlTarget.querySelector('li');
+  // 'ul' 태그의 첫 번째 'li' 태그
+  let firstNameLiTag = pressNameUlTarget.querySelector('li');
+  let firstHeadLineLiTag = headLineUlTarget.querySelector('li');
 
-    // 있다면 삭제
-    if (firstNameLiTag) pressNameUlTarget.removeChild(firstNameLiTag);
-    if (firstHeadLineLiTag) headLineUlTarget.removeChild(firstHeadLineLiTag);
-  }, 5000);
+  // 있다면 삭제
+  if (firstNameLiTag) pressNameUlTarget.removeChild(firstNameLiTag);
+  if (firstHeadLineLiTag) headLineUlTarget.removeChild(firstHeadLineLiTag);
 }
 
 function applyRollingAnimation(sectionNum) {
-  const leftTag = `.nav-contents-container.section${sectionNum + 1} .banner_list`;
-  const leftTarget = document.querySelector(leftTag);
+  // 롤링 로직...
+  const ulTag = `.nav-contents-container.section${sectionNum + 1} .banner_list`;
+  const ulTarget = document.querySelectorAll(ulTag);
+  ulTarget.forEach((value) => {
+    value.classList.add('rolling_active');
 
-  const RightTag = `.nav-contents-container.section${sectionNum + 1} .banner_list`;
-  const rightTarget = document.querySelector(RightTag);
+    setTimeout(() => {
+      value.classList.remove('rolling_active');
+    }, 5000);
+  });
+}
 
-  leftTarget.classList.add('rolling_active');
-  rightTarget.classList.add('rolling_active');
+/** 섹션별로 마우스 오버 시 인터벌 정지 */
+function stopSectionInterval(sectionNum) {
+  if (DATA.INTERVALS[sectionNum]) {
+    clearInterval(DATA.INTERVALS[sectionNum].append);
+    clearInterval(DATA.INTERVALS[sectionNum].remove);
+    clearInterval(DATA.INTERVALS[sectionNum].animate);
+  }
+}
+
+function toggleRollingAnimation(sectionNum, rollingPause) {
+  const target = document.querySelector(`.nav-contents-container.section${sectionNum + 1}`);
+  if (rollingPause) {
+    target.classList.add('rolling_pause');
+  } else {
+    target.classList.remove('rolling_pause');
+  }
+}
+
+/** 마우스 이벤트 리스너 설정 */
+function setupMouseEvents(sectionNum) {
+  const container = document.querySelector(`.nav-contents-container.section${sectionNum + 1}`);
+  if (!container) return;
+
+  container.addEventListener('mouseover', () => {
+    stopSectionInterval(sectionNum); // 마우스 오버 시 인터벌 정지
+    toggleRollingAnimation(sectionNum, true); // 마우스 오버 시 애니메이션 일시정지
+  });
+
+  container.addEventListener('mouseout', () => {
+    startSectionInterval(sectionNum); // 마우스 아웃 시 인터벌 재시작
+    toggleRollingAnimation(sectionNum, false); // 마우스 아웃 시 애니메이션 재개
+  });
+}
+
+/** 섹션별로 인터벌 시작 */
+function startSectionInterval(divideJsonData, sectionNum) {
+  if (!DATA.INTERVALS[sectionNum]) DATA.INTERVALS[sectionNum] = {};
+
+  // appendHtml 인터벌
+  DATA.INTERVALS[sectionNum].append = setInterval(() => {
+    appendHtml(divideJsonData, sectionNum);
+  }, 5000);
+
+  // removeHtml 인터벌
+  DATA.INTERVALS[sectionNum].remove = setInterval(() => {
+    removeHtml(sectionNum);
+  }, 5000);
+
+  // 롤링 애니메이션 인터벌
+  DATA.INTERVALS[sectionNum].animate = setInterval(() => {
+    applyRollingAnimation(sectionNum);
+  }, 6000 + sectionNum * 1000); // 각 섹션별로 1초의 시간 차
 }
 
 /** 헤드라인 뉴스 생성 */
 export async function setHeadLineNews() {
-  const jsonData = await readJsonFile('headlinesData');
-  const divideJsonData = await divideDataByGrid(jsonData);
-  drawHtml(divideJsonData);
+  try {
+    const jsonData = await readJsonFile('headlinesData');
+    const divideJsonData = await divideDataByGrid(jsonData);
 
-  applyRollingAnimation(0);
+    drawHtml(divideJsonData);
 
-  divideJsonData.forEach((_, idx) => {
-    appendHtml(divideJsonData, idx);
-    removeHtml(idx);
-  });
+    divideJsonData.forEach((_, idx) => {
+      startSectionInterval(divideJsonData, idx);
+      setupMouseEvents(idx);
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
-
-/**
- * *1)
- *  insertAdjacentHTML 메서드는 첫 번째 인자로 HTML 문자열을 삽입할 위치를 지정합니다
- * (beforebegin, afterbegin, beforeend, afterend 중 하나).
- * 여기서는 beforeend를 사용하여 ul 요소의 마지막 자식으로 새 li 요소를 추가하는 방식을 선택했습니다.
- * 이 방법을 통해 기존 내용을 유지하면서 새로운 내용을 추가할 수 있습니다
- */

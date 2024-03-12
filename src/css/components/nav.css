@@ -24,7 +24,7 @@
   max-width: 470px;
   font-size: 17px;
   /* 롤링 배너 영역 벗어나는 부분 숨기기 */
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .nav-contents-container a {
@@ -61,6 +61,15 @@
   width: 100%;
 }
 
+.nav-contents-container:hover .nav-contents-headline a,
+.nav-contents-container:hover .nav-contents-press-name a {
+  text-decoration: underline; /* 호버 시 헤드라인 밑줄 표시 */
+}
+
+.rolling_pause .banner_list {
+  animation-play-state: paused; /* 롤링 애니메이션 일시정지 */
+}
+
 .rolling_active {
   animation: roll 10s linear infinite;
 }
@@ -70,33 +79,12 @@
   background-color: red;
 }
 
-/* 첫 번째 배너 리스트가 끝나면 뒤에 바로 두 번째 배너 리스트가 붙도록 설정 */
-/* .banner_list:last-child {
-  animation-delay: 10s;
-} */
-
-/* 왼쪽 바 설정 */
-/* .nav-contents-container.left .banner_list {
-  animation: roll 5s linear infinite;
-} */
-
-/* 오른쪽 바 설정 (1초 지연) */
-.nav-contents-container.right .banner_list {
-  animation: roll 5s linear infinite 1s; /* 1초 지연 추가 */
-}
-
 /* 롤링 애니메이션 정의 */
 @keyframes roll {
   0% {
-    /* transform: translateY(10%); */
-    transform: translateY(10%);
+    transform: translateY(0%);
   }
   100% {
-    /* transform: translateY(-60%); */
-    /* transform: translateY(calc(-17px * 2 - 10px * 10)); */
-    transform: translateY(calc(-25px * 2));
+    transform: translateY(-100%);
   }
 }
-
-/* .banner 클래스를 가진 10개의 요소가 있고, 
-각 요소의 너비가 200px이며, 마진 값이 10px이므로 총 이동해야 할 거리가 200px 10 + 10px 10 = 2100px 이 되기 때문임 */
