@@ -21,66 +21,37 @@ async function divideDataByGrid(jsonData) {
 export async function setHeadLineNews() {
   const jsonData = await readJsonFile('headlinesData');
   const divideJsonData = await divideDataByGrid(jsonData);
-
-  // const leftGridData = divideJsonData[0];
-  // const rightgridData = divideJsonData[1];
+  debugger;
 
   let headLineHtml = '';
+  // divideJsonData.length 만큼이 섹션 수
+  for (const jsonData of divideJsonData) {
+    headLineHtml += `<div class="nav-contents-container left">
+                      <div class="nav-contents-press-name">
+                        <ul class="banner_list">`;
 
-  const jsonDataLeft = jsonData.slice(0, jsonData.length / NUMBER_OF_HEADLINE_SECTION);
-  const jsonDataRight = jsonData.slice(jsonData.length / NUMBER_OF_HEADLINE_SECTION);
-
-  // for (let index = 0; index < NUMBER_OF_HEADLINE_SECTION; index++) {
-  headLineHtml += `<div class="nav-contents-container left">
-        <div class="nav-contents-press-name">
-          <ul class="banner_list">
-            <li>
-              <a href="${jsonDataLeft[0].newsLink}" target="_blank">${jsonDataLeft[0].newsName}</a>
-            </li>
-            <li style="background-color: yellow;">
-              <a href="${jsonDataLeft[1].newsLink}" target="_blank">${jsonDataLeft[1].newsName}</a>
-            </li>
-          </ul>
-        </div>
-        <div class="nav-contents-headline">
-          <ul class="banner_list">
-            <li>
-              <a href="${jsonDataLeft[0].contentsLink}" target="_blank">${jsonDataLeft[0].contentsHeader}</a>
-            </li>
-            <li style="background-color: yellow;">
-              <a href="${jsonDataLeft[1].contentsLink}" target="_blank">${jsonDataLeft[1].contentsHeader}</a>
-            </li>
-          </ul>
-        </div>
-      </div>`;
-  // }
-
-  headLineHtml += `<div class="nav-contents-container right">
-      <div class="nav-contents-press-name">
-        <ul class="banner_list">
-          <li>
-            <a href="${jsonDataRight[0].newsLink}" target="_blank">${jsonDataRight[0].newsName}</a>
-          </li>
-          <li>
-            <a href="${jsonDataRight[1].newsLink}" target="_blank">${jsonDataRight[1].newsName}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="nav-contents-headline">
-        <ul class="banner_list">
-          <li>
-            <a href="${jsonDataRight[0].contentsLink}" target="_blank">${jsonDataRight[0].contentsHeader}</a>
-          </li>
-          <li>
-            <a href="${jsonDataRight[1].contentsLink}" target="_blank">${jsonDataRight[1].contentsHeader}</a>
-          </li>
-        </ul>
-      </div>
-    </div>`;
+    for (const newsData of jsonData) {
+      headLineHtml += `<li>
+                        <a href="${newsData.newsLink}" target="_blank">${newsData.newsName}</a>
+                      </li>`;
+    }
+    headLineHtml += `</ul>
+                  </div>
+                  <div class="nav-contents-headline">
+                    <ul class="banner_list">`;
+    for (const newsData of jsonData) {
+      headLineHtml += `<li>
+                        <a href="${newsData.contentsLink}" target="_blank">${newsData.contentsHeader}</a>
+                        </li>`;
+    }
+    headLineHtml += `</ul>
+                    </div>
+                  </div>`;
+  }
 
   const target = document.getElementById('nav-container');
   target.innerHTML = headLineHtml;
 
-  removeLeftNews();
-  createLeftNews(jsonDataLeft);
+  // removeLeftNews();
+  // createLeftNews(jsonDataLeft);
 }
