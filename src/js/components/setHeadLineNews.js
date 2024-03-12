@@ -1,19 +1,21 @@
 import { readJsonFile } from './getJsonFile.js';
-
-const NUMBER_OF_HEADLINE_SECTION = 2;
-const ROLLING_DATA_COUNT = 2;
+const DATA = {
+  NUMBER_OF_HEADLINE_SECTION: 2,
+  ROLLING_DATA_COUNT: 2,
+  ROLLING_DATA_IDX: [],
+};
 
 /** 헤드라인 데이터를 섹션 수 별로 나누기 */
 async function divideDataByGrid(jsonData) {
   const jsonDataPerGrid = jsonData.reduce(
     (acc, cur, idx) => {
-      const elementPerGrid = Math.floor(jsonData.length / NUMBER_OF_HEADLINE_SECTION);
+      const elementPerGrid = Math.floor(jsonData.length / DATA.NUMBER_OF_HEADLINE_SECTION);
       // 현재 요소의 인덱스를 사용하여 속할 섹션을 계산
       const sectionIdx = Math.floor(idx / elementPerGrid);
       acc[sectionIdx].push(cur);
       return acc;
     },
-    Array.from({ length: NUMBER_OF_HEADLINE_SECTION }, () => [])
+    Array.from({ length: DATA.NUMBER_OF_HEADLINE_SECTION }, () => [])
   );
   return jsonDataPerGrid;
 }
@@ -27,7 +29,7 @@ function drawHtml(divideJsonData) {
                       <div class="nav-contents-press-name">
                         <ul class="banner_list">`;
 
-    headLineHtml += Array.from({ length: ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
+    headLineHtml += Array.from({ length: DATA.ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
       return (acc += `<li>
                 <a href="${jsonData[idx].newsLink}" target="_blank">${jsonData[idx].newsName}</a>
               </li>`);
@@ -38,7 +40,7 @@ function drawHtml(divideJsonData) {
                   <div class="nav-contents-headline">
                     <ul class="banner_list">`;
 
-    headLineHtml += Array.from({ length: ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
+    headLineHtml += Array.from({ length: DATA.ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
       return (acc += `<li>
                 <a href="${jsonData[idx].contentsLink}" target="_blank">${jsonData[idx].contentsHeader}</a>
               </li>`);
@@ -53,13 +55,29 @@ function drawHtml(divideJsonData) {
   target.innerHTML = headLineHtml;
 }
 
+/** 헤드라인 태그 html 추가 */
 function appendHtml(divideJsonData, sectionNum) {
+  // setInterval(() => {
+  if (DATA.ROLLING_DATA_IDX[sectionNum] == undefined) {
+    DATA.ROLLING_DATA_IDX[sectionNum] = DATA.ROLLING_DATA_COUNT;
+  } else {
+    DATA.ROLLING_DATA_IDX[sectionNum]++;
+  }
+
+  if (DATA.ROLLING_DATA_IDX[sectionNum] >= divideJsonData[sectionNum].length) {
+    DATA.ROLLING_DATA_IDX[sectionNum] = 0;
+  }
+
   const pressNameHtml = `<li style="background-color:yellow">
-      <a href="${divideJsonData[sectionNum][ROLLING_DATA_COUNT].newsLink}" target="_blank">${divideJsonData[sectionNum][ROLLING_DATA_COUNT].newsName}</a>
+      <a href="${divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsLink}" target="_blank">${
+    divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].newsName
+  }</a>
       </li>`;
 
   const headLineHtml = `<li style="background-color: yellow;">
-                  <a href="${divideJsonData[sectionNum][ROLLING_DATA_COUNT].contentsLink}" target="_blank">${divideJsonData[sectionNum][ROLLING_DATA_COUNT].contentsHeader}</a>
+                  <a href="${divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsLink}" target="_blank">${
+    divideJsonData[sectionNum][DATA.ROLLING_DATA_IDX[sectionNum]].contentsHeader
+  }</a>
                 </li>`;
 
   const pressNameUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-press-name ul`;
@@ -67,10 +85,10 @@ function appendHtml(divideJsonData, sectionNum) {
 
   const headLineUlTag = `.nav-contents-container.section${sectionNum + 1} .nav-contents-headline ul`;
   const headLineUlTarget = document.querySelector(headLineUlTag);
-  debugger;
   // *1)
   pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
   headLineUlTarget.insertAdjacentHTML('beforeend', headLineHtml);
+  // }, 500);
 }
 
 /** 헤드라인 뉴스 생성 */
