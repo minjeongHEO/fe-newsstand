@@ -84,7 +84,7 @@ ul.press-logo-container > li:nth-child(6) {
 .icon-select-blue {
   color: #7890e7;
 }
-.press-container {
+.press-news-container {
   /* display: flex; */
   position: relative;
   justify-content: flex-start;
@@ -104,5 +104,10 @@ ul.press-logo-container > li:nth-child(6) {
   top: 40%;
   left: 100%;
   opacity: 50%;
+  cursor: pointer;
+}
+
+#list-tab,
+#grid-tab {
   cursor: pointer;
 }
