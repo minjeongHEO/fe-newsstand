@@ -1,40 +1,55 @@
 import { readJsonFile } from './getJsonFile.js';
 
+/**
+ * [ ] 그리드,리스트 탭 클릭
+ * [ ] 리스너 위임하는 방법으로 변경
+ *
+ */
+
 const DATA = {
   PAGE_IN_GRID: 1,
   JSON_ARR_PER_PAGE: null,
   NUMBER_OF_PAGE_IN_GRID: 4,
   CONTENTS_PER_PAGE: 24,
+  TAB_TYPE: 'grid', //grid, list
 };
 
-function pageClick(event) {
+function DistinguishExecuteEvents(event) {
   let target = event.target;
 
-  // id가 없을 경우
-  if (target.id !== null || target.id === '') {
-    target = target.parentNode;
-  }
+  switch (DATA.TAB_TYPE) {
+    case 'grid':
+      //* 화살표 <, >
+      // id가 없을 경우
+      if (target.id !== null || target.id === '') {
+        target = target.parentNode;
+      }
 
-  if (target.id === 'angle-right') {
-    if (DATA.PAGE_IN_GRID === DATA.NUMBER_OF_PAGE_IN_GRID) return;
-    DATA.PAGE_IN_GRID++;
-  }
+      if (target.id === 'angle-right') {
+        if (DATA.PAGE_IN_GRID === DATA.NUMBER_OF_PAGE_IN_GRID) return;
+        DATA.PAGE_IN_GRID++;
+      }
 
-  if (target.id === 'angle-left') {
-    if (DATA.PAGE_IN_GRID === 0) return;
-    DATA.PAGE_IN_GRID--;
+      if (target.id === 'angle-left') {
+        if (DATA.PAGE_IN_GRID === 0) return;
+        DATA.PAGE_IN_GRID--;
+      }
+
+      break;
+    case 'list':
+      break;
+
+    default:
+      break;
   }
 
   setPressDataGrid();
 }
 
-/** click이벤트 리스너 생성 */
-function addClickEvents() {
-  const angleRight = document.getElementById('angle-right');
-  const angleLeft = document.getElementById('angle-left');
-
-  angleRight.addEventListener('click', pageClick);
-  angleLeft.addEventListener('click', pageClick);
+/** 이벤트 위임 */
+function excuteEventDelegation() {
+  const container = document.querySelector('.main-container');
+  container.addEventListener('click', DistinguishExecuteEvents);
 }
 
 /** 페이지 별 화살표 처리 */
@@ -72,7 +87,7 @@ async function dataShuffle(jsonArray) {
 
 /** 언론사 데이터 그리드 생성 */
 export async function setPressDataGrid() {
-  addClickEvents();
+  excuteEventDelegation();
   arrowHandlingByPage();
 
   let mainNewsHtml = '';
