@@ -7,27 +7,27 @@
   font-size: 24px;
 }
 
-.main-nav-container1 {
+.main-tab-container1 {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
 }
-.main-nav-container1 > .contents-select {
+.main-tab-container1 > .contents-select {
   font-weight: bold;
   color: #14212b;
 }
 
-.main-nav-container2 {
+.main-tab-container2 {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   width: 70px;
 }
-.main-nav-container2 > i:first-child {
+.main-tab-container2 > i:first-child {
   font-size: 26px;
 }
 
-.main-nav-contents {
+.main-tab-contents {
   margin-right: 20px;
   font-size: 20px;
   color: #4b5966;
