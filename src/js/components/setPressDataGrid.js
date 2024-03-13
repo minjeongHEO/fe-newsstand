@@ -1,9 +1,11 @@
 import { readJsonFile } from './getJsonFile.js';
 
-let PAGE_IN_GRID = 1;
-let JSON_ARR_PER_PAGE = null;
-const NUMBER_OF_PAGE_IN_GRID = 4;
-const CONTENTS_PER_PAGE = 24;
+const DATA = {
+  PAGE_IN_GRID: 1,
+  JSON_ARR_PER_PAGE: null,
+  NUMBER_OF_PAGE_IN_GRID: 4,
+  CONTENTS_PER_PAGE: 24,
+};
 
 function pageClick(event) {
   let target = event.target;
@@ -14,13 +16,13 @@ function pageClick(event) {
   }
 
   if (target.id === 'angle-right') {
-    if (PAGE_IN_GRID === NUMBER_OF_PAGE_IN_GRID) return;
-    PAGE_IN_GRID++;
+    if (DATA.PAGE_IN_GRID === DATA.NUMBER_OF_PAGE_IN_GRID) return;
+    DATA.PAGE_IN_GRID++;
   }
 
   if (target.id === 'angle-left') {
-    if (PAGE_IN_GRID === 0) return;
-    PAGE_IN_GRID--;
+    if (DATA.PAGE_IN_GRID === 0) return;
+    DATA.PAGE_IN_GRID--;
   }
 
   setPressDataGrid();
@@ -40,9 +42,9 @@ function arrowHandlingByPage() {
   const leftTarget = document.getElementById('angle-left');
   const Righttarget = document.getElementById('angle-right');
 
-  if (PAGE_IN_GRID === 1) {
+  if (DATA.PAGE_IN_GRID === 1) {
     leftTarget.style.visibility = 'hidden';
-  } else if (PAGE_IN_GRID === NUMBER_OF_PAGE_IN_GRID) {
+  } else if (DATA.PAGE_IN_GRID === DATA.NUMBER_OF_PAGE_IN_GRID) {
     leftTarget.style.visibility = 'visible';
     Righttarget.style.visibility = 'hidden';
   } else {
@@ -53,12 +55,12 @@ function arrowHandlingByPage() {
 
 /** 랜덤한 언론사 데이터를 페이지 별로 나누기 */
 async function divideDataByPage(jsonShuffleData) {
-  const totalPages = Math.ceil(jsonShuffleData.length / CONTENTS_PER_PAGE);
-  const pagesToGenerate = Math.min(totalPages, NUMBER_OF_PAGE_IN_GRID); //실제 페이지 수가 최대 페이지 수보다 작을 수 있으므로
+  const totalPages = Math.ceil(jsonShuffleData.length / DATA.CONTENTS_PER_PAGE);
+  const pagesToGenerate = Math.min(totalPages, DATA.NUMBER_OF_PAGE_IN_GRID); //실제 페이지 수가 최대 페이지 수보다 작을 수 있으므로
 
   const jsonArrPerPage = Array.from({ length: pagesToGenerate }, (_, index) => {
-    const start = index * CONTENTS_PER_PAGE;
-    return jsonShuffleData.slice(start, start + CONTENTS_PER_PAGE);
+    const start = index * DATA.CONTENTS_PER_PAGE;
+    return jsonShuffleData.slice(start, start + DATA.CONTENTS_PER_PAGE);
   });
 
   return jsonArrPerPage;
@@ -74,7 +76,7 @@ export async function setPressDataGrid() {
   arrowHandlingByPage();
 
   let mainNewsHtml = '';
-  for (const pressObj of JSON_ARR_PER_PAGE[PAGE_IN_GRID - 1]) {
+  for (const pressObj of DATA.JSON_ARR_PER_PAGE[DATA.PAGE_IN_GRID - 1]) {
     mainNewsHtml += `<li>
       <a href="#" class="media-subscription-news-view">
       <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="news_logo" />
@@ -90,5 +92,5 @@ export async function setPressDataGrid() {
 export async function initGridData(params) {
   const jsonArray = await readJsonFile('pressData');
   const jsonShuffleData = await dataShuffle(jsonArray);
-  JSON_ARR_PER_PAGE = await divideDataByPage(jsonShuffleData);
+  DATA.JSON_ARR_PER_PAGE = await divideDataByPage(jsonShuffleData);
 }
