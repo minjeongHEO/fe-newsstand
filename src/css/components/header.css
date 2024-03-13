@@ -32,11 +32,11 @@
   font-size: 34px;
   font-weight: bold;
 }
-.header-logo i,
+.header-logo svg,
 .header-logo {
   vertical-align: middle;
 }
-.header-logo i {
+.header-logo svg {
   font-size: 31px;
   color: #4361cf;
   margin-right: 10px;
