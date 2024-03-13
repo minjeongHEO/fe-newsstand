@@ -14,42 +14,50 @@ const DATA = {
   TAB_TYPE: 'grid', //grid, list
 };
 
-function DistinguishExecuteEvents(event) {
-  let target = event.target;
-
+const gridSectionEvents = (e) => {
   switch (DATA.TAB_TYPE) {
     case 'grid':
-      //* 화살표 <, >
-      // id가 없을 경우
-      if (target.id !== null || target.id === '') {
-        target = target.parentNode;
-      }
-
-      if (target.id === 'angle-right') {
+      if (e.target.parentNode.id === 'angle-right') {
         if (DATA.PAGE_IN_GRID === DATA.NUMBER_OF_PAGE_IN_GRID) return;
         DATA.PAGE_IN_GRID++;
       }
 
-      if (target.id === 'angle-left') {
+      if (e.target.parentNode.id === 'angle-left') {
         if (DATA.PAGE_IN_GRID === 0) return;
         DATA.PAGE_IN_GRID--;
       }
 
+      setPressDataGrid();
+
       break;
+
     case 'list':
       break;
 
     default:
       break;
   }
+};
 
-  setPressDataGrid();
-}
+const tabSectionEvents = (e) => {
+  const target = e.target.parentNode;
+  if (target.id === 'list-tab') console.log('리스트그려라');
+  if (target.id === 'grid-tab') setPressDataGrid();
+};
+
+const clickEvent = (e) => {
+  // if (e.target. === "svg.press-container__view-icon") gridSectionEvents();
+  // if (e.target === "svg.press-container__view-icon") tabSectionEvents();
+
+  // e.target의 상위 노드들 중에서 section태그의 클래스 이름이'press-container'  인지 확인
+  if (e.target.closest('section.main-tab-section-container')) tabSectionEvents(e); //탭 이벤트들
+  if (e.target.closest('section.press-container')) gridSectionEvents(e); //그리드 내에서의 이벤트들
+};
 
 /** 이벤트 위임 */
 function excuteEventDelegation() {
   const container = document.querySelector('.main-container');
-  container.addEventListener('click', DistinguishExecuteEvents);
+  container.addEventListener('click', clickEvent);
 }
 
 /** 페이지 별 화살표 처리 */
@@ -88,6 +96,7 @@ async function dataShuffle(jsonArray) {
 /** 언론사 데이터 그리드 생성 */
 export async function setPressDataGrid() {
   excuteEventDelegation();
+
   arrowHandlingByPage();
 
   let mainNewsHtml = '';
