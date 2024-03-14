@@ -143,10 +143,10 @@ ul.press-logo-container > li:nth-child(6) {
 .category-select {
   background-color: #7890e7;
 }
-.grid-oprion-select {
+.grid-option-select {
   fill: #4362d0;
 }
-.grid-oprion {
+.grid-option {
   fill: #879298;
 }
 
@@ -160,8 +160,9 @@ ul.press-logo-container > li:nth-child(6) {
 .news-logo {
   display: flex;
   align-items: center; /* 세로 방향 가운데 정렬 */
+  gap: 16px;
   flex-basis: 15%;
-  padding: 0px 26px;
+  padding: 0px 25px;
 }
 .news-logo > :nth-child(1),
 .news-logo > :nth-child(2),
@@ -184,8 +185,11 @@ ul.press-logo-container > li:nth-child(6) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center; /* 세로 방향 가운데 정렬 */
   justify-content: center; /* 가로 방향 가운데 정렬 */
+}
+.main-news img {
+  width: 320px;
+  object-fit: cover;
 }
 
 .main-news > :nth-child(2) {
@@ -193,7 +197,8 @@ ul.press-logo-container > li:nth-child(6) {
   width: 100%;
 }
 .sub-news {
-  width: 70%;
+  /* width: 70%; */
+  width: 650px;
   display: flex;
   flex-direction: column;
 }

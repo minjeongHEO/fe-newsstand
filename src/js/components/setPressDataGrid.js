@@ -12,9 +12,13 @@ const GRID_DATA = {
   NUMBER_OF_PAGE_IN_GRID: 4,
   CONTENTS_PER_PAGE: 24,
   TAB_TYPE: 'grid', //grid, list
+
   CATEGORY_NUMBER: 0,
   PAGE_IN_CATEGORY: 0,
   NUMBER_OF_PAGE_IN_CATEGORY: 4,
+
+  PAGE_PER_CATEGORY: [],
+  //[[카테고리1의 페이지 수],[카테고리2의 페이지 수],[카테고리n의 페이지 수],...]
 };
 
 const gridSectionEvents = (e) => {
@@ -57,10 +61,15 @@ const tabSectionEvents = (e) => {
   const target = e.target.parentNode;
   if (target.id === 'list-tab') {
     GRID_DATA.TAB_TYPE = 'list';
+    document.querySelector('#list-tab path').classList.replace('grid-option', 'grid-option-select');
+    document.querySelector('#grid-tab path').classList.replace('grid-option-select', 'grid-option');
+
     setNewsDataGrid();
   }
   if (target.id === 'grid-tab') {
     GRID_DATA.TAB_TYPE = 'grid';
+    document.querySelector('#grid-tab path').classList.replace('grid-option', 'grid-option-select');
+    document.querySelector('#list-tab path').classList.replace('grid-option-select', 'grid-option');
     setPressDataGrid();
   }
 };
