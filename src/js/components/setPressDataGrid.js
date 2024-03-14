@@ -5,27 +5,29 @@ import { readJsonFile } from './getJsonFile.js';
  * [ ] 그리드,리스트 탭 클릭 => 버그
  *
  */
-
+let TAB_TYPE = 'grid'; //grid, list
 const GRID_DATA = {
   PAGE_IN_GRID: 1,
+  MAXIMUM_PAGE_IN_GRID: 4,
   JSON_ARR_PER_PAGE: null,
-  NUMBER_OF_PAGE_IN_GRID: 4,
   CONTENTS_PER_PAGE: 24,
-  TAB_TYPE: 'grid', //grid, list
-
+};
+const LIST_DATA = {
+  CATEGORY: [],
   CATEGORY_NUMBER: 0,
   PAGE_IN_CATEGORY: 0,
   NUMBER_OF_PAGE_IN_CATEGORY: 4,
-
   PAGE_PER_CATEGORY: [],
+  PAGE_IN_LIST: 1,
+  MAXIMUM_PAGE_IN_LIST: 4,
+
   //[[카테고리1의 페이지 수],[카테고리2의 페이지 수],[카테고리n의 페이지 수],...]
 };
-
 const gridSectionEvents = (e) => {
-  switch (GRID_DATA.TAB_TYPE) {
+  switch (TAB_TYPE) {
     case 'grid':
       if (e.target.parentNode.id === 'angle-right') {
-        if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.NUMBER_OF_PAGE_IN_GRID) return;
+        if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.MAXIMUM_PAGE_IN_GRID) return;
         GRID_DATA.PAGE_IN_GRID++;
       }
 
@@ -40,16 +42,15 @@ const gridSectionEvents = (e) => {
 
     case 'list':
       if (e.target.parentNode.id === 'angle-right') {
-        if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.NUMBER_OF_PAGE_IN_GRID) return;
-        GRID_DATA.PAGE_IN_CATEGORY++;
+        LIST_DATA.PAGE_IN_LIST++;
+        debugger;
       }
 
       if (e.target.parentNode.id === 'angle-left') {
-        if (GRID_DATA.PAGE_IN_GRID === 0) return;
-        GRID_DATA.PAGE_IN_CATEGORY--;
+        LIST_DATA.PAGE_IN_LIST--;
       }
 
-      setNewsDataGrid();
+      setNewsDataList();
       break;
 
     default:
@@ -60,16 +61,20 @@ const gridSectionEvents = (e) => {
 const tabSectionEvents = (e) => {
   const target = e.target.parentNode;
   if (target.id === 'list-tab') {
-    GRID_DATA.TAB_TYPE = 'list';
+    TAB_TYPE = 'list';
     document.querySelector('#list-tab path').classList.replace('grid-option', 'grid-option-select');
     document.querySelector('#grid-tab path').classList.replace('grid-option-select', 'grid-option');
-
-    setNewsDataGrid();
+    GRID_DATA.PAGE_IN_GRID = 1;
+    LIST_DATA.PAGE_IN_LIST = 1;
+    setNewsDataList();
+    // initListData();
   }
   if (target.id === 'grid-tab') {
-    GRID_DATA.TAB_TYPE = 'grid';
+    TAB_TYPE = 'grid';
     document.querySelector('#grid-tab path').classList.replace('grid-option', 'grid-option-select');
     document.querySelector('#list-tab path').classList.replace('grid-option-select', 'grid-option');
+    GRID_DATA.PAGE_IN_GRID = 1;
+    LIST_DATA.PAGE_IN_LIST = 1;
     setPressDataGrid();
   }
 };
@@ -92,7 +97,7 @@ const arrowHandlingByPage = () => {
 
   if (GRID_DATA.PAGE_IN_GRID === 1) {
     leftTarget.style.visibility = 'hidden';
-  } else if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.NUMBER_OF_PAGE_IN_GRID) {
+  } else if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.MAXIMUM_PAGE_IN_GRID) {
     leftTarget.style.visibility = 'visible';
     Righttarget.style.visibility = 'hidden';
   } else {
@@ -104,7 +109,7 @@ const arrowHandlingByPage = () => {
 /** 랜덤한 언론사 데이터를 페이지 별로 나누기 */
 async function divideDataByPage(jsonShuffleData) {
   const totalPages = Math.ceil(jsonShuffleData.length / GRID_DATA.CONTENTS_PER_PAGE);
-  const pagesToGenerate = Math.min(totalPages, GRID_DATA.NUMBER_OF_PAGE_IN_GRID); //실제 페이지 수가 최대 페이지 수보다 작을 수 있으므로
+  const pagesToGenerate = Math.min(totalPages, GRID_DATA.MAXIMUM_PAGE_IN_GRID); //실제 페이지 수가 최대 페이지 수보다 작을 수 있으므로
 
   const jsonArrPerPage = Array.from({ length: pagesToGenerate }, (_, index) => {
     const start = index * GRID_DATA.CONTENTS_PER_PAGE;
@@ -171,8 +176,9 @@ const drawCategoryDataHtml = async (jsonData) => {
 
 /** 카테고리 별 언론사 뉴스 */
 const drawNewsDataHtml = async (jsonData) => {
-  GRID_DATA.NUMBER_OF_PAGE_IN_CATEGORY = jsonData[GRID_DATA.CATEGORY_NUMBER].news.length;
-  const applicableData = jsonData[GRID_DATA.CATEGORY_NUMBER].news[GRID_DATA.PAGE_IN_CATEGORY];
+  LIST_DATA.NUMBER_OF_PAGE_IN_CATEGORY = jsonData.news.length;
+
+  const applicableData = jsonData.news[LIST_DATA.PAGE_IN_CATEGORY];
   let mainNewsHtml = '';
   mainNewsHtml += `
                   <div class="news-container">
@@ -220,7 +226,7 @@ const drawNewsDataHtml = async (jsonData) => {
 
 /** 활성화된 카테고리 확인 후 적용 */
 const applyActivatedCategory = () => {
-  const activatedCategory = document.querySelector(`.category${GRID_DATA.CATEGORY_NUMBER}`);
+  const activatedCategory = document.querySelector(`.category${LIST_DATA.CATEGORY_NUMBER}`);
   const siblings = Array.from(activatedCategory.parentNode.children);
 
   siblings.forEach((sibling) => {
@@ -230,17 +236,24 @@ const applyActivatedCategory = () => {
   activatedCategory.classList.add('category-select');
 };
 
-/** 뉴스 데이터 그리드 생성 TAB_TYPE: 'list' */
-const setNewsDataGrid = async () => {
-  const jsonArray = await readJsonFile('categoryNewsData');
-  // excuteEventDelegation();
-  await drawCategoryDataHtml(jsonArray);
+/** 활성화된 카테고리 확인 */
+const beforeDrawNewsDataHtml = () => {
+  const selectedCategory = document.querySelector('.category-select');
+  if (!selectedCategory) return;
 
+  return LIST_DATA.CATEGORY.indexOf(selectedCategory.textContent);
+};
+
+/** 뉴스 데이터 그리드 생성 TAB_TYPE: 'list' */
+const setNewsDataList = async () => {
+  const jsonArray = await readJsonFile('categoryNewsData');
+  LIST_DATA.CATEGORY = jsonArray.map((cur) => cur.categoryName);
+
+  await drawCategoryDataHtml(jsonArray);
   applyActivatedCategory();
 
-  await drawNewsDataHtml(jsonArray);
-
-  // arrowHandlingByPage();
+  const categoryIndex = beforeDrawNewsDataHtml(jsonArray);
+  await drawNewsDataHtml(jsonArray[categoryIndex]);
 };
 
 /** 언론사 데이터 그리드 생성 TAB_TYPE: 'grid' */
