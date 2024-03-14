@@ -12,8 +12,9 @@ const GRID_DATA = {
   NUMBER_OF_PAGE_IN_GRID: 4,
   CONTENTS_PER_PAGE: 24,
   TAB_TYPE: 'grid', //grid, list
-  CATEGORY_NUMBER: 1,
+  CATEGORY_NUMBER: 0,
   PAGE_IN_CATEGORY: 1,
+  NUMBER_OF_PAGE_IN_CATEGORY: 4,
 };
 
 const gridSectionEvents = (e) => {
@@ -62,10 +63,27 @@ const excuteEventDelegation = () => {
 const arrowHandlingByPage = () => {
   const leftTarget = document.getElementById('angle-left');
   const Righttarget = document.getElementById('angle-right');
+  let page = 1;
+  let numberOfPage = 1;
 
-  if (GRID_DATA.PAGE_IN_GRID === 1) {
+  switch (GRID_DATA.TAB_TYPE) {
+    case 'grid':
+      page = GRID_DATA.PAGE_IN_GRID;
+      numberOfPage = GRID_DATA.NUMBER_OF_PAGE_IN_GRID;
+      break;
+
+    case 'list':
+      page = GRID_DATA.PAGE_IN_CATEGORY;
+      numberOfPage = GRID_DATA.NUMBER_OF_PAGE_IN_CATEGORY;
+      break;
+
+    default:
+      break;
+  }
+
+  if (page === 1) {
     leftTarget.style.visibility = 'hidden';
-  } else if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.NUMBER_OF_PAGE_IN_GRID) {
+  } else if (page === numberOfPage) {
     leftTarget.style.visibility = 'visible';
     Righttarget.style.visibility = 'hidden';
   } else {
@@ -91,6 +109,7 @@ async function dataShuffle(jsonArray) {
   return jsonArray.sort(() => Math.random() - 0.5);
 }
 
+/** 언론사 데이터 생성 */
 const drawPressDataHtml = async () => {
   let mainNewsHtml = '';
   mainNewsHtml += `<div id="angle-left">
@@ -126,8 +145,8 @@ const drawCategoryDataHtml = async (jsonData) => {
   mainCategoryHtml += `<div class="listview-container">
                         <div class="category-bar">`;
 
-  for (const categoryObj of jsonData) {
-    mainCategoryHtml += `<div>${categoryObj.categoryName}</div>`;
+  for (const [idx, categoryObj] of jsonData.entries()) {
+    mainCategoryHtml += `<div class="category${idx}">${categoryObj.categoryName}</div>`;
   }
 
   mainCategoryHtml += `</div>
@@ -143,6 +162,7 @@ const drawCategoryDataHtml = async (jsonData) => {
 
 /** 카테고리 별 언론사 뉴스 */
 const drawNewsDataHtml = async (jsonData) => {
+  GRID_DATA.NUMBER_OF_PAGE_IN_CATEGORY = jsonData[GRID_DATA.CATEGORY_NUMBER].news.length;
   const applicableData = jsonData[GRID_DATA.CATEGORY_NUMBER].news[GRID_DATA.PAGE_IN_CATEGORY];
   let mainNewsHtml = '';
   mainNewsHtml += `
@@ -189,12 +209,29 @@ const drawNewsDataHtml = async (jsonData) => {
   target.insertAdjacentHTML('beforeend', mainNewsHtml);
 };
 
+/** 활성화된 카테고리 확인 후 적용 */
+const applyActivatedCategory = () => {
+  const activatedCategory = document.querySelector(`.category${GRID_DATA.CATEGORY_NUMBER}`);
+  const siblings = Array.from(activatedCategory.parentNode.children);
+
+  siblings.forEach((sibling) => {
+    if (sibling !== activatedCategory) sibling.classList.remove('category-select');
+  });
+
+  activatedCategory.classList.add('category-select');
+};
+
 /** 뉴스 데이터 그리드 생성 TAB_TYPE: 'list' */
 const setNewsDataGrid = async () => {
   const jsonArray = await readJsonFile('categoryNewsData');
   // excuteEventDelegation();
   await drawCategoryDataHtml(jsonArray);
+
+  applyActivatedCategory();
+
   await drawNewsDataHtml(jsonArray);
+
+  arrowHandlingByPage();
 };
 
 /** 언론사 데이터 그리드 생성 TAB_TYPE: 'grid' */
