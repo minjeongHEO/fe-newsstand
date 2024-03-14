@@ -13,7 +13,7 @@ const GRID_DATA = {
   CONTENTS_PER_PAGE: 24,
   TAB_TYPE: 'grid', //grid, list
   CATEGORY_NUMBER: 0,
-  PAGE_IN_CATEGORY: 1,
+  PAGE_IN_CATEGORY: 0,
   NUMBER_OF_PAGE_IN_CATEGORY: 4,
 };
 
@@ -35,6 +35,17 @@ const gridSectionEvents = (e) => {
       break;
 
     case 'list':
+      if (e.target.parentNode.id === 'angle-right') {
+        if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.NUMBER_OF_PAGE_IN_GRID) return;
+        GRID_DATA.PAGE_IN_CATEGORY++;
+      }
+
+      if (e.target.parentNode.id === 'angle-left') {
+        if (GRID_DATA.PAGE_IN_GRID === 0) return;
+        GRID_DATA.PAGE_IN_CATEGORY--;
+      }
+
+      setNewsDataGrid();
       break;
 
     default:
@@ -44,8 +55,14 @@ const gridSectionEvents = (e) => {
 
 const tabSectionEvents = (e) => {
   const target = e.target.parentNode;
-  if (target.id === 'list-tab') setNewsDataGrid();
-  if (target.id === 'grid-tab') setPressDataGrid();
+  if (target.id === 'list-tab') {
+    GRID_DATA.TAB_TYPE = 'list';
+    setNewsDataGrid();
+  }
+  if (target.id === 'grid-tab') {
+    GRID_DATA.TAB_TYPE = 'grid';
+    setPressDataGrid();
+  }
 };
 
 const clickEvent = (e) => {
