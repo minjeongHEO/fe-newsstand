@@ -89,27 +89,10 @@ const excuteEventDelegation = () => {
 const arrowHandlingByPage = () => {
   const leftTarget = document.getElementById('angle-left');
   const Righttarget = document.getElementById('angle-right');
-  let page = 1;
-  let numberOfPage = 1;
 
-  switch (GRID_DATA.TAB_TYPE) {
-    case 'grid':
-      page = GRID_DATA.PAGE_IN_GRID;
-      numberOfPage = GRID_DATA.NUMBER_OF_PAGE_IN_GRID;
-      break;
-
-    case 'list':
-      page = GRID_DATA.PAGE_IN_CATEGORY;
-      numberOfPage = GRID_DATA.NUMBER_OF_PAGE_IN_CATEGORY;
-      break;
-
-    default:
-      break;
-  }
-
-  if (page === 1) {
+  if (GRID_DATA.PAGE_IN_GRID === 1) {
     leftTarget.style.visibility = 'hidden';
-  } else if (page === numberOfPage) {
+  } else if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.NUMBER_OF_PAGE_IN_GRID) {
     leftTarget.style.visibility = 'visible';
     Righttarget.style.visibility = 'hidden';
   } else {
@@ -257,7 +240,7 @@ const setNewsDataGrid = async () => {
 
   await drawNewsDataHtml(jsonArray);
 
-  arrowHandlingByPage();
+  // arrowHandlingByPage();
 };
 
 /** 언론사 데이터 그리드 생성 TAB_TYPE: 'grid' */
