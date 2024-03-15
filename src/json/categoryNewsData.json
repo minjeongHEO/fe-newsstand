@@ -546,114 +546,114 @@
             "headline": "웹젠, '뮤 이그니션2' 서비스 4주년 기념 이벤트 마련"
           }
         ]
+      }
+    ]
+  },
+  {
+    "categoryName": "매거진/전문지",
+    "news": [
+      {
+        "pressImg": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/355.png",
+        "pressName": "사이언스타임즈",
+        "pressImgLink": "https://newsstand.naver.com/355",
+        "newsTime": "03월 11일 16:31 직접 편집",
+        "mainImgLink": "https://www.sciencetimes.co.kr/?news=%eb%ac%b4%eb%a0%a4-%ec%a0%84-%ec%84%b8%ea%b3%84-8%eb%aa%85-%ec%a4%91-1%eb%aa%85%ec%9d%b4-%eb%b9%84%eb%a7%8c",
+        "mainImgSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0311%2Farticle_img%2Fnew_main%2F9081%2F163241_001.jpg%22&type=nf312_208&service=navermain",
+        "mainHeadLine": "무려 전 세계 8명 중 1명이 비만",
+        "headLines": [
+          {
+            "link": "https://www.sciencetimes.co.kr/?news=%eb%82%b4%ea%b0%80-%ec%9e%84%ec%8b%a0%ec%84%b1-%eb%8b%b9%eb%87%a8%eb%9d%bc%eb%8b%88-2",
+            "headline": "내가 임신성 당뇨라니? (2)"
+          },
+          {
+            "link": "https://www.sciencetimes.co.kr/?news=%eb%82%b4%ea%b0%80-%ec%9e%84%ec%8b%a0%ec%84%b1-%eb%8b%b9%eb%87%a8%eb%9d%bc%eb%8b%88-1",
+            "headline": "내가 임신성 당뇨라니? (1)"
+          },
+          {
+            "link": "https://www.sciencetimes.co.kr/?news=%eb%af%b8%ea%b5%ad%ec%9d%98-%eb%8b%ac-%ed%83%90%ec%82%ac%ec%84%a0-%ec%98%a4%eb%94%94%ec%84%b8%ec%9a%b0%ec%8a%a4-2%ec%a3%bc-%eb%92%a4%ec%97%90-%eb%8b%a4%ec%8b%9c-%ea%b9%a8%ec%9a%b4%eb%8b%a4",
+            "headline": "미국의 달 탐사선 오디세우스, 2주 뒤에 다시 깨운다"
+          },
+          {
+            "link": "https://www.sciencetimes.co.kr/?news=%eb%8b%a4%ec%8b%9c-%ea%b9%a8%ec%96%b4%eb%82%9c-%ec%8a%ac%eb%a6%bc-%ed%83%90%ec%82%ac%ec%84%a0",
+            "headline": "다시 깨어난 슬림 탐사선!"
+          },
+          {
+            "link": "https://www.sciencetimes.co.kr/?p=255708",
+            "headline": "이 붉은 쌀의 정체는? 단백질 식품 끝판왕 ‘쇠고기 쌀’"
+          },
+          {
+            "link": "https://www.sciencetimes.co.kr/?p=255708",
+            "headline": "구글AI가 ‘흑인 아인슈타인’을 그린 배경"
+          }
+        ]
       },
       {
-        "categoryName": "매거진/전문지",
-        "news": [
+        "pressImg": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/966.png",
+        "pressName": "정신의학신문",
+        "pressImgLink": "https://newsstand.naver.com/966",
+        "newsTime": "03월 11일 16:30 직접 편집",
+        "mainImgLink": "http://www.psychiatricnews.net/news/articleView.html?idxno=35159",
+        "mainImgSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0311%2Farticle_img%2Fnew_main%2F9191%2F163606_001.jpg%22&type=nf312_208&service=navermain",
+        "mainHeadLine": "자존감이 낮은 당신에게 처방하는 웨이트 트레이닝",
+        "headLines": [
           {
-            "pressImg": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/355.png",
-            "pressName": "사이언스타임즈",
-            "pressImgLink": "https://newsstand.naver.com/355",
-            "newsTime": "03월 11일 16:31 직접 편집",
-            "mainImgLink": "https://www.sciencetimes.co.kr/?news=%eb%ac%b4%eb%a0%a4-%ec%a0%84-%ec%84%b8%ea%b3%84-8%eb%aa%85-%ec%a4%91-1%eb%aa%85%ec%9d%b4-%eb%b9%84%eb%a7%8c",
-            "mainImgSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0311%2Farticle_img%2Fnew_main%2F9081%2F163241_001.jpg%22&type=nf312_208&service=navermain",
-            "mainHeadLine": "무려 전 세계 8명 중 1명이 비만",
-            "headLines": [
-              {
-                "link": "https://www.sciencetimes.co.kr/?news=%eb%82%b4%ea%b0%80-%ec%9e%84%ec%8b%a0%ec%84%b1-%eb%8b%b9%eb%87%a8%eb%9d%bc%eb%8b%88-2",
-                "headline": "내가 임신성 당뇨라니? (2)"
-              },
-              {
-                "link": "https://www.sciencetimes.co.kr/?news=%eb%82%b4%ea%b0%80-%ec%9e%84%ec%8b%a0%ec%84%b1-%eb%8b%b9%eb%87%a8%eb%9d%bc%eb%8b%88-1",
-                "headline": "내가 임신성 당뇨라니? (1)"
-              },
-              {
-                "link": "https://www.sciencetimes.co.kr/?news=%eb%af%b8%ea%b5%ad%ec%9d%98-%eb%8b%ac-%ed%83%90%ec%82%ac%ec%84%a0-%ec%98%a4%eb%94%94%ec%84%b8%ec%9a%b0%ec%8a%a4-2%ec%a3%bc-%eb%92%a4%ec%97%90-%eb%8b%a4%ec%8b%9c-%ea%b9%a8%ec%9a%b4%eb%8b%a4",
-                "headline": "미국의 달 탐사선 오디세우스, 2주 뒤에 다시 깨운다"
-              },
-              {
-                "link": "https://www.sciencetimes.co.kr/?news=%eb%8b%a4%ec%8b%9c-%ea%b9%a8%ec%96%b4%eb%82%9c-%ec%8a%ac%eb%a6%bc-%ed%83%90%ec%82%ac%ec%84%a0",
-                "headline": "다시 깨어난 슬림 탐사선!"
-              },
-              {
-                "link": "https://www.sciencetimes.co.kr/?p=255708",
-                "headline": "이 붉은 쌀의 정체는? 단백질 식품 끝판왕 ‘쇠고기 쌀’"
-              },
-              {
-                "link": "https://www.sciencetimes.co.kr/?p=255708",
-                "headline": "구글AI가 ‘흑인 아인슈타인’을 그린 배경"
-              }
-            ]
+            "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35143",
+            "headline": "[Doctor's Mail] 가까운 사람에게 더 잘하는 사람이고 싶어요"
           },
           {
-            "pressImg": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/966.png",
-            "pressName": "정신의학신문",
-            "pressImgLink": "https://newsstand.naver.com/966",
-            "newsTime": "03월 11일 16:30 직접 편집",
-            "mainImgLink": "http://www.psychiatricnews.net/news/articleView.html?idxno=35159",
-            "mainImgSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0311%2Farticle_img%2Fnew_main%2F9191%2F163606_001.jpg%22&type=nf312_208&service=navermain",
-            "mainHeadLine": "자존감이 낮은 당신에게 처방하는 웨이트 트레이닝",
-            "headLines": [
-              {
-                "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35143",
-                "headline": "[Doctor's Mail] 가까운 사람에게 더 잘하는 사람이고 싶어요"
-              },
-              {
-                "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35152",
-                "headline": "강박증 치료에서 가장 중요한 행동치료 기법 ERP는?"
-              },
-              {
-                "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=34814",
-                "headline": "우리 영웅이 잊혀지는 법"
-              },
-              {
-                "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35154",
-                "headline": "불안한 새벽5시를 보내는 이들을 위하여"
-              },
-              {
-                "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35121",
-                "headline": "인연에 연연하는 당신을 위하여"
-              },
-              {
-                "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35128",
-                "headline": "[강박증] 강박증 뇌 3편 - 확인 강박, 어떻게 치료할까?"
-              }
-            ]
+            "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35152",
+            "headline": "강박증 치료에서 가장 중요한 행동치료 기법 ERP는?"
           },
           {
-            "pressImg": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/967.png",
-            "pressName": "코리아쉬핑가제트",
-            "pressImgLink": "https://newsstand.naver.com/967",
-            "newsTime": "03월 11일 16:30 직접 편집",
-            "mainImgLink": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140864",
-            "mainImgSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0311%2Farticle_img%2Fnew_main%2F9192%2F163606_001.jpg%22&type=nf312_208&service=navermain",
-            "mainHeadLine": "MSC 컨테이너선 후티반군 미사일 피격…이번이 4번째",
-            "headLines": [
-              {
-                "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140897",
-                "headline": "대한해운 민태윤 신임 대표이사 취임"
-              },
-              {
-                "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140854",
-                "headline": "머스크, 인천-동남아항로 신규 서비스 'PH5' 운영 개시"
-              },
-              {
-                "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140863",
-                "headline": "“한국은 CMA CGM의 탈탄소전략 동반자”"
-              },
-              {
-                "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140891",
-                "headline": "스위스 퀴네앤드나겔, 말聯 물류기업 시티존익스프레스 인수"
-              },
-              {
-                "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140889",
-                "headline": "팬오션, 국내최초 자율운항선박 도입…9월부터 실증운항"
-              },
-              {
-                "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140888",
-                "headline": "BDI 2251포인트…케이프 시장, 이틀만에 반등 나서"
-              }
-            ]
+            "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=34814",
+            "headline": "우리 영웅이 잊혀지는 법"
+          },
+          {
+            "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35154",
+            "headline": "불안한 새벽5시를 보내는 이들을 위하여"
+          },
+          {
+            "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35121",
+            "headline": "인연에 연연하는 당신을 위하여"
+          },
+          {
+            "link": "http://www.psychiatricnews.net/news/articleView.html?idxno=35128",
+            "headline": "[강박증] 강박증 뇌 3편 - 확인 강박, 어떻게 치료할까?"
+          }
+        ]
+      },
+      {
+        "pressImg": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/967.png",
+        "pressName": "코리아쉬핑가제트",
+        "pressImgLink": "https://newsstand.naver.com/967",
+        "newsTime": "03월 11일 16:30 직접 편집",
+        "mainImgLink": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140864",
+        "mainImgSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F0311%2Farticle_img%2Fnew_main%2F9192%2F163606_001.jpg%22&type=nf312_208&service=navermain",
+        "mainHeadLine": "MSC 컨테이너선 후티반군 미사일 피격…이번이 4번째",
+        "headLines": [
+          {
+            "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140897",
+            "headline": "대한해운 민태윤 신임 대표이사 취임"
+          },
+          {
+            "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140854",
+            "headline": "머스크, 인천-동남아항로 신규 서비스 'PH5' 운영 개시"
+          },
+          {
+            "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140863",
+            "headline": "“한국은 CMA CGM의 탈탄소전략 동반자”"
+          },
+          {
+            "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140891",
+            "headline": "스위스 퀴네앤드나겔, 말聯 물류기업 시티존익스프레스 인수"
+          },
+          {
+            "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140889",
+            "headline": "팬오션, 국내최초 자율운항선박 도입…9월부터 실증운항"
+          },
+          {
+            "link": "https://www.ksg.co.kr/news/main_newsView.jsp?pNum=140888",
+            "headline": "BDI 2251포인트…케이프 시장, 이틀만에 반등 나서"
           }
         ]
       }
