@@ -1,53 +1,68 @@
 import { readJsonFile } from './getJsonFile.js';
 
-/**
- * [x] 리스너 위임하는 방법으로 변경
- * [ ] 그리드,리스트 탭 클릭 => 버그
- *
- */
 let TAB_TYPE = 'grid'; //grid, list
+
 const GRID_DATA = {
   PAGE_IN_GRID: 1,
   MAXIMUM_PAGE_IN_GRID: 4,
   JSON_ARR_PER_PAGE: null,
   CONTENTS_PER_PAGE: 24,
 };
-const LIST_DATA = {
-  CATEGORY: [],
-  CATEGORY_NUMBER: 0,
-  PAGE_IN_CATEGORY: 0,
-  NUMBER_OF_PAGE_IN_CATEGORY: 4,
-  PAGE_PER_CATEGORY: [],
-  PAGE_IN_LIST: 1,
-  MAXIMUM_PAGE_IN_LIST: 4,
 
-  //[[카테고리1의 페이지 수],[카테고리2의 페이지 수],[카테고리n의 페이지 수],...]
+const LIST_DATA = {
+  JSON_DATA: null,
+  CATEGORY: [],
+  CURRENT_CATE_IDX: 0,
+  MAXIMUM_PAGE_PER_CATEGORY: [],
+  PAGE_IN_LIST: 1,
 };
-const gridSectionEvents = (e) => {
+
+const listViewPagingControls = async (direction) => {
+  if (direction === 'right') {
+    LIST_DATA.PAGE_IN_LIST++;
+  }
+  if (direction === 'left') {
+    LIST_DATA.PAGE_IN_LIST--;
+  }
+
+  // 1.지금 해당 카테고리가 뭔지
+  const currentCategoryIndex = LIST_DATA.CURRENT_CATE_IDX;
+
+  // 2.그 카테고리의 max 페이지 수는 뭔지
+  const maxPage = LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY[currentCategoryIndex];
+
+  if (LIST_DATA.PAGE_IN_LIST < 1) {
+    //전카테로
+    LIST_DATA.CURRENT_CATE_IDX = currentCategoryIndex === 0 ? LIST_DATA.CATEGORY.length - 1 : currentCategoryIndex - 1;
+    LIST_DATA.PAGE_IN_LIST = LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY[LIST_DATA.CURRENT_CATE_IDX]; // 이전 카테고리의 마지막 페이지로 설정
+  }
+  if (LIST_DATA.PAGE_IN_LIST > maxPage) {
+    LIST_DATA.CURRENT_CATE_IDX = currentCategoryIndex >= LIST_DATA.CATEGORY.length - 1 ? 0 : currentCategoryIndex + 1;
+    LIST_DATA.PAGE_IN_LIST = 1;
+  }
+};
+
+const gridSectionEvents = async (e) => {
   switch (TAB_TYPE) {
     case 'grid':
       if (e.target.parentNode.id === 'angle-right') {
         if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.MAXIMUM_PAGE_IN_GRID) return;
         GRID_DATA.PAGE_IN_GRID++;
       }
-
       if (e.target.parentNode.id === 'angle-left') {
         if (GRID_DATA.PAGE_IN_GRID === 0) return;
         GRID_DATA.PAGE_IN_GRID--;
       }
 
       setPressDataGrid();
-
       break;
 
     case 'list':
       if (e.target.parentNode.id === 'angle-right') {
-        LIST_DATA.PAGE_IN_LIST++;
-        debugger;
+        await listViewPagingControls('right');
       }
-
       if (e.target.parentNode.id === 'angle-left') {
-        LIST_DATA.PAGE_IN_LIST--;
+        await listViewPagingControls('left');
       }
 
       setNewsDataList();
@@ -67,7 +82,6 @@ const tabSectionEvents = (e) => {
     GRID_DATA.PAGE_IN_GRID = 1;
     LIST_DATA.PAGE_IN_LIST = 1;
     setNewsDataList();
-    // initListData();
   }
   if (target.id === 'grid-tab') {
     TAB_TYPE = 'grid';
@@ -175,19 +189,18 @@ const drawCategoryDataHtml = async (jsonData) => {
 };
 
 /** 카테고리 별 언론사 뉴스 */
-const drawNewsDataHtml = async (jsonData) => {
-  LIST_DATA.NUMBER_OF_PAGE_IN_CATEGORY = jsonData.news.length;
+const drawNewsDataHtml = async (currentJsonData) => {
+  const currentPageData = currentJsonData.news[LIST_DATA.PAGE_IN_LIST - 1];
 
-  const applicableData = jsonData.news[LIST_DATA.PAGE_IN_CATEGORY];
   let mainNewsHtml = '';
   mainNewsHtml += `
                   <div class="news-container">
                     <div class="news-logo">
-                      <a target="_blank" href="${applicableData.pressImgLink}" class="MediaNewsView-module__news_logo___LwMpl">
-                        <img src="${applicableData.pressImg}" height="20" width="auto" alt="${applicableData.pressName}" />
+                      <a target="_blank" href="${currentPageData.pressImgLink}" class="MediaNewsView-module__news_logo___LwMpl">
+                        <img src="${currentPageData.pressImg}" height="20" width="auto" alt="${currentPageData.pressName}" />
                       </a>
                       <span class="MediaNewsView-module__news_text___hi3Xf">
-                        <span class="MediaNewsView-module__time___fBQhP">${applicableData.newsTime}</span>
+                        <span class="MediaNewsView-module__time___fBQhP">${currentPageData.newsTime}</span>
                       </span>
                       <button type="button" class="MediaNewsView-module__btn_cancel____bfsE" aria-pressed="false">
                         <span class="blind">구독취소</span>
@@ -196,15 +209,15 @@ const drawNewsDataHtml = async (jsonData) => {
 
                     <div class="news-datas">
                       <div class="main-news">
-                        <a target="_blank" href="${applicableData.mainImgLink}" class="main-img MediaNewsView-module__link_thumb___rmMr4">
-                          <img src="${applicableData.mainImgSrc}" alt="${applicableData.mainHeadLine}"/>
+                        <a target="_blank" href="${currentPageData.mainImgLink}" class="main-img MediaNewsView-module__link_thumb___rmMr4">
+                          <img src="${currentPageData.mainImgSrc}" alt="${currentPageData.mainHeadLine}"/>
                         </a>
-                        <a class="main-headline">${applicableData.mainHeadLine}</a>
+                        <a class="main-headline">${currentPageData.mainHeadLine}</a>
                       </div>
                       
                       <ul class="sub-news">`;
 
-  mainNewsHtml += applicableData.headLines.reduce((acc, cur, idx) => {
+  mainNewsHtml += currentPageData.headLines.reduce((acc, cur, idx) => {
     return (acc += `<li>
                       <a target="_blank" href="${cur.link}" class="MediaNewsView-module__link_item___x0z7x">
                         ${cur.headline}
@@ -212,6 +225,7 @@ const drawNewsDataHtml = async (jsonData) => {
                     </li>`);
   }, '');
 
+  mainNewsHtml += `<li><a>${currentPageData.pressName} 언론사에서 직접 편집한 뉴스입니다.</a></li>`;
   mainNewsHtml += `</ul>
                     </div>
                   </div>`;
@@ -226,7 +240,7 @@ const drawNewsDataHtml = async (jsonData) => {
 
 /** 활성화된 카테고리 확인 후 적용 */
 const applyActivatedCategory = () => {
-  const activatedCategory = document.querySelector(`.category${LIST_DATA.CATEGORY_NUMBER}`);
+  const activatedCategory = document.querySelector(`.category${LIST_DATA.CURRENT_CATE_IDX}`);
   const siblings = Array.from(activatedCategory.parentNode.children);
 
   siblings.forEach((sibling) => {
@@ -236,24 +250,21 @@ const applyActivatedCategory = () => {
   activatedCategory.classList.add('category-select');
 };
 
-/** 활성화된 카테고리 확인 */
-const beforeDrawNewsDataHtml = () => {
-  const selectedCategory = document.querySelector('.category-select');
-  if (!selectedCategory) return;
-
-  return LIST_DATA.CATEGORY.indexOf(selectedCategory.textContent);
-};
-
-/** 뉴스 데이터 그리드 생성 TAB_TYPE: 'list' */
+/** 뉴스 데이터 리스트 생성 TAB_TYPE: 'list' */
 const setNewsDataList = async () => {
-  const jsonArray = await readJsonFile('categoryNewsData');
-  LIST_DATA.CATEGORY = jsonArray.map((cur) => cur.categoryName);
+  try {
+    LIST_DATA.JSON_DATA = LIST_DATA.JSON_DATA === null ? await readJsonFile('categoryNewsData') : LIST_DATA.JSON_DATA;
+    LIST_DATA.CATEGORY = LIST_DATA.CATEGORY.length === 0 ? LIST_DATA.JSON_DATA.map((cur) => cur.categoryName) : LIST_DATA.CATEGORY;
+    LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY =
+      LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY.length === 0 ? LIST_DATA.JSON_DATA.map((cur) => cur.news.length) : LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY;
 
-  await drawCategoryDataHtml(jsonArray);
-  applyActivatedCategory();
+    await drawCategoryDataHtml(LIST_DATA.JSON_DATA);
+    applyActivatedCategory();
 
-  const categoryIndex = beforeDrawNewsDataHtml(jsonArray);
-  await drawNewsDataHtml(jsonArray[categoryIndex]);
+    await drawNewsDataHtml(LIST_DATA.JSON_DATA[LIST_DATA.CURRENT_CATE_IDX]);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /** 언론사 데이터 그리드 생성 TAB_TYPE: 'grid' */
