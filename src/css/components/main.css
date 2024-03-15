@@ -140,9 +140,33 @@ ul.press-logo-container > li:nth-child(6) {
   height: 100%;
   flex-basis: 150px;
 }
+
 .category-select {
   background-color: #7890e7;
+  position: relative; /* 가상 요소의 위치 기준점 설정 */
 }
+.category-select span {
+  position: relative;
+  z-index: 1;
+}
+.category-select::after {
+  content: ''; /* 가상 요소는 content 속성이 필수 */
+  position: absolute; /* 부모 요소인 .category-select를 기준으로 위치 */
+  left: 0;
+  top: 0;
+  height: 100%; /* 부모 요소와 동일한 높이 */
+  width: 80%; /* 초기 너비는 0으로 설정 */
+  background-color: #4362d0; /* 게이지 색상 */
+  z-index: 0; /* 텍스트 뒤에 위치하도록 설정 */
+  /* animation: fillGauge 3s ease-in-out forwards; 애니메이션 적용 */
+}
+
+/* @keyframes fillGauge {
+  to {
+    width: 100%;
+  }
+} */
+
 .grid-option-select {
   fill: #4362d0;
 }
@@ -163,6 +187,7 @@ ul.press-logo-container > li:nth-child(6) {
   gap: 16px;
   flex-basis: 15%;
   padding: 0px 25px;
+  margin-top: 20px;
 }
 .news-logo > :nth-child(1),
 .news-logo > :nth-child(2),
@@ -180,12 +205,12 @@ ul.press-logo-container > li:nth-child(6) {
 
 .main-news {
   /* width: 30%; */
-
   /* display: block; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   justify-content: center; /* 가로 방향 가운데 정렬 */
+  width: 320px;
 }
 .main-news img {
   width: 320px;
