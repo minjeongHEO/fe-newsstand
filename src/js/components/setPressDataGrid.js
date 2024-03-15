@@ -174,7 +174,13 @@ const drawCategoryDataHtml = async (jsonData) => {
                         <div class="category-bar">`;
 
   for (const [idx, categoryObj] of jsonData.entries()) {
-    mainCategoryHtml += `<div class="category${idx}">${categoryObj.categoryName}</div>`;
+    if (idx == LIST_DATA.CURRENT_CATE_IDX) {
+      mainCategoryHtml += `<div class="category${idx}">${categoryObj.categoryName}
+                            <span>${LIST_DATA.PAGE_IN_LIST}/${LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY[LIST_DATA.CURRENT_CATE_IDX]}</span>
+                          </div>`;
+    } else {
+      mainCategoryHtml += `<div class="category${idx}">${categoryObj.categoryName}</div>`;
+    }
   }
 
   mainCategoryHtml += `</div>
