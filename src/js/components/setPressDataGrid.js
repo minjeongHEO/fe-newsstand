@@ -74,8 +74,7 @@ const gridSectionEvents = async (e) => {
 };
 
 const tabSectionEvents = (e) => {
-  const target = e.target.parentNode;
-  if (target.id === 'list-tab') {
+  if (e.target.closest('div#list-tab')) {
     TAB_TYPE = 'list';
     document.querySelector('#list-tab path').classList.replace('grid-option', 'grid-option-select');
     document.querySelector('#grid-tab path').classList.replace('grid-option-select', 'grid-option');
@@ -83,7 +82,7 @@ const tabSectionEvents = (e) => {
     LIST_DATA.PAGE_IN_LIST = 1;
     setNewsDataList();
   }
-  if (target.id === 'grid-tab') {
+  if (e.target.closest('div#grid-tab')) {
     TAB_TYPE = 'grid';
     document.querySelector('#grid-tab path').classList.replace('grid-option', 'grid-option-select');
     document.querySelector('#list-tab path').classList.replace('grid-option-select', 'grid-option');
