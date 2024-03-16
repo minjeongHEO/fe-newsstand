@@ -1,6 +1,6 @@
 /* ---------------------------------- */
 .headline__container {
-  margin: 10px 98px 10px 98px;
+  margin: 2px 98px 2px 98px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -14,10 +14,10 @@
   align-items: center;
   width: 48%;
   min-width: 450px;
+  height: 45px;
   outline: solid 2px #d2dae0;
   background-color: #f6f7f9;
   font-size: 18px;
-
   /* 롤링 배너 영역 벗어나는 부분 숨기기 */
   overflow: hidden;
 }
