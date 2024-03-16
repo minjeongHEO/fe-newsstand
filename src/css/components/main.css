@@ -158,14 +158,17 @@ ul.press-logo-container > li:nth-child(6) {
   width: 80%; /* 초기 너비는 0으로 설정 */
   background-color: #4362d0; /* 게이지 색상 */
   z-index: 0; /* 텍스트 뒤에 위치하도록 설정 */
-  /* animation: fillGauge 3s ease-in-out forwards; 애니메이션 적용 */
+  animation: fillGaugeAnimation 3s forwards;
 }
 
-/* @keyframes fillGauge {
+@keyframes fillGaugeAnimation {
+  from {
+    width: 0%;
+  }
   to {
     width: 100%;
   }
-} */
+}
 
 .grid-option-select {
   fill: #4362d0;
