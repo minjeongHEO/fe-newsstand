@@ -15,6 +15,19 @@ const LIST_DATA = {
   CURRENT_CATE_IDX: 0,
   MAXIMUM_PAGE_PER_CATEGORY: [],
   PAGE_IN_LIST: 1,
+  GAUGE_INTERVALS: {},
+};
+
+const clearFillGaugeInterval = () => {
+  if (LIST_DATA.GAUGE_INTERVALS) {
+    clearInterval(LIST_DATA.GAUGE_INTERVALS);
+  }
+};
+
+const runFillGaugeInterval = () => {
+  LIST_DATA.GAUGE_INTERVALS = setInterval(() => {
+    document.querySelector('#angle-right i').click();
+  }, 3000);
 };
 
 const listViewPagingControls = async (direction) => {
@@ -264,6 +277,8 @@ const setNewsDataList = async () => {
     LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY =
       LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY.length === 0 ? LIST_DATA.JSON_DATA.map((cur) => cur.news.length) : LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY;
 
+    clearFillGaugeInterval();
+    runFillGaugeInterval();
     await drawCategoryDataHtml(LIST_DATA.JSON_DATA);
     applyActivatedCategory();
 
