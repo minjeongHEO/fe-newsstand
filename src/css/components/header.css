@@ -54,3 +54,40 @@
   /* height: 104px; */
   padding: 0px 16px;
 }
+
+/* --------------------------------------------------- */
+.test-r {
+  background-color: red;
+}
+.test-y {
+  background-color: yellow;
+}
+.test-g {
+  background-color: yellowgreen;
+}
+
+.header__container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  height: 104px;
+  margin: 103px 98px 0px 98px;
+}
+
+.header__logo {
+  font-size: 34px;
+  font-weight: bold;
+
+  svg {
+    vertical-align: middle;
+    font-size: 31px;
+    color: #4361cf;
+    margin-right: 10px;
+  }
+}
+.header__date {
+  font-size: 18px;
+  font-weight: 500;
+  color: #5f6e76;
+}
