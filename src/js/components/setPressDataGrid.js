@@ -106,7 +106,7 @@ const tabSectionEvents = (e) => {
 };
 
 const clickEvent = (e) => {
-  if (e.target.closest('section.main-tab-section-container')) tabSectionEvents(e); //탭 이벤트들
+  if (e.target.closest('.nav__container')) tabSectionEvents(e); //탭 이벤트들
   if (e.target.closest('section.press-news-container')) gridSectionEvents(e); //그리드 내에서의 이벤트들
 };
 

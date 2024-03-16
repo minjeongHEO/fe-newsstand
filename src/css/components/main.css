@@ -1,38 +1,3 @@
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%; /* 너비를 부모 요소에 맞춤 */
-  max-width: 1100px; /* 최대 너비 설정 */
-  font-size: 24px;
-}
-
-.main-tab-container1 {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-.main-tab-container1 > .contents-select {
-  font-weight: bold;
-  color: #14212b;
-}
-
-.main-tab-container2 {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  width: 70px;
-}
-.main-tab-container2 > i:first-child {
-  font-size: 26px;
-}
-
-.main-tab-contents {
-  margin-right: 20px;
-  font-size: 20px;
-  color: #4b5966;
-}
-
 .press-logo-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
