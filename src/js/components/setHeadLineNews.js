@@ -22,37 +22,39 @@ async function divideDataByGrid(jsonData) {
 }
 
 /** html 그리기 */
-function drawHtml(divideJsonData) {
-  let headLineHtml = '';
-  // divideJsonData.length 만큼이 섹션 수
-  for (const [idx, jsonData] of divideJsonData.entries()) {
-    headLineHtml += `<div class="headline__contents section${idx + 1}">
-                      <div class="contents__press_name">
-                        <div class="contents__rolling_box">`;
-
-    headLineHtml += Array.from({ length: DATA.ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
-      return (acc += `<a href="${jsonData[idx].newsLink}" target="_blank">${jsonData[idx].newsName}</a>`);
-    }, '');
-
-    headLineHtml += `   </div>
-                      </div>
-                      <div class="contents__head_line">
-                        <div class="contents__rolling_box">`;
-    headLineHtml += Array.from({ length: DATA.ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
-      return (acc += `<a href="${jsonData[idx].contentsLink}" target="_blank">${jsonData[idx].contentsHeader}</a>`);
-    }, '');
-
-    headLineHtml += ` </div>
-                      </div>
-                    </div>
-                  </div>`;
-  }
+const makeHeadLineHTML = (divideJsonData) => {
+  let headLineHtml = Array.from({ length: divideJsonData.length }).reduce((acc, cur, idx) => {
+    acc += `<div class="headline__contents section${idx + 1}">
+              <div class="headline__press_name">
+                <div class="headline__rolling_box">
+                  <div class="cur_text"
+                    <a href="${divideJsonData[idx][0].newsLink}" target="_blank">${divideJsonData[idx][0].newsName}</a>
+                  </div>
+                  <div class="next_text">
+                    <a href="${divideJsonData[idx][1].newsLink}" target="_blank">${divideJsonData[idx][1].newsName}</a>
+                  </div>
+                </div>
+              </div>
+              <div class="headline__news">
+                <div class="headline__rolling_box">
+                  <div class="cur_text">
+                    <a href="${divideJsonData[idx][0].contentsLink}" target="_blank">${divideJsonData[idx][0].contentsHeader}</a>
+                  </div>
+                  <div class="next_text">
+                    <a href="${divideJsonData[idx][1].contentsLink}" target="_blank">${divideJsonData[idx][1].contentsHeader}</a>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+    return acc;
+  }, '');
 
   const target = document.querySelector('.headline__container');
   target.innerHTML = headLineHtml;
-}
+};
 
 /** 헤드라인 태그 html 추가 */
+//appendHeadLineHTML
 function appendHtml(divideJsonData, sectionNum) {
   if (DATA.ROLLING_DATA_IDX[sectionNum] == undefined) {
     DATA.ROLLING_DATA_IDX[sectionNum] = DATA.ROLLING_DATA_COUNT;
@@ -175,7 +177,7 @@ export const setHeadLineNews = async () => {
     const jsonData = await readJsonFile('headlinesData');
     const divideJsonData = await divideDataByGrid(jsonData);
 
-    // drawHtml(divideJsonData);
+    makeHeadLineHTML(divideJsonData);
 
     // divideJsonData.forEach((element, idx) => {
     //   startSectionInterval(divideJsonData, idx);
