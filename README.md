@@ -16,11 +16,17 @@
 - [x] 반복되는 태그작업을 jsx문법처럼 가독성 있게 수정하기
 - [x] 상단 로고 및 시간
 
-🗓 week 2📌
+🗓 week 2
 
-- [ ] BEM, SMACSS 적용해보기
-- [ ] CSS 함수도 활용해본다.
-- [ ] 단위를 em, rem 을 골고루 활용해보고, rem을 좀더 많이 사용해본다.
+- [x] 전체 카테고리 리스트보기 (5page)
+- [ ] 레이아웃 다시 잡기
+  - 버튼이랑 그리드는 따로 레이아웃 구조
+    (버튼은 정적으로(html에))
+  - 간격은 padding말고, margin으로 준다
+  - 상단태그에 min-width주고 이미지에는 픽셀로 지정
+  - section은 웬만하면 건들지 않는다. 그 하위에서 수정하기
+
+🗓 week 3📌
 
 ### 🔧 기능
 
@@ -38,12 +44,11 @@
 - [x] 날짜 데이터
 - [x] 언론사 그리드 스와이퍼 작업
 
-🗓 week 2📌
+🗓 week 2
 
 - [x] 배열의 고차함수를 적극 사용해본다.
 - [x] 나만의 reduce 함수를 직접 만들어서 활용해본다.
 - [x] 객체리터럴이나 클래스를 활용하기보다는 (작고 명확한)함수를 활용한 개발을 시도한다.
-
 - [x] 전체 카테고리 데이터 json파일 생성
 
   ```js
@@ -69,12 +74,16 @@
   브라우저에서 위의 코드를 사용하여 페이지 각각의 데이터를 얻어와서 json형식으로 만들어줬다.
   `/src/json/categoryNewsData.json`
 
+- [ ] 전체 카테고리 데이터 카테고기 버튼 기반 이동 (7page)
+- [x] 전체 카테고리 데이터 화살표 버튼 기반 이동 (7page)
+- [x] 전체 카테고리 데이터 프로그래스바 효과 (6page)
+- [x] 전체 카테고리 데이터 자동 이동 (7page)
 - [ ] 헤드라인 롤링(2page)
+- [ ] 전역 변수,상수를 구분해서 선언하도록 네이밍 수정하기
 
-- [ ] 전체 카테고리 리스트보기 (5page)
-- [ ] 전체 카테고리 데이터 프로그래스바 효과 (6page)
-- [ ] 전체 카테고리 데이터 자동 이동 (7page)
-- [ ] 전체 카테고리 데이터 버튼 기반 이동 (7page)
+🗓 week 3📌
+
+- [ ] 날짜생성함수를 return하는 함수로 변경
 
 ## 🤔 실수 및 고민 사항
 
@@ -251,8 +260,50 @@
   - 여기서는 beforeend를 사용하여 ul 요소의 마지막 자식으로 새 li 요소를 추가하는 방식을 선택했다.
   - 이 방법을 통해 기존 내용을 유지하면서 새로운 내용을 추가할 수 있다.
 
+- 같은 뎁스(레벨)의 형제 요소를 찾기 위한 방법
+
+  바로 nextSibling을 사용해서 모든 형제 요소를 찾은 뒤 적용하려고 했는데,
+
+  ```js
+  const activatedCategory = document.querySelector('.category');
+
+  activatedCategory.nextSibling.forEach((e) => {
+    e.classList.romove('category-select');
+  });
+  ```
+
+  `nextSibling`은 단일 요소를 참조하기 때문에 forEach 메서드를 직접 사용할 수 없었다.
+
+  🔽
+
+  그렇기 때문에, 부모요소(`parentNode`)에서 모든 자식요소(`children`)를 가져와서 적용해야한다.
+
+  ```js
+  const activatedCategory = document.querySelector('.category');
+  const siblings = Array.from(activatedCategory.parentNode.children);
+  siblings.forEach((sibling) => {
+    if (sibling !== activatedCategory) sibling.classList.remove('category-select');
+  });
+  ```
+
+- JavaScript로 직접 가상 요소의(`::after`) 스타일을 변경할 수 없다.
+
+- setInterval(() => {
+  await listViewPagingControls('right');
+  setNewsDataList();
+  }, 3000);
+
+setInterval(async () => {
+await listViewPagingControls('right');
+setNewsDataList();
+}, 3000);
+
 ## 📚
 
 - BEM, SMACSS 적용해보기
+- CSS 함수도 활용해보기
 - 반응형 화면 구현해보기
 - 작은 하위 함수로 나누면서 짜기
+- 파일이름은 동사는 별로..
+- 단위를 em, rem 을 골고루 활용해보고, rem을 좀더 많이 사용해본다.
+- 케이뱅크/현대카드 사이트 참조
