@@ -26,33 +26,29 @@ function drawHtml(divideJsonData) {
   let headLineHtml = '';
   // divideJsonData.length 만큼이 섹션 수
   for (const [idx, jsonData] of divideJsonData.entries()) {
-    headLineHtml += `<div class="nav-contents-container section${idx + 1}">
-                      <div class="nav-contents-press-name">
-                        <ul class="banner_list">`;
+    headLineHtml += `<div class="headline__contents section${idx + 1}">
+                      <div class="contents__press_name">
+                        <div class="contents__rolling_box">`;
 
     headLineHtml += Array.from({ length: DATA.ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
-      return (acc += `<li>
-                <a href="${jsonData[idx].newsLink}" target="_blank">${jsonData[idx].newsName}</a>
-              </li>`);
+      return (acc += `<a href="${jsonData[idx].newsLink}" target="_blank">${jsonData[idx].newsName}</a>`);
     }, '');
 
-    headLineHtml += `</ul>
-                  </div>
-                  <div class="nav-contents-headline">
-                    <ul class="banner_list">`;
-
+    headLineHtml += `   </div>
+                      </div>
+                      <div class="contents__head_line">
+                        <div class="contents__rolling_box">`;
     headLineHtml += Array.from({ length: DATA.ROLLING_DATA_COUNT }).reduce((acc, cur, idx) => {
-      return (acc += `<li>
-                <a href="${jsonData[idx].contentsLink}" target="_blank">${jsonData[idx].contentsHeader}</a>
-              </li>`);
+      return (acc += `<a href="${jsonData[idx].contentsLink}" target="_blank">${jsonData[idx].contentsHeader}</a>`);
     }, '');
 
-    headLineHtml += `</ul>
+    headLineHtml += ` </div>
+                      </div>
                     </div>
                   </div>`;
   }
 
-  const target = document.getElementById('nav-container');
+  const target = document.querySelector('.headline__container');
   target.innerHTML = headLineHtml;
 }
 
@@ -174,18 +170,18 @@ function startSectionInterval(divideJsonData, sectionNum) {
 }
 
 /** 헤드라인 뉴스 생성 */
-export async function setHeadLineNews() {
+export const setHeadLineNews = async () => {
   try {
     const jsonData = await readJsonFile('headlinesData');
     const divideJsonData = await divideDataByGrid(jsonData);
 
-    drawHtml(divideJsonData);
+    // drawHtml(divideJsonData);
 
-    divideJsonData.forEach((_, idx) => {
-      startSectionInterval(divideJsonData, idx);
-      setupMouseEvents(idx);
-    });
+    // divideJsonData.forEach((element, idx) => {
+    //   startSectionInterval(divideJsonData, idx);
+    //   setupMouseEvents(element,idx);
+    // });
   } catch (error) {
     console.error(error);
   }
-}
+};

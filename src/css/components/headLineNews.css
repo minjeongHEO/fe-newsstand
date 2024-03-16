@@ -1,0 +1,179 @@
+.nav-item {
+  /* flex-basis: 104px; */
+  flex-basis: 100%;
+  /* display: flex; */
+  padding: 0px 16px;
+}
+
+.nav-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 104px;
+}
+
+.nav-contents-container {
+  display: flex;
+  outline: solid 2px #d2dae0;
+  background-color: #f6f7f9;
+  align-items: center;
+  padding: 0 20px;
+  height: 50%;
+  min-width: 270px;
+  max-width: 470px;
+  font-size: 17px;
+  /* 롤링 배너 영역 벗어나는 부분 숨기기 */
+  overflow: hidden;
+}
+
+.nav-contents-container a {
+  text-decoration: none;
+  display: block;
+}
+
+.nav-contents-press-name {
+  /* min-width: 60px; */
+  display: flex;
+  width: 80%;
+  font-weight: bold;
+}
+
+.nav-contents-headline a,
+.nav-contents-press-name a {
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
+  text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
+}
+
+.nav-contents-headline {
+  /* width: 370px;  */
+  width: 80%;
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 17px;
+  color: #5f6e76;
+}
+
+.banner_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav-contents-container:hover .nav-contents-headline a,
+.nav-contents-container:hover .nav-contents-press-name a {
+  text-decoration: underline; /* 호버 시 헤드라인 밑줄 표시 */
+}
+
+.rolling_pause .banner_list {
+  animation-play-state: paused; /* 롤링 애니메이션 일시정지 */
+}
+
+.rolling_active {
+  animation: roll 10s linear infinite;
+}
+
+.banner_list > li {
+  margin-top: 30px;
+  background-color: red;
+}
+
+/* 롤링 애니메이션 정의 */
+@keyframes roll {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+/* ---------------------------------- */
+.headline__container {
+  margin: 10px 98px 10px 98px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+
+/* .nav-contents-container { */
+.headline__contents {
+  display: flex;
+  outline: solid 2px #d2dae0;
+  background-color: #f6f7f9;
+  align-items: center;
+  padding: 0 20px;
+  height: 50%;
+  min-width: 270px;
+  max-width: 470px;
+  font-size: 17px;
+  /* 롤링 배너 영역 벗어나는 부분 숨기기 */
+  overflow: hidden;
+}
+
+/* .nav-contents-press-name { */
+.headline__press_name {
+  display: flex;
+  flex-direction: column;
+  /* width: 80%; */
+  font-weight: bold;
+}
+
+.headline__head_line {
+  display: flex;
+  flex-direction: column;
+  /* width: 80%; */
+  font-weight: bold;
+}
+/* --rolling-transition: top 0.5s ease; */
+.headline__rolling_box {
+  /* overflow: hidden */
+  .cur_text {
+    position: relative;
+    display: flex;
+    /* transition: var(--rolling-transition); */
+    transition: top 0.5s ease;
+  }
+  .next_text {
+    position: relative;
+    display: flex;
+    top: 20px;
+  }
+}
+
+/* .rolling__text {
+  position: relative;
+  display: flex;
+  top: -3px;
+}
+
+.rolling__text.prev {
+  position: relative;
+  display: flex;
+  top: -20px;
+  transition: var(--rolling-transition);
+}
+
+.rolling__text.cur {
+  position: relative;
+  display: flex;
+  transition: var(--rolling-transition);
+}
+
+.rolling__text.next {
+  position: relative;
+  display: flex;
+  top: 20px;
+} */
+
+/* .nav-contents-headline a, .nav-contents-press-name a { */
+.headline__news a,
+.headline__press_name a {
+  margin-bottom: 10px;
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+  overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
+  text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
+}
