@@ -10,7 +10,7 @@
 }
 
 body * {
-  outline: solid 1px;
+  /* outline: solid 1px; */
   font-family: 'Pretendard';
   color: #14212b;
 }
@@ -19,18 +19,9 @@ li {
   list-style: none;
 }
 
-.root-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* ---------------------------------------- */
-
 #wrap {
   margin: 0 auto;
   max-width: 1300px;
   min-width: 650px;
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
 }

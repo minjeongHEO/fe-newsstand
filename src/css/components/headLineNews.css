@@ -72,6 +72,9 @@
     top: 30px;
     /* top: -8px; */
   }
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* .nav-contents-headline a, .nav-contents-press-name a { */

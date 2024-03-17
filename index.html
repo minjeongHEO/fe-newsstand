@@ -13,7 +13,7 @@
   <body>
     <div id="wrap">
       <header class="header-item">
-        <div class="header__container test-g">
+        <div class="header__container">
           <div class="header__logo">
             <svg width="25" height="26" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -26,54 +26,50 @@
           <div class="header__date" id="header-date">날짜</div>
         </div>
       </header>
-
       <main>
         <section class="main__section__headline">
           <div class="headline__container"></div>
         </section>
-
         <section class="main__section__nav">
           <div class="nav__container">
-              <div class="nav__container__press">
-                <div class="nav__press-contents contents-select">전체 언론사</div>
-                <div class="nav__press-contents">내가 구독한 언론사</div>
+            <div class="nav__container__press">
+              <div class="nav__press-contents contents-select">전체 언론사</div>
+              <div class="nav__press-contents">내가 구독한 언론사</div>
+            </div>
+            <div class="nav__container__view_type">
+              <div id="list-tab">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    class="grid-option"
+                    d="M19 5V19H5V5H19ZM20.1 3H3.9C3.4 3 3 3.4 3 3.9V20.1C3 20.5 3.4 21 3.9 21H20.1C20.5 21 21 20.5 21 20.1V3.9C21 3.4 20.5 3 20.1 3ZM11 7H17V9H11V7ZM11 11H17V13H11V11ZM11 15H17V17H11V15ZM7 7H9V9H7V7ZM7 11H9V13H7V11ZM7 15H9V17H7V15Z"
+                  />
+                </svg>
               </div>
-              
-              <div class="nav__container__view-type">
-                <div id="list-tab">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      class="grid-option"
-                      d="M19 5V19H5V5H19ZM20.1 3H3.9C3.4 3 3 3.4 3 3.9V20.1C3 20.5 3.4 21 3.9 21H20.1C20.5 21 21 20.5 21 20.1V3.9C21 3.4 20.5 3 20.1 3ZM11 7H17V9H11V7ZM11 11H17V13H11V11ZM11 15H17V17H11V15ZM7 7H9V9H7V7ZM7 11H9V13H7V11ZM7 15H9V17H7V15Z"
-                    />
-                  </svg>
-                </div>
-                <div id="grid-tab">
-                  <svg width="30" height="30" viewBox="1 1 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      class="grid-option-select"
-                      d="M3 11V3H11V11H3ZM3 21V13H11V21H3ZM13 11V3H21V11H13ZM13 21V13H21V21H13ZM5 9H9V5H5V9ZM15 9H19V5H15V9ZM15 19H19V15H15V19ZM5 19H9V15H5V19Z"
-                    />
-                  </svg>
-                </div>
+              <div id="grid-tab">
+                <svg width="30" height="30" viewBox="1 1 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    class="grid-option-select"
+                    d="M3 11V3H11V11H3ZM3 21V13H11V21H3ZM13 11V3H21V11H13ZM13 21V13H21V21H13ZM5 9H9V5H5V9ZM15 9H19V5H15V9ZM15 19H19V15H15V19ZM5 19H9V15H5V19Z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </section>
-
         <section class="main__section__media">
-          <div class="container flex">
-            <div class="flex-box">
-              <!-- 이 안에서만 놀게하기 -->
-            </div>
+          <div class="media__container">
+            <div class="media__by_type"></div>
+            <div id="angle-left"><i class="fi fi-rr-angle-left"></i></div>
+            <div id="angle-right"><i class="fi fi-rr-angle-right"></i></div>
           </div>
         </section>
       </main>
-
       <footer></footer>
     </div>
-    <!-- --------------------------------------------- -->
-    <div id="root" class="root-div">
+  </body>
+</html>
+<!-- --------------------------------------------- -->
+<!-- <div id="root" class="root-div">
       <div class="col-container" id="app-div">
 
         <header class="header-item">
@@ -126,10 +122,11 @@
               </div>
             </section>
 
-            <section class="press-news-container"></section>
+            <section class="press-news-container">
+              <div id="angle-left"><i class="fi fi-rr-angle-left"></i></div>
+              <div id="angle-right"><i class="fi fi-rr-angle-right"></i></div>
+            </section>
           </div>
-        </main>
+        </main> 
       </div>
-    </div>
-  </body>
-</html>
+    </div> -->
