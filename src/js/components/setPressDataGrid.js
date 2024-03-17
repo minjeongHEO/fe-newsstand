@@ -274,6 +274,7 @@ const setNewsDataList = async () => {
 
 /** 언론사 데이터 그리드 생성 TAB_TYPE: 'grid' */
 export const setPressDataGrid = async () => {
+  clearFillGaugeInterval();
   excuteEventDelegation();
   makePressGridHTML();
   arrowHandlingByPage();
