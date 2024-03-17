@@ -107,12 +107,12 @@ const tabSectionEvents = (e) => {
 
 const clickEvent = (e) => {
   if (e.target.closest('.nav__container')) tabSectionEvents(e); //탭 이벤트들
-  if (e.target.closest('section.press-news-container')) gridSectionEvents(e); //그리드 내에서의 이벤트들
+  if (e.target.closest('.main__section__media')) gridSectionEvents(e); //그리드 내에서의 이벤트들
 };
 
 /** 이벤트 위임 */
 const excuteEventDelegation = () => {
-  const container = document.querySelector('.main-container');
+  const container = document.querySelector('.media__container');
   container.addEventListener('click', clickEvent);
 };
 
@@ -133,7 +133,7 @@ const arrowHandlingByPage = () => {
 };
 
 /** 랜덤한 언론사 데이터를 페이지 별로 나누기 */
-async function divideDataByPage(jsonShuffleData) {
+const divideDataByPage = (jsonShuffleData) => {
   const totalPages = Math.ceil(jsonShuffleData.length / GRID_DATA.CONTENTS_PER_PAGE);
   const pagesToGenerate = Math.min(totalPages, GRID_DATA.MAXIMUM_PAGE_IN_GRID); //실제 페이지 수가 최대 페이지 수보다 작을 수 있으므로
 
@@ -143,36 +143,6 @@ async function divideDataByPage(jsonShuffleData) {
   });
 
   return jsonArrPerPage;
-}
-
-async function dataShuffle(jsonArray) {
-  return jsonArray.sort(() => Math.random() - 0.5);
-}
-
-/** 언론사 데이터 생성 */
-const drawPressDataHtml = async () => {
-  let mainNewsHtml = '';
-  mainNewsHtml += `<div id="angle-left">
-                      <i class="fi fi-rr-angle-left"></i>
-                    </div>`;
-
-  mainNewsHtml += `<ul class="press-logo-container" id="press-logo-container">`;
-
-  for (const pressObj of GRID_DATA.JSON_ARR_PER_PAGE[GRID_DATA.PAGE_IN_GRID - 1]) {
-    mainNewsHtml += `<li>
-                      <a href="#" class="media-subscription-news-view">
-                      <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="news_logo" />
-                      </a>
-                      </li>`;
-  }
-  mainNewsHtml += `</ul>`;
-  mainNewsHtml += `<div id="angle-right">
-                    <i class="fi fi-rr-angle-right"></i>
-                  </div>`;
-
-  const target = document.querySelector('.press-news-container');
-
-  target.innerHTML = mainNewsHtml;
 };
 
 /** 카테고리 바 */
@@ -203,7 +173,7 @@ const drawCategoryDataHtml = async (jsonData) => {
                         <i class="fi fi-rr-angle-right"></i>
                       </div>`;
 
-  const target = document.querySelector('.press-news-container');
+  const target = document.querySelector('.main__section__media');
   target.innerHTML = mainCategoryHtml;
 };
 
@@ -288,16 +258,37 @@ const setNewsDataList = async () => {
   }
 };
 
+const dataShuffle = (jsonArray) => {
+  return jsonArray.sort(() => Math.random() - 0.5);
+};
+
+/** 언론사 데이터 생성 */
+const makePressGridHTML = () => {
+  let mainNewsHtml = '';
+  mainNewsHtml += `<ul class="media__grid-type__container">`;
+  for (const pressObj of GRID_DATA.JSON_ARR_PER_PAGE[GRID_DATA.PAGE_IN_GRID - 1]) {
+    mainNewsHtml += `<li>
+                      <a href="#" class="media__subscription-news-view">
+                      <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="media__news_logo" />
+                      </a>
+                      </li>`;
+  }
+  mainNewsHtml += `</ul>`;
+
+  const target = document.querySelector('.media__by-type');
+  target.innerHTML = mainNewsHtml;
+};
+
 /** 언론사 데이터 그리드 생성 TAB_TYPE: 'grid' */
 export const setPressDataGrid = async () => {
   excuteEventDelegation();
-  await drawPressDataHtml();
+  makePressGridHTML();
   arrowHandlingByPage();
 };
 
 /** 페이지 초기화 작업 */
 export const initGridData = async () => {
   const jsonArray = await readJsonFile('pressData');
-  const jsonShuffleData = await dataShuffle(jsonArray);
-  GRID_DATA.JSON_ARR_PER_PAGE = await divideDataByPage(jsonShuffleData);
+  const jsonShuffleData = dataShuffle(jsonArray);
+  GRID_DATA.JSON_ARR_PER_PAGE = divideDataByPage(jsonShuffleData);
 };
