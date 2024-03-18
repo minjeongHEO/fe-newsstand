@@ -1,10 +1,27 @@
 # fe-newsstand
 
-`#html` `#css` `#event` `#html`
+## `#html` `#css` `#event` `#html`
 
-`npm install -g live-server` 설치
+`npm install -g live-server` : live-server 설치  
+`live-server` : 명령어로 실행
 
-`live-server` 명령어로 실행
+---
+
+`npm install json-server` : json-server 설치  
+`subscribeNewsData.json` : 파일 생성 후 초기 구조 설정  
+ ex)
+
+```js
+  {
+    "subscriptions": []
+  }
+```
+
+`npx json-server db.json`(`npx json-server ./src/json/subscribeNewsData.json`) : json-server를 실행
+
+![image](https://github.com/codesquad-members-2024/fe-newsstand/assets/96780693/63a22d80-b224-4fce-8690-1dd50900efcf)
+
+`http://localhost:3000/subscriptions` 주소를 통해 구독 데이터에 접근할 수 있다.
 
 ## 구현 내용
 
@@ -319,6 +336,76 @@
 
   브라우저에서 위의 코드를 사용하여 페이지 각각의 데이터를 얻어와서 json형식으로 만들어줬다.  
   `/src/json/categoryNewsData.json`
+
+  <br>
+
+- JavaScript에서 <b>거짓</b>으로 평가되는(falsy) 값
+
+  - false
+  - 0 (숫자 0)
+  - -0 (음수 0)
+  - 0n (BigInt의 0)
+  - "", '', ```` (빈 문자열)
+  - null
+  - undefined
+  - NaN (Not a Number)
+
+    위 목록에 있는 값들 이외의 값들은 모두 참으로 평가되어,  
+    (if 문에서) 해당 조건문이 참일 때 실행될 코드 블록을 실행하게 된다.  
+    빈 문자열도 falsy값인 걸 잊고있었다!
+
+<br>
+
+- <b>해체 할당(destructuring assignment)</b>
+
+  : 구조화된 배열이나 객체에서 속성이나 값을 쉽게 추출할 수 있게 하는 JavaScript의 표현식
+
+  - 1. 객체 해체 할당
+
+    ```js
+    const person = { name: 'John', age: 30 };
+    const { name, age } = person;
+
+    console.log(name); // 출력: John
+    console.log(age); // 출력: 30
+    ```
+
+  - 2. 배열 해체 할당
+
+    ```js
+    const colors = ['red', 'green', 'blue'];
+    const [firstColor, secondColor] = colors;
+
+    console.log(firstColor); // 출력: red
+    console.log(secondColor); // 출력: green
+    ```
+
+    배열의 경우, 변수들은 배열 내의 값에 위치에 따라 할당된다.
+
+  - 3. 함수에서의 해체 할당
+
+    ```js
+    function displayUser({ name, age }) {
+      console.log(`Name: ${name}, Age: ${age}`);
+    }
+
+    const user = { name: 'Jane', age: 28 };
+
+    displayUser(user);
+    ```
+
+    user 객체를 매개변수로 받아서 내부의 name과 age 속성을 직접 변수로 사용할 수 있다.
+
+  - 4. 기본값 설정
+
+    ```js
+    const { name, age, gender = 'unknown' } = person;
+
+    console.log(gender); // 만약 person 객체에 gender 속성이 없다면, 출력: unknown
+    ```
+
+    해체 할당을 할 때 변수에 기본값을 설정할 수도 있다.  
+    해당 속성이 객체나 배열에 존재하지 않을 때 유용하다.
 
 ## 📚
 
