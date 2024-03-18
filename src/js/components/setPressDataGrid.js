@@ -77,10 +77,13 @@ const gridSectionClickEvents = async (e) => {
       if (e.target.parentNode.id === 'angle-left') {
         listViewPagingControls('left');
       }
-      // if (Array.from(e.target.classList).some((className) => /^category\d+$/.test(className))) {
-      //   // 조건이 참일 때 실행될 코드
-      //   LIST_DATA.CURRENT_CATE_IDX =
-      // }
+
+      const idPattern = /^category(\d+)$/;
+      const match = idPattern.exec(e.target.id);
+      if (match) {
+        LIST_DATA.CURRENT_CATE_IDX = parseInt(match[1]); // 숫자로 변환하여 저장
+        LIST_DATA.PAGE_IN_LIST = 1;
+      }
 
       setNewsDataList();
       break;
