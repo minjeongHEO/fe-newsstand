@@ -30,7 +30,7 @@ const runFillGaugeInterval = () => {
   }, 3000);
 };
 
-const listViewPagingControls = async (direction) => {
+const listViewPagingControls = (direction) => {
   if (direction === 'right') {
     LIST_DATA.PAGE_IN_LIST++;
   }
@@ -72,11 +72,15 @@ const gridSectionClickEvents = async (e) => {
 
     case 'list':
       if (e.target.parentNode.id === 'angle-right') {
-        await listViewPagingControls('right');
+        listViewPagingControls('right');
       }
       if (e.target.parentNode.id === 'angle-left') {
-        await listViewPagingControls('left');
+        listViewPagingControls('left');
       }
+      // if (Array.from(e.target.classList).some((className) => /^category\d+$/.test(className))) {
+      //   // 조건이 참일 때 실행될 코드
+      //   LIST_DATA.CURRENT_CATE_IDX =
+      // }
 
       setNewsDataList();
       break;
@@ -162,13 +166,13 @@ const makeCategoryListHTML = (jsonData) => {
   mainCategoryHtml += `<div class="media__category_bar">`;
   for (const [idx, categoryObj] of jsonData.entries()) {
     if (idx == LIST_DATA.CURRENT_CATE_IDX) {
-      mainCategoryHtml += `<div class="category${idx}">
+      mainCategoryHtml += `<div id="category${idx}">
                             <span>
                               ${categoryObj.categoryName} ${LIST_DATA.PAGE_IN_LIST}/${LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY[LIST_DATA.CURRENT_CATE_IDX]}
                             </span>
                           </div>`;
     } else {
-      mainCategoryHtml += `<div class="category${idx}">${categoryObj.categoryName}</div>`;
+      mainCategoryHtml += `<div id="category${idx}">${categoryObj.categoryName}</div>`;
     }
   }
   mainCategoryHtml += `</div>`;
@@ -222,7 +226,7 @@ const makeNewsListHTML = (currentJsonData) => {
 
 /** 활성화된 카테고리 확인 후 적용 */
 const applyActivatedCategory = () => {
-  const activatedCategory = document.querySelector(`.category${LIST_DATA.CURRENT_CATE_IDX}`);
+  const activatedCategory = document.querySelector(`#category${LIST_DATA.CURRENT_CATE_IDX}`);
   const siblings = Array.from(activatedCategory.parentNode.children);
 
   siblings.forEach((sibling) => {
