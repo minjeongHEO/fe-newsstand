@@ -57,6 +57,29 @@ const listViewPagingControls = (direction) => {
 
 const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
   console.log(categoryIdx, pageIdx, pressName);
+  console.table(LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1]);
+
+  // 초기 데이터 가져오기
+  fetch('http://localhost:3000/subscriptions')
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error('Error:', error));
+
+  // '../../json/subscribeNewsData.json';
+
+  // const subscriptionData = { categoryIdx, pageIdx, pressName };
+  const subscriptionData = LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1];
+
+  fetch('http://localhost:3000/subscriptions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(subscriptionData),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
 };
 
 const gridSectionClickEvents = (e) => {
