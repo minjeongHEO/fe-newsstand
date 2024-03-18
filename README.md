@@ -19,14 +19,18 @@
 🗓 week 2
 
 - [x] 전체 카테고리 리스트보기 (5page)
-- [ ] 레이아웃 다시 잡기
-  - 버튼이랑 그리드는 따로 레이아웃 구조
-    (버튼은 정적으로(html에))
-  - 간격은 padding말고, margin으로 준다
-  - 상단태그에 min-width주고 이미지에는 픽셀로 지정
-  - section은 웬만하면 건들지 않는다. 그 하위에서 수정하기
+- [x] 레이아웃 다시 잡기
+- [x] BEM 적용해보기
 
 🗓 week 3📌
+
+- [ ] 그리드 타입 - 전체 언론사 - 구독하기 (mouse hover)
+- [ ] 그리드 타입 - 전체 언론사 - 해지하기 (mouse hover)
+
+- [ ] 리스트 타입 - 전체 언론사 - 구독하기 시 스낵바
+- [ ] 리스트 타입 - 내가 구독한 언론사 - 해지하기 시 얼럿창
+
+- [ ] 카테고리 추가영역 노출 처리 (9page)
 
 ### 🔧 기능
 
@@ -49,46 +53,35 @@
 - [x] 배열의 고차함수를 적극 사용해본다.
 - [x] 나만의 reduce 함수를 직접 만들어서 활용해본다.
 - [x] 객체리터럴이나 클래스를 활용하기보다는 (작고 명확한)함수를 활용한 개발을 시도한다.
-- [x] 전체 카테고리 데이터 json파일 생성
-
-  ```js
-  let img = document.querySelector('.MediaNewsView-module__news_logo___LwMpl > img');
-  let imgLink = document.querySelector('.MediaNewsView-module__news_logo___LwMpl');
-  let imgTime = document.querySelector('.MediaNewsView-module__time___fBQhP');
-  let mainImgLink = document.querySelector('.MediaNewsView-module__desc_left___jU94v > a');
-  let mainImg = document.querySelector('.ImgView-module__content_img___QA0gl > img');
-  let headLines = [];
-  let headLineTag = '.MediaNewsView-module__desc_item___OWjz3 > a';
-  document.querySelectorAll(headLineTag).forEach((value) => {
-    headLines.push({
-      link: value.href,
-      headline: value.textContent,
-    });
-  });
-  ```
-
-  ```js
-  {"imgSrc":img.src, "imgName":img.alt, "imgLink":imgLink.href, "imgTime":imgTime.textContent, "mainImgLink":mainImgLink.href , "mainImgSrc":mainImg.src, "mainImgHeadLine":mainImg.alt, "headLines":headLines}
-  ```
-
-  브라우저에서 위의 코드를 사용하여 페이지 각각의 데이터를 얻어와서 json형식으로 만들어줬다.
-  `/src/json/categoryNewsData.json`
-
-- [ ] 전체 카테고리 데이터 카테고기 버튼 기반 이동 (7page)
-- [x] 전체 카테고리 데이터 화살표 버튼 기반 이동 (7page)
-- [x] 전체 카테고리 데이터 프로그래스바 효과 (6page)
-- [x] 전체 카테고리 데이터 자동 이동 (7page)
-- [ ] 헤드라인 롤링(2page)
-- [ ] 전역 변수,상수를 구분해서 선언하도록 네이밍 수정하기
+- [x] 전체 카테고리 데이터 - json파일 생성
+- [x] 전체 카테고리 데이터 - 화살표 버튼 기반 이동 (7page)
+- [x] 전체 카테고리 데이터 - 프로그래스바 효과 (6page)
+- [x] 전체 카테고리 데이터 - 자동 이동 (7page)
 
 🗓 week 3📌
 
-- [ ] 날짜생성함수를 return하는 함수로 변경
+- [ ] 그리드 타입 - 전체 언론사 - 구독하기(4page)
+- [ ] 그리드 타입 - 전체 언론사 - 해지하기(4page)
+
+- [ ] 리스트 타입 - 전체 카테고리 - 카테고리 버튼 기반 이동 (7page)
+- [ ] 리스트 타입 - 전체 언론사 - 구독하기 (스낵바)  
+       1. '내가 구독한 언론사에 추가되었습니다.' 라는 스낵바가 5초 유지  
+       2. 즉시 내가 구독한 언론사 탭의 리스트 보기 화면으로 이동
+- [ ] 리스트 타입 - 내가 구독한 언론사 - 해지하기(얼럿창)  
+       1. '(언론사이름)을(를) 구독해지하시겠습니까?' 라는 alert  
+       2. -예, 해지합니다 -아니오  
+       3. 예 해지합니다 선택 시 즉시 구독이 해지되고,목록의 다음 순서 언론사가 바로 나타난다.
+
+- [ ] 헤드라인 롤링(2page)
+- [ ] 전역 변수,상수를 구분해서 선언하도록 네이밍 수정하기
 
 ## 🤔 실수 및 고민 사항
 
 - 3초에 한번씩 롤링되는 뉴스데이터를 크롤링 해오려는데 중복된 데이터를 받아오는 경우  
   : contentsHeader(뉴스 헤드라인 내용)을 기준으로 중복을 제거해줬다.
+
+   <br>
+
 - setInterval 실행 시 데이터가 10개면 반복을 멈춰야하는 조건에
 
   ```js
@@ -106,6 +99,8 @@
     break; // 반복 종료
   }
   ```
+
+  <br>
 
 - document.getElementsByClassName 메서드를 사용할 때 .appendChild()가 적용이 안됐다.
 
@@ -137,6 +132,8 @@
   }
   ```
 
+  <br>
+
 - innerHTML은 함수처럼 사용이 아니라, 할당해야 한다.
 
   ```js
@@ -148,6 +145,8 @@
   ```js
   target.innerHTML = navHtml;
   ```
+
+  <br>
 
 - 이벤트 버블링과 상위 태그 노드
 
@@ -167,7 +166,7 @@
   그래서 `event.target.parentNode` 를 사용하여 id값을 가져올 수 있었다.
 
 - [`Intl.DateTimeFormat`](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)  
-  : 언어에 맞는 날짜 및 시간 서식을 적용하기 위한 객체이다.
+   : 언어에 맞는 날짜 및 시간 서식을 적용하기 위한 객체이다.
 
   ```js
   function dateCreate() {
@@ -202,7 +201,9 @@
   `dateStyle` 옵션을 사용하면 년, 월, 일을 포함한 날짜의 전체 스타일을 지정하는 반면,
 
   `weekday`, `year`, `month`, `day` 등의 옵션을 직접 지정하면 더 세부적인 컨트롤이 가능합니다.  
-  하지만, dateStyle과 이러한 세부적인 옵션들을 동시에 사용하려고 하면 충돌이 발생한다.
+   하지만, dateStyle과 이러한 세부적인 옵션들을 동시에 사용하려고 하면 충돌이 발생한다.
+
+  <br>
 
 - 템플릿 리터럴을 사용하여 HTML 문자열을 생성한 후 DOM에 추가하고 싶을 때
 
@@ -235,30 +236,32 @@
     대상 엘리먼트의 바로 뒤에, 즉 현재 엘리먼트가 속한 부모 엘리먼트의 자식으로서, 현재 엘리먼트 다음에 위치.  
      예를 들어, 현재 엘리먼트가 `<p>` 태그라면, 이 옵션을 사용하면 `<p>` 태그 바로 뒤에 새로운 내용이 추가.
 
-  ```js
-  const pressNameHtml = `<li style="background-color:yellow">
-        <a href="" target="_blank"></a>
-      </li>`;
+    ```js
+    const pressNameHtml = `<li style="background-color:yellow">
+          <a href="" target="_blank"></a>
+        </li>`;
 
-  const pressNameUlTarget = document.querySelector(`.nav-contents-container section1 ul`);
-  // 기존 내용에 추가
-  pressNameUlTarget.innerHTML += pressNameHtml;
-  ```
+    const pressNameUlTarget = document.querySelector(`.nav-contents-container section1 ul`);
+    // 기존 내용에 추가
+    pressNameUlTarget.innerHTML += pressNameHtml;
+    ```
 
-  🔽 `insertAdjacentHTML` 사용
+    🔽 `insertAdjacentHTML` 사용
 
-  ```js
-  const pressNameHtml = `<li style="background-color:yellow">
-        <a href="" target="_blank"></a>
-      </li>`;
+    ```js
+    const pressNameHtml = `<li style="background-color:yellow">
+          <a href="" target="_blank"></a>
+        </li>`;
 
-  const pressNameUlTarget = document.querySelector(`.nav-contents-container section1 ul`);
-  // 'beforeend' 위치에 새 HTML 추가 (기존 내용 유지)
-  pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
-  ```
+    const pressNameUlTarget = document.querySelector(`.nav-contents-container section1 ul`);
+    // 'beforeend' 위치에 새 HTML 추가 (기존 내용 유지)
+    pressNameUlTarget.insertAdjacentHTML('beforeend', pressNameHtml);
+    ```
 
   - 여기서는 beforeend를 사용하여 ul 요소의 마지막 자식으로 새 li 요소를 추가하는 방식을 선택했다.
   - 이 방법을 통해 기존 내용을 유지하면서 새로운 내용을 추가할 수 있다.
+
+<br>
 
 - 같은 뎁스(레벨)의 형제 요소를 찾기 위한 방법
 
@@ -286,17 +289,36 @@
   });
   ```
 
+  <br>
+
 - JavaScript로 직접 가상 요소의(`::after`) 스타일을 변경할 수 없다.
 
-- setInterval(() => {
-  await listViewPagingControls('right');
-  setNewsDataList();
-  }, 3000);
+  <br>
 
-setInterval(async () => {
-await listViewPagingControls('right');
-setNewsDataList();
-}, 3000);
+- 전체 카테고리 데이터 json파일 생성
+
+  ```js
+  let img = document.querySelector('.MediaNewsView-module__news_logo___LwMpl > img');
+  let imgLink = document.querySelector('.MediaNewsView-module__news_logo___LwMpl');
+  let imgTime = document.querySelector('.MediaNewsView-module__time___fBQhP');
+  let mainImgLink = document.querySelector('.MediaNewsView-module__desc_left___jU94v > a');
+  let mainImg = document.querySelector('.ImgView-module__content_img___QA0gl > img');
+  let headLines = [];
+  let headLineTag = '.MediaNewsView-module__desc_item___OWjz3 > a';
+  document.querySelectorAll(headLineTag).forEach((value) => {
+    headLines.push({
+      link: value.href,
+      headline: value.textContent,
+    });
+  });
+  ```
+
+  ```js
+  {"imgSrc":img.src, "imgName":img.alt, "imgLink":imgLink.href, "imgTime":imgTime.textContent, "mainImgLink":mainImgLink.href , "mainImgSrc":mainImg.src, "mainImgHeadLine":mainImg.alt, "headLines":headLines}
+  ```
+
+  브라우저에서 위의 코드를 사용하여 페이지 각각의 데이터를 얻어와서 json형식으로 만들어줬다.  
+  `/src/json/categoryNewsData.json`
 
 ## 📚
 
@@ -307,3 +329,4 @@ setNewsDataList();
 - 파일이름은 동사는 별로..
 - 단위를 em, rem 을 골고루 활용해보고, rem을 좀더 많이 사용해본다.
 - 케이뱅크/현대카드 사이트 참조
+- 날짜생성함수를 return하는 함수로 변경해보기
