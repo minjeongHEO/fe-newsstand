@@ -55,7 +55,7 @@ const listViewPagingControls = async (direction) => {
   }
 };
 
-const gridSectionEvents = async (e) => {
+const gridSectionClickEvents = async (e) => {
   switch (TAB_TYPE) {
     case 'grid':
       if (e.target.parentNode.id === 'angle-right') {
@@ -86,7 +86,7 @@ const gridSectionEvents = async (e) => {
   }
 };
 
-const tabSectionEvents = (e) => {
+const tabSectionClickEvents = (e) => {
   if (e.target.closest('div#list-tab')) {
     TAB_TYPE = 'list';
     document.querySelector('#list-tab path').classList.replace('grid-option', 'grid-option-select');
@@ -109,8 +109,9 @@ const tabSectionEvents = (e) => {
 const excuteEventDelegation = () => {
   const mediaContainer = document.querySelector('.media__container');
   const navContainer = document.querySelector('.nav__container');
-  navContainer.addEventListener('click', tabSectionEvents);
-  mediaContainer.addEventListener('click', gridSectionEvents);
+
+  navContainer.addEventListener('click', tabSectionClickEvents);
+  mediaContainer.addEventListener('click', gridSectionClickEvents);
 };
 
 /** 페이지 별 화살표 처리 */
@@ -238,12 +239,13 @@ const dataShuffle = (jsonArray) => {
 /** 언론사 데이터 생성 */
 const makePressGridHTML = () => {
   let mainNewsHtml = '';
-  mainNewsHtml += `<ul class="media__grid-type__container">`;
+  mainNewsHtml += `<ul class="media__grid_type__container">`;
   for (const pressObj of GRID_DATA.JSON_ARR_PER_PAGE[GRID_DATA.PAGE_IN_GRID - 1]) {
     mainNewsHtml += `<li>
                       <a href="#" class="media__subscription-news-view">
-                      <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="media__subscription__news_logo" />
+                        <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="media__grid_type__news_logo" />
                       </a>
+                      <div class="media__grid_type__subscribe_btn">+구독하기</div>
                       </li>`;
   }
   mainNewsHtml += `</ul>`;
