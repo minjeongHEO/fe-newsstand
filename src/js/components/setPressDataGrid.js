@@ -191,15 +191,11 @@ const makeNewsListHTML = (currentJsonData) => {
   // news-container
   mainNewsHtml += `<div class="media__news_container"> 
                     <div class="media__news_logo">
-                      <a target="_blank" href="${currentPageData.pressImgLink}" class="MediaNewsView-module__news_logo___LwMpl">
+                      <a target="_blank" href="${currentPageData.pressImgLink}" class="">
                         <img src="${currentPageData.pressImg}" height="20" width="auto" alt="${currentPageData.pressName}" />
                       </a>
-                      <span class="MediaNewsView-module__news_text___hi3Xf">
-                        <span class="MediaNewsView-module__time___fBQhP">${currentPageData.newsTime}</span>
-                      </span>
-                      <button type="button" class="MediaNewsView-module__btn_cancel____bfsE" aria-pressed="false">
-                        <span class="blind">구독취소</span>
-                      </button>
+                      <span class="media__news_time">${currentPageData.newsTime}</span>
+                      <button type="button" class="media__news_subscribe_btn" aria-pressed="false">+ 구독하기 </button>
                     </div>
                     <div class="media__news_datas">
                       <div class="media__news__main">
@@ -252,7 +248,7 @@ const makePressGridHTML = () => {
                       <a href="#" class="media__subscription-news-view">
                         <img src="${pressObj.src}" height="20" alt="${pressObj.alt}" class="media__grid_type__news_logo" />
                       </a>
-                      <div class="media__grid_type__subscribe_btn">+구독하기</div>
+                      <button class="media__grid_type__subscribe_btn">+ 구독하기</button>
                       </li>`;
   }
   mainNewsHtml += `</ul>`;
