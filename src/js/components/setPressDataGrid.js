@@ -55,9 +55,14 @@ const listViewPagingControls = (direction) => {
   }
 };
 
-const gridSectionClickEvents = async (e) => {
+const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
+  console.log(categoryIdx, pageIdx, pressName);
+};
+
+const gridSectionClickEvents = (e) => {
   switch (TAB_TYPE) {
     case 'grid':
+      // * 화살표 클릭 이벤트
       if (e.target.parentNode.id === 'angle-right') {
         if (GRID_DATA.PAGE_IN_GRID === GRID_DATA.MAXIMUM_PAGE_IN_GRID) return;
         GRID_DATA.PAGE_IN_GRID++;
@@ -71,6 +76,7 @@ const gridSectionClickEvents = async (e) => {
       break;
 
     case 'list':
+      // * 화살표 클릭 이벤트
       if (e.target.parentNode.id === 'angle-right') {
         listViewPagingControls('right');
       }
@@ -78,11 +84,26 @@ const gridSectionClickEvents = async (e) => {
         listViewPagingControls('left');
       }
 
+      // * 카테고리 클릭 이벤트
       const idPattern = /^category(\d+)$/;
       const match = idPattern.exec(e.target.id);
       if (match) {
         LIST_DATA.CURRENT_CATE_IDX = parseInt(match[1]); // 숫자로 변환하여 저장
         LIST_DATA.PAGE_IN_LIST = 1;
+      }
+
+      // * 구독하기 버튼 클릭 이벤트
+      if (e.target.className === 'media__news_subscribe_btn') {
+        // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
+        const imgElement = e.target.closest('.media__news_logo').querySelector('img');
+        // img 요소의 alt 속성 유효성 검사
+        const pressName = imgElement && imgElement.alt ? imgElement.alt : '';
+
+        if (pressName) {
+          subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
+        } else {
+          return;
+        }
       }
 
       setNewsDataList();
