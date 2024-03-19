@@ -25,6 +25,10 @@
 
 `http://localhost:3000/subscriptions` 주소를 통해 구독 데이터에 접근할 수 있다.
 
+VSC Live Server 자동 렌더링 비활성화 셋팅 [🔎](https://kku-jun.tistory.com/47)  
+![image](https://github.com/codesquad-members-2024/fe-newsstand/assets/96780693/888075c5-f6cf-4cb3-a611-4430752b76eb)  
+`subscribeNewsData.json`파일이 갱신될 때 마다 화면이 재렌더링 되는 걸 해결할 수 있다.
+
 ## 구현 내용
 
 ### ✨ 레이아웃
