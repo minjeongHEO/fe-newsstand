@@ -9,25 +9,7 @@
 
 ---
 
-`npm install json-server` : json-server 설치  
-`subscribeNewsData.json` : 파일 생성 후 초기 구조 설정  
- ex)
-
-```js
-  {
-    "subscriptions": []
-  }
-```
-
-`npx json-server db.json`(`npx json-server ./src/json/subscribeNewsData.json`) : json-server를 실행
-
-![image](https://github.com/codesquad-members-2024/fe-newsstand/assets/96780693/63a22d80-b224-4fce-8690-1dd50900efcf)
-
-`http://localhost:3000/subscriptions` 주소를 통해 구독 데이터에 접근할 수 있다.
-
-VSC Live Server 자동 렌더링 비활성화 셋팅 [🔎](https://kku-jun.tistory.com/47)  
-![image](https://github.com/codesquad-members-2024/fe-newsstand/assets/96780693/888075c5-f6cf-4cb3-a611-4430752b76eb)  
-`subscribeNewsData.json`파일이 갱신될 때 마다 화면이 재렌더링 되는 걸 해결할 수 있다.
+📓 [json-server](https://github.com/minjeongHEO/fe-newsstand/wiki/%5BNews-Stand%5D-json%E2%80%90server-%EC%84%A4%EC%B9%98,-%EC%85%8B%ED%8C%85-%F0%9F%94%A7)
 
 ## 구현 내용
 
