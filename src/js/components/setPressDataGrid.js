@@ -82,7 +82,7 @@ const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
     .catch((error) => console.error('Error:', error));
 };
 
-const gridSectionClickEvents = (e) => {
+const gridSectionEventHandler = (e) => {
   const { target } = e; // e.target을 target으로 해체 할당
   switch (TAB_TYPE) {
     case 'grid':
@@ -101,12 +101,8 @@ const gridSectionClickEvents = (e) => {
 
     case 'list':
       // * 화살표 클릭 이벤트
-      if (target.parentNode.id === 'angle-right') {
-        listViewPagingControls('right');
-      }
-      if (target.parentNode.id === 'angle-left') {
-        listViewPagingControls('left');
-      }
+      if (target.parentNode.id === 'angle-right') listViewPagingControls('right');
+      if (target.parentNode.id === 'angle-left') listViewPagingControls('left');
 
       // * 카테고리 클릭 이벤트
       const idPattern = /^category(\d+)$/;
@@ -138,7 +134,7 @@ const gridSectionClickEvents = (e) => {
   }
 };
 
-const tabSectionClickEvents = (e) => {
+const tabSectionEventHandler = (e) => {
   const { target } = e; // e.target을 target으로 해체 할당
   if (target.closest('div#list-tab')) {
     TAB_TYPE = 'list';
@@ -163,8 +159,8 @@ const excuteEventDelegation = () => {
   const mediaContainer = document.querySelector('.media__container');
   const navContainer = document.querySelector('.nav__container');
 
-  navContainer.addEventListener('click', tabSectionClickEvents);
-  mediaContainer.addEventListener('click', gridSectionClickEvents);
+  navContainer.addEventListener('click', tabSectionEventHandler);
+  mediaContainer.addEventListener('click', gridSectionEventHandler);
 };
 
 /** 페이지 별 화살표 처리 */
