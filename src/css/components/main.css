@@ -4,6 +4,40 @@
   align-items: center;
   position: relative;
 }
+.media__subscribe_snackbar {
+  position: absolute;
+  width: 286px;
+  height: 54px;
+  top: 45%;
+  left: 37%;
+  background-color: #4362d0;
+  display: flex;
+  /* 세로 */
+  align-items: center;
+  /* 가로 */
+  justify-content: center;
+  opacity: 0;
+
+  span {
+    color: #f5f7f9;
+  }
+}
+
+.snackbar-animation {
+  animation: opacityAnimation 3s forwards;
+}
+
+@keyframes opacityAnimation {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
 .media__by_type {
   height: 100%;
