@@ -56,9 +56,6 @@ const listViewPagingControls = (direction) => {
 };
 
 const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
-  console.log(categoryIdx, pageIdx, pressName);
-  console.table(LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1]);
-
   // 초기 데이터 가져오기
   fetch('http://localhost:3000/subscriptions')
     .then((response) => response.json())
