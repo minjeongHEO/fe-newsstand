@@ -57,9 +57,27 @@ const listViewPagingControls = (direction) => {
   }
 };
 
+/**
+ * 구독하기
+ * @param {*} categoryIdx
+ * @param {*} pageIdx
+ * @param {*} pressName
+ */
 const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
-  const subscriptionData = LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1];
-  SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
+  let subscriptionData = '';
+  switch (TAB_TYPE) {
+    case 'grid':
+      subscriptionData = SubscriptionsControl.findSubscriptionsData(pressName);
+      break;
+
+    case 'list':
+      subscriptionData = LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1];
+      break;
+
+    default:
+      break;
+  }
+  if (subscriptionData) SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
 };
 
 const gridSectionEventHandler = (e) => {
@@ -74,6 +92,20 @@ const gridSectionEventHandler = (e) => {
       if (target.parentNode.id === 'angle-left') {
         if (GRID_DATA.PAGE_IN_GRID === 0) return;
         GRID_DATA.PAGE_IN_GRID--;
+      }
+
+      // * 구독하기 버튼 클릭 이벤트
+      if (target.className === 'media__grid_type__subscribe_btn') {
+        // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
+        const imgElement = target.parentNode.querySelector('img');
+        // img 요소의 alt 속성 유효성 검사
+        const pressName = imgElement && imgElement.alt ? imgElement.alt : '';
+
+        if (pressName) {
+          subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
+        } else {
+          return;
+        }
       }
 
       setPressDataGrid();
