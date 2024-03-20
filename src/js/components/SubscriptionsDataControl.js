@@ -1,7 +1,7 @@
 export class SubscriptionsDataControl {
   constructor(jsonDataByCategory) {
     this.collectNewsData = this.collectNewsData(jsonDataByCategory);
-    this.subscriptonsData;
+    this.subscriptonsData = [];
   }
 
   //언론사 데이터만 뽑기
@@ -17,23 +17,23 @@ export class SubscriptionsDataControl {
   }
 
   //구독한 데이터 select all
-  fetchSubscriptionsData() {
-    fetch('http://localhost:3000/subscriptions')
-      .then((response) => response.json())
-      .then((data) => {
-        this.subscriptonsData = data.subscriptions;
-      })
-      .catch((error) => console.error('Error:', error));
+  async fetchSubscriptionsData() {
+    try {
+      const response = await fetch('http://localhost:3000/subscriptions');
+      // console.log(response);
+      // console.log(response.json()); //json() 메서드는 응답 본문을 JSON으로 파싱하고, 파싱된 객체를 반환하는 프로미스를 제공합니다.
+      const subscriptionsData = await response.json();
+      this.subscriptonsData = subscriptionsData;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   //구독할 데이터 exist check
-  // checkIfExistData(pressName) {
-  //   let existResult = false;
-  //   this.subscriptonsData.map(e=>)
-  //   this.subscriptonsData.includes()
-
-  //   return existResult;
-  // }
+  async checkIfExistData(pressName) {
+    await this.fetchSubscriptionsData();
+    return this.subscriptonsData.map((e) => e.pressName).includes(pressName);
+  }
 
   //구독할 데이터 insert
 
