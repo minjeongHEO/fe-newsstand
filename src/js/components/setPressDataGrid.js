@@ -1,6 +1,7 @@
 import { readJsonFile } from './getJsonFile.js';
 import { SubscriptionsDataControl } from './SubscriptionsDataControl.js';
 
+let SubscriptionsControl;
 let TAB_TYPE = 'grid'; //grid, list
 
 const GRID_DATA = {
@@ -57,27 +58,8 @@ const listViewPagingControls = (direction) => {
 };
 
 const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
-  // 초기 데이터 가져오기
-  fetch('http://localhost:3000/subscriptions')
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error('Error:', error));
-
-  // '../../json/subscribeNewsData.json';
-
-  // const subscriptionData = { categoryIdx, pageIdx, pressName };
   const subscriptionData = LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1];
-
-  fetch('http://localhost:3000/subscriptions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(subscriptionData),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log('Success:', data))
-    .catch((error) => console.error('Error:', error));
+  SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
 };
 
 const gridSectionEventHandler = (e) => {
@@ -326,9 +308,14 @@ export const setPressDataGrid = async () => {
 
 /** 페이지 초기화 작업 */
 export const initGridData = async () => {
-  const jsonArray = await readJsonFile('pressData');
-  const jsonShuffleData = dataShuffle(jsonArray);
-  GRID_DATA.JSON_ARR_PER_PAGE = divideDataByPage(jsonShuffleData);
-  LIST_DATA.JSON_DATA = await readJsonFile('categoryNewsData');
-  new SubscriptionsDataControl(LIST_DATA.JSON_DATA);
+  try {
+    const jsonArray = await readJsonFile('pressData');
+    const jsonShuffleData = dataShuffle(jsonArray);
+    GRID_DATA.JSON_ARR_PER_PAGE = divideDataByPage(jsonShuffleData);
+
+    LIST_DATA.JSON_DATA = await readJsonFile('categoryNewsData');
+    SubscriptionsControl = new SubscriptionsDataControl(LIST_DATA.JSON_DATA);
+  } catch (error) {
+    console.error(error);
+  }
 };

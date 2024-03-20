@@ -20,8 +20,6 @@ export class SubscriptionsDataControl {
   async fetchSubscriptionsData() {
     try {
       const response = await fetch('http://localhost:3000/subscriptions');
-      // console.log(response);
-      // console.log(response.json()); //json() 메서드는 응답 본문을 JSON으로 파싱하고, 파싱된 객체를 반환하는 프로미스를 제공합니다.
       const subscriptionsData = await response.json();
       this.subscriptonsData = subscriptionsData;
     } catch (error) {
@@ -29,13 +27,31 @@ export class SubscriptionsDataControl {
     }
   }
 
-  //구독할 데이터 exist check
+  /**
+   * 구독할 데이터 exist check
+   * @param {*string} pressName
+   * @returns true 이미 존재(구독중)
+   * @returns false
+   */
   async checkIfExistData(pressName) {
     await this.fetchSubscriptionsData();
     return this.subscriptonsData.map((e) => e.pressName).includes(pressName);
   }
 
   //구독할 데이터 insert
+  async insertSubscriptionsData(pressName, subscriptionData) {
+    if (!this.checkIfExistData(pressName)) {
+      const response = await fetch('http://localhost:3000/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(subscriptionData),
+      });
+
+      await response.json();
+    }
+  }
 
   //구독해제할 데이터 delete
 }
