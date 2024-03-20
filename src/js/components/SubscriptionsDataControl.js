@@ -1,6 +1,7 @@
 export class SubscriptionsDataControl {
   constructor(jsonDataByCategory) {
     this.collectNewsData = this.collectNewsData(jsonDataByCategory);
+    this.subscriptonsData;
   }
 
   //언론사 데이터만 뽑기
@@ -16,8 +17,23 @@ export class SubscriptionsDataControl {
   }
 
   //구독한 데이터 select all
+  fetchSubscriptionsData() {
+    fetch('http://localhost:3000/subscriptions')
+      .then((response) => response.json())
+      .then((data) => {
+        this.subscriptonsData = data.subscriptions;
+      })
+      .catch((error) => console.error('Error:', error));
+  }
 
-  //구독할 데이터exist
+  //구독할 데이터 exist check
+  // checkIfExistData(pressName) {
+  //   let existResult = false;
+  //   this.subscriptonsData.map(e=>)
+  //   this.subscriptonsData.includes()
+
+  //   return existResult;
+  // }
 
   //구독할 데이터 insert
 
