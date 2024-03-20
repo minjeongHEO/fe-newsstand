@@ -1,4 +1,5 @@
 import { readJsonFile } from './getJsonFile.js';
+import { SubscriptionsDataControl } from './SubscriptionsDataControl.js';
 
 let TAB_TYPE = 'grid'; //grid, list
 
@@ -299,7 +300,6 @@ const makePressGridHTML = () => {
 /** 뉴스 데이터 리스트 생성 TAB_TYPE: 'list' */
 const setNewsDataList = async () => {
   try {
-    LIST_DATA.JSON_DATA = LIST_DATA.JSON_DATA === null ? await readJsonFile('categoryNewsData') : LIST_DATA.JSON_DATA;
     LIST_DATA.CATEGORY = LIST_DATA.CATEGORY.length === 0 ? LIST_DATA.JSON_DATA.map((cur) => cur.categoryName) : LIST_DATA.CATEGORY;
     LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY =
       LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY.length === 0 ? LIST_DATA.JSON_DATA.map((cur) => cur.news.length) : LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY;
@@ -329,4 +329,6 @@ export const initGridData = async () => {
   const jsonArray = await readJsonFile('pressData');
   const jsonShuffleData = dataShuffle(jsonArray);
   GRID_DATA.JSON_ARR_PER_PAGE = divideDataByPage(jsonShuffleData);
+  LIST_DATA.JSON_DATA = await readJsonFile('categoryNewsData');
+  new SubscriptionsDataControl(LIST_DATA.JSON_DATA);
 };
