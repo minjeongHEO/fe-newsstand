@@ -64,7 +64,7 @@
 🗓 week 3📌
 
 - [x] 구독 - 뉴스 데이터 가공 (언론사 데이터만 뽑기)
-- [ ] 구독 - 구독한 데이터 select all
+- [x] 구독 - 구독한 데이터 select all
 - [ ] 구독 - 구독 할 데이터 exist check
 - [ ] 구독 - 구독 할 데이터 insert
 - [ ] 구독 - 구독 해제 할 데이터 delete
