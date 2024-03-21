@@ -57,6 +57,27 @@ const listViewPagingControls = (direction) => {
   }
 };
 
+const actionAfterSubscriptions = () => {
+  switch (TAB_TYPE) {
+    case 'grid':
+      break;
+
+    case 'list':
+      const snackbarTarget = document.querySelector('#media__subscribe_snackbar');
+      snackbarTarget.classList.add('snackbar-animation');
+
+      setTimeout(() => {
+        snackbarTarget.classList.remove('snackbar-animation');
+      }, 5000);
+
+      // 내가 구독한 탭바
+      break;
+
+    default:
+      break;
+  }
+};
+
 /**
  * 구독하기
  * @param {*} categoryIdx
@@ -65,6 +86,7 @@ const listViewPagingControls = (direction) => {
  */
 const subscribe2Press = async (categoryIdx, pageIdx, pressName) => {
   let subscriptionData = '';
+
   switch (TAB_TYPE) {
     case 'grid':
       subscriptionData = SubscriptionsControl.findSubscriptionsData(pressName);
@@ -79,8 +101,9 @@ const subscribe2Press = async (categoryIdx, pageIdx, pressName) => {
   }
   if (subscriptionData) {
     const { result, msg } = await SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
-    console.log(result);
-    console.log(msg);
+    if (result) {
+      actionAfterSubscriptions();
+    }
   }
 };
 
@@ -90,13 +113,17 @@ const findPressName = (target) => {
 
   switch (TAB_TYPE) {
     case 'grid':
-      // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
-      imgElement = target.parentNode.querySelector('img');
+      if (target.className === 'media__grid_type__subscribe_btn') {
+        // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
+        imgElement = target.parentNode.querySelector('img');
+      }
       break;
 
     case 'list':
-      // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
-      imgElement = target.closest('.media__news_logo').querySelector('img');
+      if (target.className === 'media__news_subscribe_btn') {
+        // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
+        imgElement = target.closest('.media__news_logo').querySelector('img');
+      }
       break;
   }
   // img 요소의 alt 속성 유효성 검사
@@ -107,7 +134,7 @@ const findPressName = (target) => {
 
 const gridSectionEventHandler = (e) => {
   const { target } = e; // e.target을 target으로 해체 할당
-  const pressName = findPressName(target);
+  let pressName = '';
 
   switch (TAB_TYPE) {
     case 'grid':
@@ -122,16 +149,16 @@ const gridSectionEventHandler = (e) => {
       }
 
       // * 구독하기 버튼 클릭 이벤트
-      if (target.className === 'media__grid_type__subscribe_btn' && pressName) {
+      pressName = findPressName(target);
+      if (pressName) {
         subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
-      } else {
-        return;
       }
 
       setPressDataGrid();
       break;
 
     case 'list':
+      console.log(target.parentNode.id);
       // * 화살표 클릭 이벤트
       if (target.parentNode.id === 'angle-right') listViewPagingControls('right');
       if (target.parentNode.id === 'angle-left') listViewPagingControls('left');
@@ -145,10 +172,9 @@ const gridSectionEventHandler = (e) => {
       }
 
       // * 구독하기 버튼 클릭 이벤트
-      if (target.className === 'media__news_subscribe_btn' && pressName) {
+      pressName = findPressName(target);
+      if (pressName) {
         subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
-      } else {
-        return;
       }
 
       setNewsDataList();

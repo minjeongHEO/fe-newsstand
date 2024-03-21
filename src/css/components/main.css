@@ -4,7 +4,7 @@
   align-items: center;
   position: relative;
 }
-.media__subscribe_snackbar {
+#media__subscribe_snackbar {
   position: absolute;
   width: 286px;
   height: 54px;
@@ -24,7 +24,7 @@
 }
 
 .snackbar-animation {
-  animation: opacityAnimation 3s forwards;
+  animation: opacityAnimation 5s forwards;
 }
 
 @keyframes opacityAnimation {
