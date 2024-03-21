@@ -158,7 +158,6 @@ const gridSectionEventHandler = (e) => {
       break;
 
     case 'list':
-      console.log(target.parentNode.id);
       // * 화살표 클릭 이벤트
       if (target.parentNode.id === 'angle-right') listViewPagingControls('right');
       if (target.parentNode.id === 'angle-left') listViewPagingControls('left');

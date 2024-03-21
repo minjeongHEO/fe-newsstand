@@ -114,9 +114,9 @@ export class SubscriptionsDataControl {
 
       // 삭제 성공 여부 확인
       if (response.ok) {
-        console.log('Delete successful');
+        // console.log('Delete successful');
       } else {
-        console.log('Delete failed');
+        // console.log('Delete failed');
       }
     }
   }
