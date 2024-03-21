@@ -56,7 +56,7 @@ export class SubscriptionsDataControl {
   //그리드 타입 - 해당 언론사 데이터 찾기
   findSubscriptionsData(pressNameToFind) {
     // return this.collectNewsData.find(({ pressName }) => pressName === pressNameToFind);
-    const findData = this.collectNewsData.find(({ pressName }) => pressName === pressNameToFind);
+    let findData = this.collectNewsData.find(({ pressName }) => pressName === pressNameToFind);
 
     //예외!!!!!
     /**
@@ -65,6 +65,16 @@ export class SubscriptionsDataControl {
      * 다른 예외처리 필요
      */
     if (findData === undefined) {
+      findData = {
+        pressImg: '',
+        pressName: pressNameToFind,
+        pressImgLink: '',
+        newsTime: '',
+        mainImgLink: '',
+        mainImgSrc: '',
+        mainHeadLine: '',
+        headLines: [],
+      };
     }
 
     return findData;
