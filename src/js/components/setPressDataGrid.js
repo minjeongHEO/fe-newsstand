@@ -70,7 +70,12 @@ const actionAfterSubscriptions = () => {
         snackbarTarget.classList.remove('snackbar-animation');
       }, 5000);
 
-      // 내가 구독한 탭바
+      // ✖ 로 기호 바꾸기
+      // const subscribeTarget = document.querySelector('.media__news_subscribe_btn');
+      // subscribeTarget.ariaPressed = 'true';
+      // subscribeTarget.textContent = '✖';
+
+      // 내가 구독한 탭바로 이동하기
       break;
 
     default:
@@ -194,6 +199,7 @@ const tabSectionEventHandler = (e) => {
     LIST_DATA.PAGE_IN_LIST = 1;
     setNewsDataList();
   }
+
   if (target.closest('div#grid-tab')) {
     TAB_TYPE = 'grid';
     document.querySelector('#grid-tab path').classList.replace('grid-option', 'grid-option-select');
@@ -201,6 +207,16 @@ const tabSectionEventHandler = (e) => {
     GRID_DATA.PAGE_IN_GRID = 1;
     LIST_DATA.PAGE_IN_LIST = 1;
     setPressDataGrid();
+  }
+
+  if (target.id == 'all-press-tab') {
+    const className = 'contents-select';
+    applyActivatedCategory(target, className);
+  }
+
+  if (target.closest('div#my-press-tab')) {
+    const className = 'contents-select';
+    applyActivatedCategory(target, className);
   }
 };
 
@@ -316,15 +332,14 @@ const makeNewsListHTML = (currentJsonData) => {
 };
 
 /** 활성화된 카테고리 확인 후 적용 */
-const applyActivatedCategory = () => {
-  const activatedCategory = document.querySelector(`#category${LIST_DATA.CURRENT_CATE_IDX}`);
+const applyActivatedCategory = (target, className) => {
+  const activatedCategory = target;
   const siblings = Array.from(activatedCategory.parentNode.children);
 
   siblings.forEach((sibling) => {
-    if (sibling !== activatedCategory) sibling.classList.remove('category-select');
+    if (sibling !== activatedCategory) sibling.classList.remove(className);
   });
-
-  activatedCategory.classList.add('category-select');
+  activatedCategory.classList.add(className);
 };
 
 const dataShuffle = (jsonArray) => {
@@ -360,7 +375,11 @@ const setNewsDataList = async () => {
     runFillGaugeInterval();
 
     makeCategoryListHTML(LIST_DATA.JSON_DATA);
-    applyActivatedCategory();
+
+    const target = document.querySelector(`#category${LIST_DATA.CURRENT_CATE_IDX}`);
+    const className = 'category-select';
+    applyActivatedCategory(target, className);
+
     makeNewsListHTML(LIST_DATA.JSON_DATA[LIST_DATA.CURRENT_CATE_IDX]);
     arrowHandlingByPage();
   } catch (error) {
