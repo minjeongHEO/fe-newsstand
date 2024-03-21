@@ -40,6 +40,8 @@ export class SubscriptionsDataControl {
 
   //구독할 데이터 insert
   async insertSubscriptionsData(pressName, subscriptionData) {
+    let insertResult = { result: false, msg: '' };
+
     if (!(await this.checkIfExistData(pressName))) {
       const response = await fetch('http://localhost:3000/subscriptions', {
         method: 'POST',
@@ -50,7 +52,18 @@ export class SubscriptionsDataControl {
       });
 
       await response.json();
+
+      // 저장 성공 여부 확인
+      if (response.ok) {
+        insertResult = { result: true, msg: 'Data saved successfully.' };
+      } else {
+        insertResult = { result: false, msg: 'Data save failure.' };
+      }
+    } else {
+      insertResult = { result: false, msg: 'This is already subscribed data.' };
     }
+
+    return insertResult;
   }
 
   //그리드 타입 - 해당 언론사 데이터 찾기

@@ -63,7 +63,7 @@ const listViewPagingControls = (direction) => {
  * @param {*} pageIdx
  * @param {*} pressName
  */
-const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
+const subscribe2Press = async (categoryIdx, pageIdx, pressName) => {
   let subscriptionData = '';
   switch (TAB_TYPE) {
     case 'grid':
@@ -77,7 +77,11 @@ const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
     default:
       break;
   }
-  if (subscriptionData) SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
+  if (subscriptionData) {
+    const { result, msg } = await SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
+    console.log(result);
+    console.log(msg);
+  }
 };
 
 const findPressName = (target) => {
