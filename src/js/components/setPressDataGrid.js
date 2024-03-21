@@ -80,8 +80,31 @@ const subscribe2Press = (categoryIdx, pageIdx, pressName) => {
   if (subscriptionData) SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
 };
 
+const findPressName = (target) => {
+  let imgElement;
+  let pressName = '';
+
+  switch (TAB_TYPE) {
+    case 'grid':
+      // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
+      imgElement = target.parentNode.querySelector('img');
+      break;
+
+    case 'list':
+      // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
+      imgElement = target.closest('.media__news_logo').querySelector('img');
+      break;
+  }
+  // img 요소의 alt 속성 유효성 검사
+  pressName = imgElement && imgElement.alt ? imgElement.alt : '';
+
+  return pressName;
+};
+
 const gridSectionEventHandler = (e) => {
   const { target } = e; // e.target을 target으로 해체 할당
+  const pressName = findPressName(target);
+
   switch (TAB_TYPE) {
     case 'grid':
       // * 화살표 클릭 이벤트
@@ -95,17 +118,10 @@ const gridSectionEventHandler = (e) => {
       }
 
       // * 구독하기 버튼 클릭 이벤트
-      if (target.className === 'media__grid_type__subscribe_btn') {
-        // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
-        const imgElement = target.parentNode.querySelector('img');
-        // img 요소의 alt 속성 유효성 검사
-        const pressName = imgElement && imgElement.alt ? imgElement.alt : '';
-
-        if (pressName) {
-          subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
-        } else {
-          return;
-        }
+      if (target.className === 'media__grid_type__subscribe_btn' && pressName) {
+        subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
+      } else {
+        return;
       }
 
       setPressDataGrid();
@@ -125,17 +141,10 @@ const gridSectionEventHandler = (e) => {
       }
 
       // * 구독하기 버튼 클릭 이벤트
-      if (target.className === 'media__news_subscribe_btn') {
-        // 가장 가까운 .media__news_logo 요소 내의 img 요소 찾기
-        const imgElement = target.closest('.media__news_logo').querySelector('img');
-        // img 요소의 alt 속성 유효성 검사
-        const pressName = imgElement && imgElement.alt ? imgElement.alt : '';
-
-        if (pressName) {
-          subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
-        } else {
-          return;
-        }
+      if (target.className === 'media__news_subscribe_btn' && pressName) {
+        subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
+      } else {
+        return;
       }
 
       setNewsDataList();
@@ -347,6 +356,8 @@ export const initGridData = async () => {
 
     LIST_DATA.JSON_DATA = await readJsonFile('categoryNewsData');
     SubscriptionsControl = new SubscriptionsDataControl(LIST_DATA.JSON_DATA);
+
+    // SubscriptionsControl.deleteSubscriptionsData('프라임경제');
   } catch (error) {
     console.error(error);
   }
