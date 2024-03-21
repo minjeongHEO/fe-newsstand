@@ -80,5 +80,31 @@ export class SubscriptionsDataControl {
     return findData;
   }
 
+  //id값 조회
+  findId(pressNameToFind) {
+    const findItemObj = this.subscriptonsData.find(({ pressName }) => pressName === pressNameToFind);
+    return findItemObj ? findItemObj.id : undefined;
+  }
+
   //구독해제할 데이터 delete
+  async deleteSubscriptionsData(pressNameToDelete) {
+    //id값
+    const idToDelete = this.findId(pressNameToDelete);
+
+    if ((await this.checkIfExistData(pressNameToDelete)) && idToDelete) {
+      const response = await fetch(`http://localhost:3000/subscriptions/${idToDelete}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 삭제 성공 여부 확인
+      if (response.ok) {
+        console.log('Delete successful');
+      } else {
+        console.log('Delete failed');
+      }
+    }
+  }
 }
