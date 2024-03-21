@@ -1,5 +1,5 @@
 /**
- * json데이터 fetch
+ * 크롤링 한 json데이터 fetch
  * @param {string} fileName - 'pressData'(언론사), 'headlinesData'(뉴스 헤드라인)
  * @returns {object} json 데이터
  */

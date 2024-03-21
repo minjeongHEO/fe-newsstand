@@ -65,17 +65,12 @@ const actionAfterSubscriptions = () => {
     case 'list':
       const snackbarTarget = document.querySelector('#media__subscribe_snackbar');
       snackbarTarget.classList.add('snackbar-animation');
-
       setTimeout(() => {
         snackbarTarget.classList.remove('snackbar-animation');
       }, 5000);
 
-      // ✖ 로 기호 바꾸기
-      // const subscribeTarget = document.querySelector('.media__news_subscribe_btn');
-      // subscribeTarget.ariaPressed = 'true';
-      // subscribeTarget.textContent = '✖';
-
       // 내가 구독한 탭바로 이동하기
+      document.querySelector('#my-press-tab').click();
       break;
 
     default:
@@ -96,14 +91,11 @@ const subscribe2Press = async (categoryIdx, pageIdx, pressName) => {
     case 'grid':
       subscriptionData = SubscriptionsControl.findSubscriptionsData(pressName);
       break;
-
     case 'list':
       subscriptionData = LIST_DATA.JSON_DATA[categoryIdx].news[pageIdx - 1];
       break;
-
-    default:
-      break;
   }
+
   if (subscriptionData) {
     const { result, msg } = await SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
     if (result) {
@@ -180,7 +172,6 @@ const gridSectionEventHandler = (e) => {
       if (pressName) {
         subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
       }
-
       setNewsDataList();
       break;
 
@@ -212,11 +203,22 @@ const tabSectionEventHandler = (e) => {
   if (target.id == 'all-press-tab') {
     const className = 'contents-select';
     applyActivatedCategory(target, className);
+    if ((TAB_TYPE = 'list')) {
+    }
+    if ((TAB_TYPE = 'grid')) {
+    }
   }
-
-  if (target.closest('div#my-press-tab')) {
+  /************************ 구독 ***************************** */
+  if (target.id == 'my-press-tab') {
     const className = 'contents-select';
     applyActivatedCategory(target, className);
+    if ((TAB_TYPE = 'list')) {
+      // GRID_DATA.PAGE_IN_GRID = 1;
+      // LIST_DATA.PAGE_IN_LIST = 1;
+      setNewsDataList('my-subs-data');
+    }
+    if ((TAB_TYPE = 'grid')) {
+    }
   }
 };
 
@@ -342,6 +344,7 @@ const applyActivatedCategory = (target, className) => {
   activatedCategory.classList.add(className);
 };
 
+/** 데이터 랜덤으로 섞기 */
 const dataShuffle = (jsonArray) => {
   return jsonArray.sort(() => Math.random() - 0.5);
 };
@@ -398,10 +401,12 @@ export const setPressDataGrid = async () => {
 /** 페이지 초기화 작업 */
 export const initGridData = async () => {
   try {
+    // 'pressData'(언론사)
     const jsonArray = await readJsonFile('pressData');
     const jsonShuffleData = dataShuffle(jsonArray);
     GRID_DATA.JSON_ARR_PER_PAGE = divideDataByPage(jsonShuffleData);
 
+    // 'headlinesData'(뉴스 헤드라인)
     LIST_DATA.JSON_DATA = await readJsonFile('categoryNewsData');
     SubscriptionsControl = new SubscriptionsDataControl(LIST_DATA.JSON_DATA);
 
