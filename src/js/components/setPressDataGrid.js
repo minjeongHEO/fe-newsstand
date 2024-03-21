@@ -3,6 +3,7 @@ import { SubscriptionsDataControl } from './SubscriptionsDataControl.js';
 
 let SubscriptionsControl;
 let TAB_TYPE = 'grid'; //grid, list
+let SUBSCRIBE_TYPE = 'all'; //all, my
 
 const GRID_DATA = {
   PAGE_IN_GRID: 1,
@@ -57,9 +58,11 @@ const listViewPagingControls = (direction) => {
   }
 };
 
-const actionAfterSubscriptions = () => {
+const actionAfterSubscriptions = (target) => {
   switch (TAB_TYPE) {
     case 'grid':
+      target.innerText = '✖';
+
       break;
 
     case 'list':
@@ -83,9 +86,11 @@ const actionAfterSubscriptions = () => {
  * @param {*} categoryIdx
  * @param {*} pageIdx
  * @param {*} pressName
+ * @param {*} target
  */
-const subscribe2Press = async (categoryIdx, pageIdx, pressName) => {
+const subscribe2Press = async (categoryIdx, pageIdx, pressName, target) => {
   let subscriptionData = '';
+  let subscribeResult = { result: false, msg: '' };
 
   switch (TAB_TYPE) {
     case 'grid':
@@ -97,11 +102,9 @@ const subscribe2Press = async (categoryIdx, pageIdx, pressName) => {
   }
 
   if (subscriptionData) {
-    const { result, msg } = await SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
-    if (result) {
-      actionAfterSubscriptions();
-    }
+    subscribeResult = await SubscriptionsControl.insertSubscriptionsData(pressName, subscriptionData);
   }
+  return subscribeResult;
 };
 
 const findPressName = (target) => {
@@ -129,7 +132,7 @@ const findPressName = (target) => {
   return pressName;
 };
 
-const gridSectionEventHandler = (e) => {
+const gridSectionEventHandler = async (e) => {
   const { target } = e; // e.target을 target으로 해체 할당
   let pressName = '';
 
@@ -148,7 +151,14 @@ const gridSectionEventHandler = (e) => {
       // * 구독하기 버튼 클릭 이벤트
       pressName = findPressName(target);
       if (pressName) {
-        subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
+        let { result, msg } = await subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName, target);
+        console.log(result);
+        console.log(msg);
+
+        if (result) {
+          SUBSCRIBE_TYPE = 'my';
+          actionAfterSubscriptions(target);
+        }
       }
 
       setPressDataGrid();
