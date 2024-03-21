@@ -40,7 +40,7 @@ export class SubscriptionsDataControl {
 
   //구독할 데이터 insert
   async insertSubscriptionsData(pressName, subscriptionData) {
-    if (!this.checkIfExistData(pressName)) {
+    if (!(await this.checkIfExistData(pressName))) {
       const response = await fetch('http://localhost:3000/subscriptions', {
         method: 'POST',
         headers: {
