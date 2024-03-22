@@ -199,6 +199,9 @@
 
 .media__category_bar {
   display: flex;
+  overflow-x: auto;
+  /* 스크롤바 지우기 */
+  /* scrollbar-width: none;  */
   align-items: center; /* 세로 방향 가운데 정렬 */
   justify-content: flex-start;
   height: 40px;
@@ -208,6 +211,7 @@
 
   div {
     display: flex;
+    flex: 0 0 auto;
     align-items: center; /* 세로 방향 가운데 정렬 */
     justify-content: center; /* 가로 방향 가운데 정렬 */
     height: 100%;

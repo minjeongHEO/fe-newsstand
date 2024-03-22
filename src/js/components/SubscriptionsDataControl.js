@@ -4,6 +4,10 @@ export class SubscriptionsDataControl {
     this.subscriptonsData = [];
   }
 
+  getSubscriptonsData() {
+    return this.subscriptonsData;
+  }
+
   //언론사 데이터만 뽑기
   collectNewsData(jsonDataByCategory) {
     const newsData = jsonDataByCategory
@@ -77,7 +81,7 @@ export class SubscriptionsDataControl {
      * 크롤링을 몇개 데이터만 해와서(전체 안해와서) 없는 언론사를 구독하기 할 경우 undefined가 떠서
      * 다른 예외처리 필요
      */
-    if (findData === undefined) {
+    if (!findData) {
       findData = {
         pressImg: '',
         pressName: pressNameToFind,

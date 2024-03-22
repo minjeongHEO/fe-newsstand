@@ -21,6 +21,14 @@ const LIST_DATA = {
   GAUGE_INTERVALS: {},
 };
 
+const MY_LIST_DATA = {
+  JSON_DATA: null,
+  CATEGORY: [],
+  CURRENT_CATE_IDX: 0,
+  PAGE_IN_LIST: 1,
+  GAUGE_INTERVALS: {},
+};
+
 const clearFillGaugeInterval = () => {
   if (LIST_DATA.GAUGE_INTERVALS) {
     clearInterval(LIST_DATA.GAUGE_INTERVALS);
@@ -61,13 +69,14 @@ const listViewPagingControls = (direction) => {
 const actionAfterSubscriptions = (target) => {
   switch (TAB_TYPE) {
     case 'grid':
-      target.innerText = '✖';
-
       break;
 
     case 'list':
+      target.innerText = '✖';
+
       const snackbarTarget = document.querySelector('#media__subscribe_snackbar');
       snackbarTarget.classList.add('snackbar-animation');
+
       setTimeout(() => {
         snackbarTarget.classList.remove('snackbar-animation');
       }, 5000);
@@ -180,8 +189,16 @@ const gridSectionEventHandler = async (e) => {
       // * 구독하기 버튼 클릭 이벤트
       pressName = findPressName(target);
       if (pressName) {
-        subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName);
+        let { result, msg } = await subscribe2Press(LIST_DATA.CURRENT_CATE_IDX, LIST_DATA.PAGE_IN_LIST, pressName, target);
+        console.log(result);
+        console.log(msg);
+
+        if (result) {
+          SUBSCRIBE_TYPE = 'my';
+          actionAfterSubscriptions(target);
+        }
       }
+
       setNewsDataList();
       break;
 
@@ -222,10 +239,11 @@ const tabSectionEventHandler = (e) => {
   if (target.id == 'my-press-tab') {
     const className = 'contents-select';
     applyActivatedCategory(target, className);
+
     if ((TAB_TYPE = 'list')) {
-      // GRID_DATA.PAGE_IN_GRID = 1;
-      // LIST_DATA.PAGE_IN_LIST = 1;
-      setNewsDataList('my-subs-data');
+      // setNewsDataList('my-subs-data');
+      MY_LIST_DATA.PAGE_IN_LIST = 1;
+      setMyNewsDataList();
     }
     if ((TAB_TYPE = 'grid')) {
     }
@@ -280,6 +298,20 @@ const divideDataByPage = (jsonShuffleData) => {
   });
 
   return jsonArrPerPage;
+};
+
+/** (구독한) 카테고리 바 TAB_TYPE: 'list' */
+const makeMyCategoryListHTML = (jsonData) => {
+  let mainCategoryHtml = '';
+
+  mainCategoryHtml += `<div class="media__category_bar">`;
+  for (const [idx, categoryObj] of jsonData.entries()) {
+    mainCategoryHtml += `<div id="category${idx}">${categoryObj.pressName}</div>`;
+  }
+  mainCategoryHtml += `</div>`;
+
+  const target = document.querySelector('.media__by_type');
+  target.innerHTML = mainCategoryHtml;
 };
 
 /** 카테고리 바 TAB_TYPE: 'list' */
@@ -377,6 +409,31 @@ const makePressGridHTML = () => {
   target.innerHTML = mainNewsHtml;
 };
 
+/** (구독한)뉴스 데이터 리스트 생성 TAB_TYPE: 'list' */
+const setMyNewsDataList = async () => {
+  try {
+    //1.구독한 데이터 새로 fetch
+    await SubscriptionsControl.fetchSubscriptionsData();
+    MY_LIST_DATA.JSON_DATA = SubscriptionsControl.getSubscriptonsData();
+
+    MY_LIST_DATA.CATEGORY = MY_LIST_DATA.CATEGORY.length === 0 ? MY_LIST_DATA.JSON_DATA.map((cur) => cur.pressName) : MY_LIST_DATA.CATEGORY;
+
+    // clearFillGaugeInterval();
+    // runFillGaugeInterval();
+
+    makeMyCategoryListHTML(MY_LIST_DATA.JSON_DATA);
+
+    // const target = document.querySelector(`#category${LIST_DATA.CURRENT_CATE_IDX}`);
+    // const className = 'category-select';
+    // applyActivatedCategory(target, className);
+
+    // makeNewsListHTML(LIST_DATA.JSON_DATA[LIST_DATA.CURRENT_CATE_IDX]);
+    // arrowHandlingByPage();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /** 뉴스 데이터 리스트 생성 TAB_TYPE: 'list' */
 const setNewsDataList = async () => {
   try {
@@ -420,7 +477,7 @@ export const initGridData = async () => {
     LIST_DATA.JSON_DATA = await readJsonFile('categoryNewsData');
     SubscriptionsControl = new SubscriptionsDataControl(LIST_DATA.JSON_DATA);
 
-    // SubscriptionsControl.deleteSubscriptionsData('프라임경제');
+    // await SubscriptionsControl.deleteSubscriptionsData('프라임경제');
   } catch (error) {
     console.error(error);
   }
