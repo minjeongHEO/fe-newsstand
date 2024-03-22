@@ -94,7 +94,8 @@ export class SubscriptionsDataControl {
   }
 
   //id값 조회
-  findId(pressNameToFind) {
+  async findId(pressNameToFind) {
+    await this.fetchSubscriptionsData();
     const findItemObj = this.subscriptonsData.find(({ pressName }) => pressName === pressNameToFind);
     return findItemObj ? findItemObj.id : undefined;
   }
@@ -102,7 +103,7 @@ export class SubscriptionsDataControl {
   //구독해제할 데이터 delete
   async deleteSubscriptionsData(pressNameToDelete) {
     //id값
-    const idToDelete = this.findId(pressNameToDelete);
+    const idToDelete = await this.findId(pressNameToDelete);
 
     if ((await this.checkIfExistData(pressNameToDelete)) && idToDelete) {
       const response = await fetch(`http://localhost:3000/subscriptions/${idToDelete}`, {
@@ -114,9 +115,9 @@ export class SubscriptionsDataControl {
 
       // 삭제 성공 여부 확인
       if (response.ok) {
-        // console.log('Delete successful');
+        console.log('Delete successful');
       } else {
-        // console.log('Delete failed');
+        console.log('Delete failed');
       }
     }
   }
