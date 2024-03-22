@@ -2,6 +2,8 @@ import { readJsonFile } from './getJsonFile.js';
 import { SubscriptionsDataControl } from './SubscriptionsDataControl.js';
 
 let SubscriptionsControl;
+
+//태그의 attribute로 넣어놓기
 let TAB_TYPE = 'grid'; //grid, list
 let SUBSCRIBE_TYPE = 'all'; //all, my
 
@@ -29,28 +31,54 @@ const MY_LIST_DATA = {
   GAUGE_INTERVALS: {},
 };
 
-const clearFillGaugeInterval = () => {
+const clearAutoRenderIntervalAll = () => {
   if (LIST_DATA.GAUGE_INTERVALS) {
     clearInterval(LIST_DATA.GAUGE_INTERVALS);
   }
 };
 
-const runFillGaugeInterval = () => {
-  LIST_DATA.GAUGE_INTERVALS = setInterval(() => {
-    document.querySelector('#angle-right i').click();
-  }, 3000);
+const clearAutoRenderIntervalMy = () => {
+  if (MY_LIST_DATA.GAUGE_INTERVALS) {
+    clearInterval(MY_LIST_DATA.GAUGE_INTERVALS);
+  }
 };
 
-const listViewPagingControls = (direction) => {
-  if (direction === 'right') {
-    LIST_DATA.PAGE_IN_LIST++;
-  }
-  if (direction === 'left') {
-    LIST_DATA.PAGE_IN_LIST--;
-  }
+const clearFillGaugeInterval = () => {
+  if (SUBSCRIBE_TYPE === 'all') clearAutoRenderIntervalAll();
+  if (SUBSCRIBE_TYPE === 'my') clearAutoRenderIntervalMy();
+};
 
-  // 1.지금 해당 카테고리가 뭔지
-  const currentCategoryIndex = LIST_DATA.CURRENT_CATE_IDX;
+const runFillGaugeInterval = () => {
+  if (SUBSCRIBE_TYPE === 'all') {
+    LIST_DATA.GAUGE_INTERVALS = setInterval(() => {
+      document.querySelector('#angle-right i').click();
+    }, 3000);
+  } else if (SUBSCRIBE_TYPE === 'my') {
+    MY_LIST_DATA.GAUGE_INTERVALS = setInterval(() => {
+      document.querySelector('#angle-right i').click();
+    }, 3000);
+  }
+};
+
+const listViewPagingControls = (direction, sub) => {
+  let currentCategoryIndex; // 1.지금 해당 카테고리가 뭔지
+
+  if (SUBSCRIBE_TYPE === 'all') {
+    if (direction === 'right') {
+      LIST_DATA.PAGE_IN_LIST++;
+    } else if (direction === 'left') {
+      LIST_DATA.PAGE_IN_LIST--;
+    }
+    currentCategoryIndex = LIST_DATA.CURRENT_CATE_IDX;
+  } else if (SUBSCRIBE_TYPE === 'my') {
+    if (direction === 'right') {
+      MY_LIST_DATA.PAGE_IN_LIST++;
+    } else if (direction === 'left') {
+      MY_LIST_DATA.PAGE_IN_LIST--;
+    }
+    // 1.지금 해당 카테고리가 뭔지
+    currentCategoryIndex = LIST_DATA.CURRENT_CATE_IDX;
+  }
 
   // 2.그 카테고리의 max 페이지 수는 뭔지
   const maxPage = LIST_DATA.MAXIMUM_PAGE_PER_CATEGORY[currentCategoryIndex];
@@ -72,7 +100,8 @@ const actionAfterSubscriptions = (target) => {
       break;
 
     case 'list':
-      target.innerText = '✖';
+      target.innerText = 'x';
+      target.setAttribute('aria-pressed', 'true');
 
       const snackbarTarget = document.querySelector('#media__subscribe_snackbar');
       snackbarTarget.classList.add('snackbar-animation');
@@ -196,6 +225,8 @@ const gridSectionEventHandler = async (e) => {
         if (result) {
           SUBSCRIBE_TYPE = 'my';
           actionAfterSubscriptions(target);
+          // setMyNewsDataList();
+          return;
         }
       }
 
@@ -228,24 +259,27 @@ const tabSectionEventHandler = (e) => {
   }
 
   if (target.id == 'all-press-tab') {
-    const className = 'contents-select';
-    applyActivatedCategory(target, className);
     if ((TAB_TYPE = 'list')) {
+      LIST_DATA.PAGE_IN_GRID = 1;
+      setNewsDataList();
     }
     if ((TAB_TYPE = 'grid')) {
     }
+    const className = 'contents-select';
+    applyActivatedCategory(target, className);
   }
   /************************ 구독 ***************************** */
   if (target.id == 'my-press-tab') {
+    SUBSCRIBE_TYPE = 'my';
+
     const className = 'contents-select';
     applyActivatedCategory(target, className);
 
-    if ((TAB_TYPE = 'list')) {
-      // setNewsDataList('my-subs-data');
+    if (TAB_TYPE == 'list') {
       MY_LIST_DATA.PAGE_IN_LIST = 1;
       setMyNewsDataList();
     }
-    if ((TAB_TYPE = 'grid')) {
+    if (TAB_TYPE == 'grid') {
     }
   }
 };
@@ -306,7 +340,15 @@ const makeMyCategoryListHTML = (jsonData) => {
 
   mainCategoryHtml += `<div class="media__category_bar">`;
   for (const [idx, categoryObj] of jsonData.entries()) {
-    mainCategoryHtml += `<div id="category${idx}">${categoryObj.pressName}</div>`;
+    if (idx == MY_LIST_DATA.CURRENT_CATE_IDX) {
+      mainCategoryHtml += `<div id="category${idx}">
+                            <span>
+                              ${categoryObj.pressName} 
+                            </span>
+                          </div>`;
+    } else {
+      mainCategoryHtml += `<div id="category${idx}">${categoryObj.pressName}</div>`;
+    }
   }
   mainCategoryHtml += `</div>`;
 
@@ -336,10 +378,10 @@ const makeCategoryListHTML = (jsonData) => {
   target.innerHTML = mainCategoryHtml;
 };
 
-/** 카테고리 별 언론사 뉴스 */
-const makeNewsListHTML = (currentJsonData) => {
+/** (구독한) 카테고리 별 언론사 뉴스 */
+const makeMyNewsListHTML = (currentPageData) => {
   let mainNewsHtml = '';
-  const currentPageData = currentJsonData.news[LIST_DATA.PAGE_IN_LIST - 1];
+  // const currentPageData = currentJsonData.news[MY_LIST_DATA.PAGE_IN_LIST - 1];
   // news-container
   mainNewsHtml += `<div class="media__news_container"> 
                     <div class="media__news_logo">
@@ -347,7 +389,58 @@ const makeNewsListHTML = (currentJsonData) => {
                         <img src="${currentPageData.pressImg}" height="20" width="auto" alt="${currentPageData.pressName}" />
                       </a>
                       <span class="media__news_time">${currentPageData.newsTime}</span>
-                      <button type="button" class="media__news_subscribe_btn" aria-pressed="false">+ 구독하기 </button>
+                      <button type="button" class="media__news_subscribe_btn" aria-pressed="true">x</button>
+                    </div>
+                    <div class="media__news_datas">
+                      <div class="media__news__main">
+                        <a target="_blank" class="media__news__main__link" href="${currentPageData.mainImgLink}" >
+                          <img src="${currentPageData.mainImgSrc}" alt="${currentPageData.mainHeadLine}"/>
+                        </a>
+                        <a target="_blank" class="media__news__main__head_line" href="${currentPageData.mainImgLink}"> ${currentPageData.mainHeadLine}</a>
+                      </div>
+                      
+                      <ul class="media__news__sub">`;
+  mainNewsHtml += currentPageData.headLines.reduce((acc, cur, idx) => {
+    return (acc += `    <li>
+                          <a target="_blank" href="${cur.link}" class="media__news__main__head_line"">
+                            ${cur.headline}
+                          </a>
+                        </li>`);
+  }, '');
+  mainNewsHtml += `     <li>${currentPageData.pressName} 언론사에서 직접 편집한 뉴스입니다.</li>
+                      </ul>
+                    </div>
+                  </div>`;
+
+  // const target = document.querySelector('.listview-container');
+  const target = document.querySelector('.media__by_type');
+  target.insertAdjacentHTML('beforeend', mainNewsHtml);
+};
+
+let a = new SubscriptionsControl();
+a.getCategory((currentJsonData) => makeNewsListHTML(currentJsonData));
+
+/** 카테고리 별 언론사 뉴스 */
+const makeNewsListHTML = (currentJsonData) => {
+  let mainNewsHtml = '';
+  let pressedStatus = 'false';
+  const currentPageData = currentJsonData.news[LIST_DATA.PAGE_IN_LIST - 1];
+
+  let subscribeBtn = '+ 구독하기';
+  let findData = MY_LIST_DATA.CATEGORY.find((pressName) => pressName === currentPageData.pressName);
+  if (findData) {
+    subscribeBtn = 'x';
+    pressedStatus = 'true';
+  }
+
+  // news-container
+  mainNewsHtml += `<div class="media__news_container"> 
+                    <div class="media__news_logo">
+                      <a target="_blank" href="${currentPageData.pressImgLink}" class="">
+                        <img src="${currentPageData.pressImg}" height="20" width="auto" alt="${currentPageData.pressName}" />
+                      </a>
+                      <span class="media__news_time">${currentPageData.newsTime}</span>
+                      <button type="button" class="media__news_subscribe_btn" aria-pressed="${pressedStatus}">${subscribeBtn}</button>
                     </div>
                     <div class="media__news_datas">
                       <div class="media__news__main">
@@ -409,26 +502,29 @@ const makePressGridHTML = () => {
   target.innerHTML = mainNewsHtml;
 };
 
+const refetchSubsData = async () => {
+  await SubscriptionsControl.fetchSubscriptionsData();
+  MY_LIST_DATA.JSON_DATA = SubscriptionsControl.getSubscriptonsData();
+  MY_LIST_DATA.CATEGORY = MY_LIST_DATA.JSON_DATA.map((cur) => cur.pressName);
+};
+
 /** (구독한)뉴스 데이터 리스트 생성 TAB_TYPE: 'list' */
 const setMyNewsDataList = async () => {
   try {
     //1.구독한 데이터 새로 fetch
-    await SubscriptionsControl.fetchSubscriptionsData();
-    MY_LIST_DATA.JSON_DATA = SubscriptionsControl.getSubscriptonsData();
+    await refetchSubsData();
 
-    MY_LIST_DATA.CATEGORY = MY_LIST_DATA.CATEGORY.length === 0 ? MY_LIST_DATA.JSON_DATA.map((cur) => cur.pressName) : MY_LIST_DATA.CATEGORY;
-
-    // clearFillGaugeInterval();
-    // runFillGaugeInterval();
+    clearFillGaugeInterval();
+    runFillGaugeInterval();
 
     makeMyCategoryListHTML(MY_LIST_DATA.JSON_DATA);
 
-    // const target = document.querySelector(`#category${LIST_DATA.CURRENT_CATE_IDX}`);
-    // const className = 'category-select';
-    // applyActivatedCategory(target, className);
+    const target = document.querySelector(`#category${MY_LIST_DATA.CURRENT_CATE_IDX}`);
+    const className = 'category-select';
+    applyActivatedCategory(target, className);
 
-    // makeNewsListHTML(LIST_DATA.JSON_DATA[LIST_DATA.CURRENT_CATE_IDX]);
-    // arrowHandlingByPage();
+    makeMyNewsListHTML(MY_LIST_DATA.JSON_DATA[MY_LIST_DATA.CURRENT_CATE_IDX]);
+    arrowHandlingByPage();
   } catch (error) {
     console.error(error);
   }
@@ -449,6 +545,8 @@ const setNewsDataList = async () => {
     const target = document.querySelector(`#category${LIST_DATA.CURRENT_CATE_IDX}`);
     const className = 'category-select';
     applyActivatedCategory(target, className);
+
+    await refetchSubsData();
 
     makeNewsListHTML(LIST_DATA.JSON_DATA[LIST_DATA.CURRENT_CATE_IDX]);
     arrowHandlingByPage();
