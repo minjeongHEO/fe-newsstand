@@ -417,9 +417,6 @@ const makeMyNewsListHTML = (currentPageData) => {
   target.insertAdjacentHTML('beforeend', mainNewsHtml);
 };
 
-let a = new SubscriptionsControl();
-a.getCategory((currentJsonData) => makeNewsListHTML(currentJsonData));
-
 /** 카테고리 별 언론사 뉴스 */
 const makeNewsListHTML = (currentJsonData) => {
   let mainNewsHtml = '';
