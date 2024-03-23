@@ -60,17 +60,20 @@ const makeHeadLineHTML = (divideJsonData) => {
   target.innerHTML = headLineHtml;
 };
 
-const clearAnimationClass = () => {
-  document.querySelectorAll('.pre_text').forEach((e) => e.classList.remove('text_move_up'));
-  document.querySelectorAll('.cur_text').forEach((e) => e.classList.remove('text_move_up'));
-  document.querySelectorAll('.next_text').forEach((e) => e.classList.remove('text_move_up'));
+const clearAnimationClass = (section) => {
+  document.querySelectorAll(`.section${section + 1} .headline__rolling_box`).forEach((rollingBox) => {
+    rollingBox.querySelectorAll('.pre_text').forEach((e) => e.classList.remove('text_move_up'));
+    rollingBox.querySelectorAll('.cur_text').forEach((e) => e.classList.remove('text_move_up'));
+    rollingBox.querySelectorAll('.next_text').forEach((e) => e.classList.remove('text_move_up'));
+  });
 };
 
-const addAnimationClass = () => {
-  // QUERY_SELECT_TARGET.ALL_PRE_TEXT.forEach((e) => e.classList.add('text_move_up'));
-  document.querySelectorAll('.pre_text').forEach((e) => e.classList.add('text_move_up'));
-  document.querySelectorAll('.cur_text').forEach((e) => e.classList.add('text_move_up'));
-  document.querySelectorAll('.next_text').forEach((e) => e.classList.add('text_move_up'));
+const addAnimationClass = (section) => {
+  document.querySelectorAll(`.section${section + 1} .headline__rolling_box`).forEach((rollingBox) => {
+    rollingBox.querySelectorAll('.pre_text').forEach((e) => e.classList.add('text_move_up'));
+    rollingBox.querySelectorAll('.cur_text').forEach((e) => e.classList.add('text_move_up'));
+    rollingBox.querySelectorAll('.next_text').forEach((e) => e.classList.add('text_move_up'));
+  });
 };
 
 const removeHeadLine = (section) => {
@@ -123,6 +126,16 @@ const changeClassName = (section) => {
   });
 };
 
+const rolling = (section) => {
+  addAnimationClass(section);
+  setTimeout(() => {
+    clearAnimationClass(section);
+    removeHeadLine(section);
+    addHeadLine(section);
+    changeClassName(section);
+  }, 3000);
+};
+
 /** 헤드라인 뉴스 생성 */
 export const setHeadLineNews = async () => {
   try {
@@ -133,16 +146,11 @@ export const setHeadLineNews = async () => {
     makeHeadLineHTML(divideJsonData);
 
     setInterval(() => {
-      addAnimationClass();
+      rolling(0);
+
       setTimeout(() => {
-        clearAnimationClass();
-        removeHeadLine(0);
-        removeHeadLine(1);
-        addHeadLine(0);
-        addHeadLine(1);
-        changeClassName(0);
-        changeClassName(1);
-      }, 3000);
+        rolling(1);
+      }, 1000);
     }, 4000);
   } catch (error) {
     console.error(error);
