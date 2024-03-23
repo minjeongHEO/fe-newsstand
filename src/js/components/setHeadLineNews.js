@@ -131,7 +131,6 @@ export const setHeadLineNews = async () => {
     ROLLING_DATA.DIVIDE_JSON = divideJsonData;
 
     makeHeadLineHTML(divideJsonData);
-    console.log(1);
 
     setInterval(() => {
       addAnimationClass();
