@@ -4,6 +4,7 @@ const ROLLING_DATA = {
   INTERVALS: {}, // 인터벌 ID를 저장하기 위한 객체
   TAG_IDX: [],
   DIVIDE_JSON: null,
+  SETTIMEOUT: [],
 };
 
 /** 헤드라인 데이터를 섹션 수 별로 나누기 */
@@ -126,14 +127,92 @@ const changeClassName = (section) => {
   });
 };
 
+function toggleRollingAnimation(section, rollingPause) {
+  document.querySelectorAll(`.headline__contents.section${section + 1} .headline__rolling_box`).forEach((rollingBox) => {
+    if (rollingPause) {
+      if (rollingBox.children[0]) {
+        rollingBox.children[0].classList.add('text_move_up_paused');
+      }
+      // 두 번째 div의 클래스 이름을 'cur_text'로 변경
+      if (rollingBox.children[1]) {
+        rollingBox.children[1].classList.add('text_move_up_paused');
+      }
+      // 세 번째 div의 클래스 이름을 'next_text'로 유지 혹은 변경
+      if (rollingBox.children[2]) {
+        rollingBox.children[2].classList.add('text_move_up_paused');
+      }
+    } else {
+      if (rollingBox.children[0]) {
+        rollingBox.children[0].classList.remove('text_move_up_paused');
+      }
+      // 두 번째 div의 클래스 이름을 'cur_text'로 변경
+      if (rollingBox.children[1]) {
+        rollingBox.children[1].classList.remove('text_move_up_paused');
+      }
+      // 세 번째 div의 클래스 이름을 'next_text'로 유지 혹은 변경
+      if (rollingBox.children[2]) {
+        rollingBox.children[2].classList.remove('text_move_up_paused');
+      }
+    }
+  });
+}
+
+/** 마우스 이벤트 리스너 설정 */
+function setupEventsHandler(section) {
+  const container = document.querySelector(`.headline__contents.section${section + 1}`);
+  if (!container) return;
+
+  // 마우스 오버 시 롤링 정지
+  container.addEventListener('mouseover', () => {
+    stopRollingInterval(section); // 마우스 오버 시 인터벌 정지
+    toggleRollingAnimation(section, true); // 애니메이션 일시정지 클래스 추가
+  });
+
+  // 마우스 아웃 시 롤링 재개
+  container.addEventListener('mouseout', () => {
+    runIntervalRolling(section); // 인터벌 재시작
+    toggleRollingAnimation(section, false); // 애니메이션 일시정지 클래스 제거
+  });
+}
+
+/** 섹션별로 마우스 오버 시 인터벌 정지 */
+function stopRollingInterval(section) {
+  // setInterval 중지
+  if (ROLLING_DATA.INTERVALS[section]) {
+    clearInterval(ROLLING_DATA.INTERVALS[section]);
+  }
+  // setTimeout 중지
+  if (ROLLING_DATA.SETTIMEOUT[section]) {
+    clearTimeout(ROLLING_DATA.SETTIMEOUT[section]);
+  }
+}
+
+/** 롤링 */
 const rolling = (section) => {
   addAnimationClass(section);
-  setTimeout(() => {
+
+  ROLLING_DATA.SETTIMEOUT[section] = setTimeout(() => {
     clearAnimationClass(section);
     removeHeadLine(section);
     addHeadLine(section);
     changeClassName(section);
   }, 3000);
+};
+
+/** 인터벌 롤링 */
+const runIntervalRolling = (section) => {
+  // 이전에 설정된 인터벌이 있다면 중지
+  if (ROLLING_DATA.INTERVALS[section]) {
+    clearInterval(ROLLING_DATA.INTERVALS[section]);
+  }
+
+  const delay = section === 0 ? 0 : 1000; // 섹션 0은 지연 없음, 그 외는 1초 지연
+
+  setTimeout(() => {
+    ROLLING_DATA.INTERVALS[section] = setInterval(() => {
+      rolling(section);
+    }, 4000);
+  }, delay);
 };
 
 /** 헤드라인 뉴스 생성 */
@@ -145,13 +224,11 @@ export const setHeadLineNews = async () => {
 
     makeHeadLineHTML(divideJsonData);
 
-    setInterval(() => {
-      rolling(0);
+    runIntervalRolling(0);
+    runIntervalRolling(1);
 
-      setTimeout(() => {
-        rolling(1);
-      }, 1000);
-    }, 4000);
+    setupEventsHandler(0);
+    setupEventsHandler(1);
   } catch (error) {
     console.error(error);
   }
