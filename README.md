@@ -1,6 +1,6 @@
 # fe-newsstand
 
-## `#html` `#css` `#event` `#html`
+## `#html` `#css` `#event` 
 
 ### 🔧 설치
 
