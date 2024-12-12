@@ -95,6 +95,133 @@ export default class ScrapeDatas {
     browser.close();
     return allResultDatas;
   }
+
+  async scrapeNewsData() {
+    const browser = await puppeteer.launch({
+      headless: false, // 브라우저 화면을 볼 수 있도록 설정
+    });
+    const page = await browser.newPage();
+    await page.goto(this.url);
+
+    // 리스트형 보기로 전환
+    await page.waitForSelector('.ContentPagingView-module__btn_view_list___j7eNR');
+    await page.click('.ContentPagingView-module__btn_view_list___j7eNR');
+    // await page.waitForTimeout(1000); // 전환 대기
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // waitForTimeout 대신 사용
+
+    let allNews = {
+      subscribe: [],
+      news: [],
+    };
+
+    try {
+      // 모든 카테고리 순회
+      while (true) {
+        let currentPage = 1;
+
+        // 현재 카테고리의 전체 페이지 수와 카테고리명 가져오기
+        const { totalPages, categoryName } = await page.evaluate(() => {
+          const totalSpan = document.querySelector('.ContentPagingView-module__total___HUvt2');
+          const totalText = totalSpan.textContent;
+          const totalPages = parseInt(totalText.split('/')[1], 10);
+          const categoryName = document.querySelector('.ContentPagingView-module__point___U2tUD').textContent.replaceAll('언론사 뉴스', '').trim();
+          return { totalPages, categoryName };
+        });
+
+        console.log(`Scraping category: ${categoryName}, Total pages: ${totalPages}`);
+
+        // 현재 카테고리의 모든 페이지 순회
+        while (currentPage <= totalPages) {
+          console.log(`Processing page ${currentPage} of ${totalPages}`);
+
+          // 요소들이 로드될 때까지 대기
+          await page
+            .waitForSelector('.MediaNewsView-module__news_logo___LwMpl > img', { timeout: 5000 })
+            .catch(() => console.log('Logo image not found'));
+          await page.waitForSelector('.MediaNewsView-module__time___fBQhP', { timeout: 5000 }).catch(() => console.log('Time element not found'));
+          await page
+            .waitForSelector('.ImgView-module__content_img___QA0gl > img', { timeout: 5000 })
+            .catch(() => console.log('Main image not found'));
+
+          const newsData = await page.evaluate(() => {
+            try {
+              const categoryName = document
+                .querySelector('.ContentPagingView-module__point___U2tUD')
+                ?.textContent.replaceAll('언론사 뉴스', '')
+                .trim();
+              const img = document.querySelector('.MediaNewsView-module__news_logo___LwMpl > img');
+              const imgLink = document.querySelector('.MediaNewsView-module__news_logo___LwMpl');
+              const imgTime = document.querySelector('.MediaNewsView-module__time___fBQhP');
+              const mainImgLink = document.querySelector('.MediaNewsView-module__desc_left___jU94v > a');
+              const mainImg = document.querySelector('.ImgView-module__content_img___QA0gl > img');
+
+              // 필요한 요소들이 모두 존재하는지 확인
+              if (!img || !imgTime || !mainImg || !mainImgLink) {
+                console.log('Some elements are missing');
+                return null;
+              }
+
+              let sideNews = [];
+              document.querySelectorAll('.MediaNewsView-module__desc_item___OWjz3 > a').forEach((value) => {
+                sideNews.push({
+                  href: value.href,
+                  title: value.textContent,
+                });
+              });
+
+              return {
+                id: Math.random().toString(16).slice(2, 6),
+                category: categoryName,
+                pressName: img.alt,
+                logoImageSrc: img.src,
+                editedTime: imgTime.textContent,
+                headline: {
+                  thumbnailSrc: mainImg.src,
+                  title: mainImg.alt,
+                  href: mainImgLink.href,
+                },
+                sideNews: sideNews,
+              };
+            } catch (error) {
+              console.log('Error in evaluate:', error);
+              return null;
+            }
+          });
+
+          // newsData가 유효한 경우에만 추가
+          if (newsData) {
+            allNews.news.push(newsData);
+          }
+
+          // 다음 페이지로 이동
+          if (currentPage < totalPages) {
+            await page.waitForSelector('.ContentPagingView-module__btn_next___ZBhby');
+            await page.click('.ContentPagingView-module__btn_next___ZBhby');
+            // await page.waitForTimeout(2000); // 페이지 로드 대기 시간 증가
+          }
+          currentPage++;
+        }
+
+        // 마지막 카테고리("지역") 체크
+        const currentCategory = await page.evaluate(() => {
+          return document.querySelector('.ContentPagingView-module__point___U2tUD').textContent.replaceAll('언론사 뉴스', '').trim();
+        });
+
+        if (currentCategory === '지역') break;
+
+        // 다음 카테고리로 이동
+        await page.waitForSelector('.ContentPagingView-module__btn_next___ZBhby');
+        await page.click('.ContentPagingView-module__btn_next___ZBhby');
+        // await page.waitForTimeout(2000);
+      }
+    } catch (error) {
+      console.error('Scraping error:', error);
+    } finally {
+      await browser.close();
+    }
+
+    return allNews;
+  }
 }
 
 /**
